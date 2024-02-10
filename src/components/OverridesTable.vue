@@ -19,7 +19,14 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table'
 import { cn, valueUpdater } from '@/lib/utils'
 import ConfirmDelete from '@/components/ui/confirm-delete/ConfirmDelete.vue'
 import AddModule from '@/components/AddModule.vue'
@@ -31,37 +38,53 @@ const columnHelper = createColumnHelper<IModuleInfo>()
 const columns = [
   columnHelper.accessor('status', {
     header: ({ column }) => {
-      return h(Button, {
-        variant: 'ghost',
-        onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
-      }, () => ['Module Status', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+      return h(
+        Button,
+        {
+          variant: 'ghost',
+          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
+        },
+        () => ['Module Status', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
+      )
     },
     cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('status'))
   }),
   columnHelper.accessor('module_name', {
     header: ({ column }) => {
-      return h(Button, {
-        variant: 'ghost',
-        onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
-      }, () => ['Module Name', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+      return h(
+        Button,
+        {
+          variant: 'ghost',
+          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
+        },
+        () => ['Module Name', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
+      )
     },
     cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('module_name'))
   }),
   columnHelper.accessor('domain', {
     header: ({ column }) => {
-      return h(Button, {
-        variant: 'ghost',
-        onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
-      }, () => ['Domain', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+      return h(
+        Button,
+        {
+          variant: 'ghost',
+          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
+        },
+        () => ['Domain', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
+      )
     },
     cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('domain'))
   }),
   columnHelper.accessor('filename', {
     header: ({ column }) => {
-      return h(Button, {
-        variant: 'ghost',
-        onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
-      }, () => ['Filename', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+      return h(
+        Button,
+        {
+          variant: 'ghost',
+          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
+        },
+        () => ['Filename', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
+      )
     },
     cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('filename'))
   })
@@ -78,10 +101,10 @@ const table = useVueTable({
   getCoreRowModel: getCoreRowModel(),
   getSortedRowModel: getSortedRowModel(),
   getFilteredRowModel: getFilteredRowModel(),
-  onSortingChange: updaterOrValue => valueUpdater(updaterOrValue, sorting),
-  onColumnFiltersChange: updaterOrValue => valueUpdater(updaterOrValue, columnFilters),
-  onColumnVisibilityChange: updaterOrValue => valueUpdater(updaterOrValue, columnVisibility),
-  onRowSelectionChange: updaterOrValue => valueUpdater(updaterOrValue, rowSelection),
+  onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
+  onColumnFiltersChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnFilters),
+  onColumnVisibilityChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnVisibility),
+  onRowSelectionChange: (updaterOrValue) => valueUpdater(updaterOrValue, rowSelection),
   state: {
     get sorting() {
       return sorting.value
@@ -94,10 +117,9 @@ const table = useVueTable({
     },
     get rowSelection() {
       return rowSelection.value
-    },
+    }
   }
 })
-
 </script>
 
 <template>
@@ -108,7 +130,7 @@ const table = useVueTable({
           class="block max-w-sm focus-visible:outline-none"
           placeholder="Filter module name..."
           :model-value="table.getColumn('module_name')?.getFilterValue() as string"
-          @update:model-value=" table.getColumn('module_name')?.setFilterValue($event)"
+          @update:model-value="table.getColumn('module_name')?.setFilterValue($event)"
         />
       </div>
       <AddModule />
@@ -127,9 +149,11 @@ const table = useVueTable({
             :key="column.id"
             class="capitalize"
             :checked="column.getIsVisible()"
-            @update:checked="(value) => {
-              column.toggleVisibility(!!value)
-            }"
+            @update:checked="
+              (value) => {
+                column.toggleVisibility(!!value)
+              }
+            "
           >
             {{ column.id }}
           </DropdownMenuCheckboxItem>
@@ -141,14 +165,21 @@ const table = useVueTable({
         <TableHeader>
           <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
             <TableHead
-              v-for="header in headerGroup.headers" :key="header.id" :data-pinned="header.column.getIsPinned()"
-              :class="cn(
-                { 'sticky bg-background/95': header.column.getIsPinned() },
-                header.column.getIsPinned() === 'left' ? 'left-0' : 'right-0',
-              )"
+              v-for="header in headerGroup.headers"
+              :key="header.id"
+              :data-pinned="header.column.getIsPinned()"
+              :class="
+                cn(
+                  { 'sticky bg-background/95': header.column.getIsPinned() },
+                  header.column.getIsPinned() === 'left' ? 'left-0' : 'right-0'
+                )
+              "
             >
-              <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
-                          :props="header.getContext()" />
+              <FlexRender
+                v-if="!header.isPlaceholder"
+                :render="header.column.columnDef.header"
+                :props="header.getContext()"
+              />
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -160,11 +191,15 @@ const table = useVueTable({
               :data-state="row.getIsSelected() && 'selected'"
             >
               <TableCell
-                v-for="cell in row.getVisibleCells()" :key="cell.id" :data-pinned="cell.column.getIsPinned()"
-                :class="cn(
-                  { 'sticky bg-background/95': cell.column.getIsPinned() },
-                  cell.column.getIsPinned() === 'left' ? 'left-0' : 'right-0',
-                )"
+                v-for="cell in row.getVisibleCells()"
+                :key="cell.id"
+                :data-pinned="cell.column.getIsPinned()"
+                :class="
+                  cn(
+                    { 'sticky bg-background/95': cell.column.getIsPinned() },
+                    cell.column.getIsPinned() === 'left' ? 'left-0' : 'right-0'
+                  )
+                "
               >
                 <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
               </TableCell>
@@ -172,10 +207,7 @@ const table = useVueTable({
           </template>
 
           <TableRow v-else>
-            <TableCell
-              col-span="{columns.length}"
-              class="h-24 text-center"
-            >
+            <TableCell col-span="{columns.length}" class="h-24 text-center">
               No results.
             </TableCell>
           </TableRow>

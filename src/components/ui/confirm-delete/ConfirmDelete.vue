@@ -16,9 +16,7 @@ import { Button } from '@/components/ui/button'
 <template>
   <AlertDialog>
     <AlertDialogTrigger>
-      <Button variant="destructive">
-        Reset all overrides
-      </Button>
+      <Button variant="destructive"> Reset all overrides </Button>
     </AlertDialogTrigger>
     <AlertDialogContent>
       <AlertDialogHeader>

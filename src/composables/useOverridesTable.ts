@@ -1,13 +1,12 @@
 export interface IModuleInfo {
-  id: string;
-  module_name: string;
-  domain: string;
-  filename: string;
-  status: string;
+  id: string
+  module_name: string
+  domain: string
+  filename: string
+  status: string
 }
 
 export function useOverridesTable() {
-
   const data = [
     {
       id: 'RandomNumber1',
