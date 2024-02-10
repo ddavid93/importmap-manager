@@ -61,12 +61,28 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)'
       },
       keyframes: {
-        "background-shine": {
-          "from": {
-            "backgroundPosition": "0 0"
+        'contract-vertically': {
+          '0%': {
+            'transform': 'scaleY(1)'
           },
-          "to": {
-            "backgroundPosition": "-200% 0"
+          '100%': {
+            'transform': 'scaleY(0)'
+          }
+        },
+        'background-shine': {
+          'from': {
+            'backgroundPosition': '0 0'
+          },
+          'to': {
+            'backgroundPosition': '-200% 0'
+          }
+        },
+        'expand-vertically': {
+          '0%': {
+            'transform': 'scaleY(0)'
+          },
+          '100%': {
+            'transform': 'scaleY(1)'
           }
         },
         'accordion-down': {
@@ -87,7 +103,8 @@ module.exports = {
         }
       },
       animation: {
-        "background-shine": "background-shine 2s linear infinite",
+        'expand-vertically': 'expand-vertically 0.3s ease-out',
+        'background-shine': 'background-shine 2s linear infinite',
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'collapsible-down': 'collapsible-down 0.2s ease-in-out',

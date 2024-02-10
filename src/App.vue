@@ -1,10 +1,11 @@
 <template>
-  <div class="dark">
+  <div>
     <Button v-show="!isOpened" @click="isOpened = true"
             class="fixed bottom-0 right-0 m-4 w-[50px] h-[50px] hover:animate-background-shine bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%]">
       <p class="text-gray-300">{ ··· }</p>
     </Button>
-    <div v-show="isOpened" class="absolute inset-x-0 bottom-96 h-16">
+    <div v-show="isOpened"
+         class="animate-expand-vertically absolute inset-x-0 bottom-96 h-16">
       <Card>
         <CardHeader>
           <CardTitle>Import Map Overrides</CardTitle>
