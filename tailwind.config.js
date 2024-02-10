@@ -61,28 +61,36 @@ module.exports = {
         sm: 'calc(var(--radius) - 4px)'
       },
       keyframes: {
-        'contract-vertically': {
+        'fade-in': {
           '0%': {
-            'transform': 'scaleY(1)'
+            opacity: '0'
           },
           '100%': {
-            'transform': 'scaleY(0)'
+            opacity: '1'
+          }
+        },
+        'contract-vertically': {
+          '0%': {
+            transform: 'scaleY(1)'
+          },
+          '100%': {
+            transform: 'scaleY(0)'
           }
         },
         'background-shine': {
-          'from': {
-            'backgroundPosition': '0 0'
+          from: {
+            backgroundPosition: '0 0'
           },
-          'to': {
-            'backgroundPosition': '-200% 0'
+          to: {
+            backgroundPosition: '-200% 0'
           }
         },
         'expand-vertically': {
           '0%': {
-            'transform': 'scaleY(0)'
+            transform: 'scaleY(0)'
           },
           '100%': {
-            'transform': 'scaleY(1)'
+            transform: 'scaleY(1)'
           }
         },
         'accordion-down': {
@@ -103,6 +111,7 @@ module.exports = {
         }
       },
       animation: {
+        'fade-in': 'fade-in 0.6s ease-in',
         'expand-vertically': 'expand-vertically 0.3s ease-out',
         'background-shine': 'background-shine 2s linear infinite',
         'accordion-down': 'accordion-down 0.2s ease-out',
