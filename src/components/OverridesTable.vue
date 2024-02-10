@@ -236,11 +236,7 @@ const getState = table.getState()
 <template>
   <div class="w-full">
     <div class="flex gap-2 items-center py-4">
-      <div class="group relative">
-        <div class="top-0 flex justify-center">
-          <div
-            class="h-[1px] outline-none animate-border-width group-focus:bg-gradient-to-r from-[rgba(17,17,17,0)] via-white to-[rgba(17,17,17,0)] transition-all duration-1000" />
-        </div>
+      <div class="relative">
         <Input
           class="block max-w-sm focus-visible:outline-none"
           placeholder="Filter module name..."
