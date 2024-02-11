@@ -10,7 +10,7 @@ import {
 } from '@tanstack/vue-table'
 import { ArrowUpDown, ChevronDown } from 'lucide-vue-next'
 
-import { h, ref } from 'vue'
+import { h, shallowRef } from 'vue'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -90,10 +90,10 @@ const columns = [
   })
 ]
 
-const sorting = ref<SortingState>([])
-const columnFilters = ref<ColumnFiltersState>([])
-const columnVisibility = ref<VisibilityState>({})
-const rowSelection = ref({})
+const sorting = shallowRef<SortingState>([])
+const columnFilters = shallowRef<ColumnFiltersState>([])
+const columnVisibility = shallowRef<VisibilityState>({})
+const rowSelection = shallowRef({})
 const { data } = useOverridesTable()
 const table = useVueTable({
   data,
@@ -145,7 +145,7 @@ const table = useVueTable({
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuCheckboxItem
-            v-for="column in table.getAllColumns().filter((column) => column.getCanHide())"
+            v-for="column in table.getAllColumns().filter((col) => col.getCanHide())"
             :key="column.id"
             class="capitalize"
             :checked="column.getIsVisible()"
