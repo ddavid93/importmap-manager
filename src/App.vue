@@ -1,12 +1,19 @@
 <template>
   <div>
-    <Button
-      v-show="!isOpened"
-      @click="isOpened = true"
-      class="relative m-4 w-[50px] h-[50px] hover:animate-background-shine bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%]"
+    <UseDraggable
+      storage-key="vueuse-draggable-import-overrides"
+      storage-type="session"
+      v-slot="{ style }"
     >
-      <p class="text-gray-300">{ ··· }</p>
-    </Button>
+      <Button
+        :style="style"
+        v-show="!isOpened"
+        @click="isOpened = true"
+        class="relative m-4 w-[50px] h-[50px] hover:animate-background-shine bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%]"
+      >
+        <p class="text-gray-300">{ ··· }</p>
+      </Button>
+    </UseDraggable>
     <div v-show="isOpened" class="animate-expand-vertically absolute inset-x-0 bottom-96 h-16">
       <Card>
         <CardHeader>
@@ -48,6 +55,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import OverridesTable from '@/components/OverridesTable.vue'
 import { ref } from 'vue'
 import { useColorMode } from '@vueuse/core'
+import { UseDraggable } from '@vueuse/components'
 
 const mode = useColorMode()
 const isOpened = ref()
