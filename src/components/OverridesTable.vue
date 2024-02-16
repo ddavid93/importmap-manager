@@ -32,6 +32,7 @@ import ConfirmDelete from '@/components/ui/confirm-delete/ConfirmDelete.vue'
 import AddModule from '@/components/AddModule.vue'
 import AddImportMap from '@/components/AddImportMap.vue'
 import { type IModuleInfo, useOverridesTable } from '@/composables/useOverridesTable'
+import Autocomplete from '@/components/ui/autocomplete/Autocomplete.vue'
 
 const columnHelper = createColumnHelper<IModuleInfo>()
 
@@ -126,11 +127,9 @@ const table = useVueTable({
   <div class="w-full">
     <div class="flex gap-2 items-center py-4">
       <div class="relative">
-        <Input
-          class="block max-w-sm focus-visible:outline-none"
-          placeholder="Filter module name..."
-          :model-value="table.getColumn('module_name')?.getFilterValue() as string"
-          @update:model-value="table.getColumn('module_name')?.setFilterValue($event)"
+        <Autocomplete
+          @selected-item="table.getColumn('module_name')?.setFilterValue($event)"
+          :items="table.getRowModel().rows.map(({ original }) => original.module_name)"
         />
       </div>
       <AddModule />

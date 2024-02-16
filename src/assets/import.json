@@ -1,0 +1,75 @@
+{
+  "imports": {
+    "single-spa": "https://cdn.jsdelivr.net/npm/single-spa@5.9.4/lib/system/single-spa.min.js",
+    "single-spa-vue": "https://cdn.jsdelivr.net/npm/single-spa-vue@2.5.1/dist/umd/single-spa-vue.min.js",
+    "axios": "https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js",
+    "vue-axios": "https://cdn.jsdelivr.net/npm/vue-axios@2.1.4/dist/vue-axios.min.js",
+    "vue": "https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.min.js",
+    "vuetify": "https://cdnjs.cloudflare.com/ajax/libs/vuetify/2.6.14/vuetify.min.js",
+    "vuex": "https://cdnjs.cloudflare.com/ajax/libs/vuex/3.6.2/vuex.min.js",
+    "vue-i18n": "https://unpkg.com/vue-i18n@8.27.2/dist/vue-i18n.min.js",
+    "vue-router": "https://cdn.jsdelivr.net/npm/vue-router@3.6.5/dist/vue-router.min.js",
+    "vue-moment": "https://cdnjs.cloudflare.com/ajax/libs/vue-moment/4.1.0/vue-moment.min.js",
+    "moment": "https://cdn.jsdelivr.net/npm/moment@2.29.0/min/moment-with-locales.min.js",
+    "moment-timezone": "https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.43/moment-timezone.min.js",
+    "vueperslides": "https://cdn.jsdelivr.net/npm/vueperslides@2.15.3/dist/vueperslides.umd.min.js",
+    "lodash": "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js",
+    "vue-tel-input": "https://cdn.jsdelivr.net/npm/vue-tel-input@5.1.0/dist/vue-tel-input.umd.min.js",
+    "rxjs": "https://cdn.jsdelivr.net/npm/@esm-bundle/rxjs/system/es2015/rxjs.min.js",
+    "vee-validate": "https://cdn.jsdelivr.net/npm/vee-validate@2.2.15/dist/vee-validate.min.js",
+    "@Yanovis/ts-root-config": "//localhost:8080/app.js",
+    "@Yanovis/ts-app-main": "//localhost:8804/js/app.js",
+    "@Yanovis/ts-shared-components": "//localhost:8801/js/app.js",
+    "@Yanovis/ts-app-activity": "//localhost:8803/js/app.js",
+    "@Yanovis/ts-app-inventory": "//localhost:8810/js/app.js",
+    "@Yanovis/ts-app-ticketing": "//localhost:8806/js/app.js",
+    "@Yanovis/ts-app-bcm": "//localhost:8805/js/app.js",
+    "@Yanovis/ts-app-support": "//localhost:8802/js/app.js",
+    "@Yanovis/ts-app-admin": "//localhost:8807/js/app.js",
+    "@Yanovis/ts-app-datahub": "//localhost:8811/js/app.js",
+    "@Yanovis/ts-app-profiling": "//localhost:8813/js/app.js",
+    "@Yanovis/ts-app-layout": "//localhost:8814/js/app.js",
+    "@Yanovis/ts-app-pay": "//localhost:8809/js/app.js",
+    "@Yanovis/ts-app-cm": "//localhost:8812/js/app.js",
+    "@Yanovis/ts-app-pms": "//localhost:8815/js/app.js",
+    "@Yanovis/ts-app-privacy": "//localhost:8816/js/app.js",
+    "@Yanovis/ts-app-newsletter": "//localhost:8817/js/app.js",
+    "@Yanovis/ts-app-coupon": "//localhost:8818/js/app.js",
+    "@Yanovis/ts-app-communication": "//localhost:8819/js/app.js",
+    "@Yanovis/ts-app-global": "//localhost:8820/js/app.js",
+    "@Yanovis/v3-shared-components": "//localhost:8821/js/app.js",
+    "@Yanovis/v3-app-navbar": "//localhost:8822/js/app.js",
+    "@Yanovis/v3-app-support": "//localhost:8823/js/app.js"
+  },
+  "scopes": {
+    "//localhost:8821/js/app.js": {
+      "vue": "https://ga.system.jspm.io/npm:vue@3.3.8/dist/vue.runtime.esm-browser.prod.js",
+      "vuetify": "https://ga.system.jspm.io/npm:vuetify@3.4.8/lib/framework.mjs"
+    },
+    "//localhost:8822/js/app.js": {
+      "vue": "https://ga.system.jspm.io/npm:vue@3.3.8/dist/vue.runtime.esm-browser.prod.js",
+      "vuetify": "https://ga.system.jspm.io/npm:vuetify@3.4.8/lib/framework.mjs",
+      "vue-i18n": "https://ga.system.jspm.io/npm:vue-i18n@9.8.0/dist/vue-i18n.mjs",
+      "vue-router": "https://ga.system.jspm.io/npm:vue-router@4.2.5/dist/vue-router.mjs"
+    },
+    "//localhost:8823/js/app.js": {
+      "vue": "https://ga.system.jspm.io/npm:vue@3.3.8/dist/vue.runtime.esm-browser.prod.js",
+      "vuetify": "https://ga.system.jspm.io/npm:vuetify@3.4.8/lib/framework.mjs",
+      "vue-i18n": "https://ga.system.jspm.io/npm:vue-i18n@9.8.0/dist/vue-i18n.mjs",
+      "vue-router": "https://ga.system.jspm.io/npm:vue-router@4.2.5/dist/vue-router.mjs"
+    },
+    "//localhost:8824/js/app.js": {
+      "vue": "https://ga.system.jspm.io/npm:vue@3.3.8/dist/vue.runtime.esm-browser.prod.js",
+      "vuetify": "https://ga.system.jspm.io/npm:vuetify@3.4.8/lib/framework.mjs",
+      "vue-i18n": "https://ga.system.jspm.io/npm:vue-i18n@9.8.0/dist/vue-i18n.mjs",
+      "vue-router": "https://ga.system.jspm.io/npm:vue-router@4.2.5/dist/vue-router.mjs"
+    },
+    "https://ga.system.jspm.io/": {
+      "@vue/devtools-api": "https://ga.system.jspm.io/npm:@vue/devtools-api@6.5.1/lib/esm/index.js",
+      "vue": "https://ga.system.jspm.io/npm:vue@3.3.8/dist/vue.runtime.esm-browser.prod.js",
+      "@intlify/core-base": "https://ga.system.jspm.io/npm:@intlify/core-base@9.8.0/dist/core-base.mjs",
+      "@intlify/message-compiler": "https://ga.system.jspm.io/npm:@intlify/message-compiler@9.8.0/dist/message-compiler.esm-browser.js",
+      "@intlify/shared": "https://ga.system.jspm.io/npm:@intlify/shared@9.8.0/dist/shared.mjs"
+    }
+  }
+}
