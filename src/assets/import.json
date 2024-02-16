@@ -40,36 +40,5 @@
     "@Yanovis/v3-shared-components": "//localhost:8821/js/app.js",
     "@Yanovis/v3-app-navbar": "//localhost:8822/js/app.js",
     "@Yanovis/v3-app-support": "//localhost:8823/js/app.js"
-  },
-  "scopes": {
-    "//localhost:8821/js/app.js": {
-      "vue": "https://ga.system.jspm.io/npm:vue@3.3.8/dist/vue.runtime.esm-browser.prod.js",
-      "vuetify": "https://ga.system.jspm.io/npm:vuetify@3.4.8/lib/framework.mjs"
-    },
-    "//localhost:8822/js/app.js": {
-      "vue": "https://ga.system.jspm.io/npm:vue@3.3.8/dist/vue.runtime.esm-browser.prod.js",
-      "vuetify": "https://ga.system.jspm.io/npm:vuetify@3.4.8/lib/framework.mjs",
-      "vue-i18n": "https://ga.system.jspm.io/npm:vue-i18n@9.8.0/dist/vue-i18n.mjs",
-      "vue-router": "https://ga.system.jspm.io/npm:vue-router@4.2.5/dist/vue-router.mjs"
-    },
-    "//localhost:8823/js/app.js": {
-      "vue": "https://ga.system.jspm.io/npm:vue@3.3.8/dist/vue.runtime.esm-browser.prod.js",
-      "vuetify": "https://ga.system.jspm.io/npm:vuetify@3.4.8/lib/framework.mjs",
-      "vue-i18n": "https://ga.system.jspm.io/npm:vue-i18n@9.8.0/dist/vue-i18n.mjs",
-      "vue-router": "https://ga.system.jspm.io/npm:vue-router@4.2.5/dist/vue-router.mjs"
-    },
-    "//localhost:8824/js/app.js": {
-      "vue": "https://ga.system.jspm.io/npm:vue@3.3.8/dist/vue.runtime.esm-browser.prod.js",
-      "vuetify": "https://ga.system.jspm.io/npm:vuetify@3.4.8/lib/framework.mjs",
-      "vue-i18n": "https://ga.system.jspm.io/npm:vue-i18n@9.8.0/dist/vue-i18n.mjs",
-      "vue-router": "https://ga.system.jspm.io/npm:vue-router@4.2.5/dist/vue-router.mjs"
-    },
-    "https://ga.system.jspm.io/": {
-      "@vue/devtools-api": "https://ga.system.jspm.io/npm:@vue/devtools-api@6.5.1/lib/esm/index.js",
-      "vue": "https://ga.system.jspm.io/npm:vue@3.3.8/dist/vue.runtime.esm-browser.prod.js",
-      "@intlify/core-base": "https://ga.system.jspm.io/npm:@intlify/core-base@9.8.0/dist/core-base.mjs",
-      "@intlify/message-compiler": "https://ga.system.jspm.io/npm:@intlify/message-compiler@9.8.0/dist/message-compiler.esm-browser.js",
-      "@intlify/shared": "https://ga.system.jspm.io/npm:@intlify/shared@9.8.0/dist/shared.mjs"
-    }
   }
 }

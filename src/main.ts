@@ -1,6 +1,7 @@
 import './assets/main.css'
-
-import { createApp } from 'vue'
+import { createApp, defineCustomElement } from 'vue'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+customElements.define('import-overrides', defineCustomElement(App))
+
+createApp(App).mount('#importOverrides')

@@ -25,5 +25,5 @@ const stylesStorage = useStorage<UseDraggableOptions['initialValue']>(
 // x=left and y=top
 const { style, x, y } = useDraggable(principalButton, { initialValue: unref(stylesStorage.value) })
 
-watchDebounced([x, y], () => (stylesStorage.value = { x, y }), { debounce: 1500 })
+watchDebounced([x, y], () => (stylesStorage.value = { x: x.value, y: y.value }), { debounce: 1500 })
 </script>
