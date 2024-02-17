@@ -12,18 +12,11 @@
         <button
           @click="mode = mode === 'dark' ? 'light' : 'dark'"
           class="absolute right-12 top-4 rounded-sm opacity-70"
-          variant="outline"
-          size="icon"
         >
           <component :is="mode === 'dark' ? Moon : Sun" class="w-5 h-5 animate-fade-in" />
         </button>
 
-        <button
-          @click="isOpen = false"
-          class="absolute right-4 top-4 rounded-sm opacity-70"
-          variant="outline"
-          size="icon"
-        >
+        <button @click="isOpen = false" class="absolute right-4 top-4 rounded-sm opacity-70">
           <Minus class="w-5 h-5" />
         </button>
       </CardHeader>
@@ -35,7 +28,6 @@
 </template>
 <script setup lang="ts">
 import { Minus, Moon, Sun } from 'lucide-vue-next'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import OverridesTable from '@/components/OverridesTable.vue'
 import { shallowRef } from 'vue'
@@ -45,3 +37,6 @@ import FabButton from '@/components/FabButton.vue'
 const mode = useColorMode()
 const isOpen = shallowRef(false)
 </script>
+<style>
+@import '@/assets/main.css';
+</style>

@@ -16,12 +16,16 @@ export default defineConfig({
     }
   },
   build: {
+    cssCodeSplit: true,
     lib: {
       formats: ['umd'],
       entry: './src/main.ts',
       name: 'import-overrides',
       fileName: 'import-overrides'
     }
+  },
+  define: {
+    'process.env': process.env
   },
   resolve: {
     alias: {
