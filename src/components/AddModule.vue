@@ -1,8 +1,9 @@
 <template>
   <AddImport
     v-model="open"
-    title="New module"
-    :btn-trigger-label="model.module_name ? 'Edit module' : 'Add new module'"
+    :title="model.id ? 'Edit module' : 'New module'"
+    btn-trigger-label="Add new module"
+    @submit="saveOverride"
     btn-footer-label="Apply override"
   >
     <template #body>
@@ -22,8 +23,27 @@
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import AddImport from '@/components/AddImport.vue'
-import type { IModuleInfo } from '@/composables/useOverridesTable.ts'
+import { type IModuleInfo, useOverridesTable } from '@/composables/useOverridesTable.ts'
+import { watch } from 'vue'
 
 const model = defineModel<IModuleInfo>({ default: { module_name: '', domain: '' } })
 const open = defineModel<boolean>('open', { default: false })
+const { data, processOverrides } = useOverridesTable()
+watch(open, (val) => !val && resetCurrentSelectedModule())
+
+function resetCurrentSelectedModule() {
+  model.value = {
+    id: '',
+    module_name: '',
+    domain: '',
+    status: ''
+  }
+}
+
+function saveOverride() {
+  data.value = processOverrides(
+    window.importMapOverrides.addOverride(model.value.module_name, model.value.domain)
+  )
+  resetCurrentSelectedModule()
+}
 </script>

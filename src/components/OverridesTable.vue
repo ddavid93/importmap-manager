@@ -9,7 +9,7 @@
       </div>
       <AddModule v-model:open="open" v-model="currentSelectedModule" />
       <AddImportMap />
-      <ConfirmDelete />
+      <ConfirmDelete @confirm="resetOverrides" />
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
           <Button variant="outline" class="ml-auto">
@@ -139,15 +139,6 @@ const currentSelectedModule = shallowRef<IModuleInfo>({
   status: ''
 })
 
-function resetCurrentSelectedModule() {
-  currentSelectedModule.value = {
-    id: '',
-    module_name: '',
-    domain: '',
-    status: ''
-  }
-}
-
 const open = shallowRef(false)
 watch(currentSelectedModule, (val) => (open.value = !!val.id))
 
@@ -223,4 +214,8 @@ const table = useVueTable({
     }
   }
 })
+
+function resetOverrides() {
+  window.importMapOverrides.resetOverrides()
+}
 </script>

@@ -16,6 +16,7 @@ defineProps<{
 }>()
 
 const open = defineModel<boolean>({ default: false })
+defineEmits(['submit'])
 </script>
 
 <template>
@@ -33,7 +34,7 @@ const open = defineModel<boolean>({ default: false })
         <slot name="body"></slot>
       </div>
       <DialogFooter>
-        <Button type="submit">
+        <Button @click="$emit('submit')" type="submit">
           {{ btnFooterLabel }}
         </Button>
       </DialogFooter>

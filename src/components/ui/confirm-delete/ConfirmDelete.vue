@@ -11,12 +11,14 @@ import {
   AlertDialogTrigger
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+
+defineEmits(['confirm'])
 </script>
 
 <template>
   <AlertDialog>
     <AlertDialogTrigger>
-      <Button variant="destructive"> Reset all overrides </Button>
+      <Button variant="destructive"> Reset all overrides</Button>
     </AlertDialogTrigger>
     <AlertDialogContent>
       <AlertDialogHeader>
@@ -27,7 +29,7 @@ import { Button } from '@/components/ui/button'
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction>Continue</AlertDialogAction>
+        <AlertDialogAction @click="$emit('confirm')">Confirm</AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
   </AlertDialog>
