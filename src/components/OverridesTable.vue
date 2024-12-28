@@ -1,127 +1,3 @@
-<script setup lang="ts">
-import type { ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/vue-table'
-import {
-  createColumnHelper,
-  FlexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useVueTable
-} from '@tanstack/vue-table'
-import { ArrowUpDown, ChevronDown } from 'lucide-vue-next'
-
-import { h, shallowRef } from 'vue'
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from '@/components/ui/table'
-import { cn, valueUpdater } from '@/lib/utils'
-import ConfirmDelete from '@/components/ui/confirm-delete/ConfirmDelete.vue'
-import AddModule from '@/components/AddModule.vue'
-import AddImportMap from '@/components/AddImportMap.vue'
-import { type IModuleInfo, useOverridesTable } from '@/composables/useOverridesTable'
-import Autocomplete from '@/components/ui/autocomplete/Autocomplete.vue'
-
-const columnHelper = createColumnHelper<IModuleInfo>()
-
-const columns = [
-  columnHelper.accessor('status', {
-    header: ({ column }) => {
-      return h(
-        Button,
-        {
-          variant: 'ghost',
-          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
-        },
-        () => ['Module Status', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
-      )
-    },
-    cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('status'))
-  }),
-  columnHelper.accessor('module_name', {
-    header: ({ column }) => {
-      return h(
-        Button,
-        {
-          variant: 'ghost',
-          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
-        },
-        () => ['Module Name', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
-      )
-    },
-    cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('module_name'))
-  }),
-  columnHelper.accessor('domain', {
-    header: ({ column }) => {
-      return h(
-        Button,
-        {
-          variant: 'ghost',
-          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
-        },
-        () => ['Domain', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
-      )
-    },
-    cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('domain'))
-  }),
-  columnHelper.accessor('filename', {
-    header: ({ column }) => {
-      return h(
-        Button,
-        {
-          variant: 'ghost',
-          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
-        },
-        () => ['Filename', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
-      )
-    },
-    cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('filename'))
-  })
-]
-
-const sorting = shallowRef<SortingState>([])
-const columnFilters = shallowRef<ColumnFiltersState>([])
-const columnVisibility = shallowRef<VisibilityState>({})
-const rowSelection = shallowRef({})
-const { data } = useOverridesTable()
-const table = useVueTable({
-  data,
-  columns,
-  getCoreRowModel: getCoreRowModel(),
-  getSortedRowModel: getSortedRowModel(),
-  getFilteredRowModel: getFilteredRowModel(),
-  onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
-  onColumnFiltersChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnFilters),
-  onColumnVisibilityChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnVisibility),
-  onRowSelectionChange: (updaterOrValue) => valueUpdater(updaterOrValue, rowSelection),
-  state: {
-    get sorting() {
-      return sorting.value
-    },
-    get columnFilters() {
-      return columnFilters.value
-    },
-    get columnVisibility() {
-      return columnVisibility.value
-    },
-    get rowSelection() {
-      return rowSelection.value
-    }
-  }
-})
-</script>
-
 <template>
   <div class="w-full">
     <div class="flex gap-2 items-center py-4">
@@ -131,7 +7,7 @@ const table = useVueTable({
           :items="table.getRowModel().rows.map(({ original }) => original.module_name)"
         />
       </div>
-      <AddModule />
+      <AddModule v-model:open="open" v-model="currentSelectedModule" />
       <AddImportMap />
       <ConfirmDelete />
       <DropdownMenu>
@@ -199,7 +75,12 @@ const table = useVueTable({
                   )
                 "
               >
-                <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+                <FlexRender
+                  class="cursor-pointer"
+                  @click="currentSelectedModule = cell.row.original"
+                  :render="cell.column.columnDef.cell"
+                  :props="cell.getContext()"
+                />
               </TableCell>
             </TableRow>
           </template>
@@ -214,3 +95,132 @@ const table = useVueTable({
     </div>
   </div>
 </template>
+<script setup lang="ts">
+import type { ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/vue-table'
+import {
+  createColumnHelper,
+  FlexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  useVueTable
+} from '@tanstack/vue-table'
+import { ArrowUpDown, ChevronDown } from 'lucide-vue-next'
+
+import { h, shallowRef, watch } from 'vue'
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table'
+import { cn, valueUpdater } from '@/lib/utils'
+import ConfirmDelete from '@/components/ui/confirm-delete/ConfirmDelete.vue'
+import AddModule from '@/components/AddModule.vue'
+import AddImportMap from '@/components/AddImportMap.vue'
+import { type IModuleInfo, useOverridesTable } from '@/composables/useOverridesTable'
+import Autocomplete from '@/components/ui/autocomplete/Autocomplete.vue'
+
+const columnHelper = createColumnHelper<IModuleInfo>()
+
+const currentSelectedModule = shallowRef<IModuleInfo>({
+  id: '',
+  module_name: '',
+  domain: '',
+  status: ''
+})
+
+function resetCurrentSelectedModule() {
+  currentSelectedModule.value = {
+    id: '',
+    module_name: '',
+    domain: '',
+    status: ''
+  }
+}
+
+const open = shallowRef(false)
+watch(currentSelectedModule, (val) => (open.value = !!val.id))
+
+const columns = [
+  columnHelper.accessor('module_name', {
+    header: ({ column }) => {
+      return h(
+        Button,
+        {
+          variant: 'ghost',
+          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
+        },
+        () => ['Module Name', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
+      )
+    },
+    cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('module_name'))
+  }),
+  columnHelper.accessor('domain', {
+    header: ({ column }) => {
+      return h(
+        Button,
+        {
+          variant: 'ghost',
+          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
+        },
+        () => ['Domain', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
+      )
+    },
+    cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('domain'))
+  }),
+  columnHelper.accessor('status', {
+    header: ({ column }) => {
+      return h(
+        Button,
+        {
+          variant: 'ghost',
+          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
+        },
+        () => ['Module Status', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
+      )
+    },
+    cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('status'))
+  })
+]
+
+const sorting = shallowRef<SortingState>([])
+const columnFilters = shallowRef<ColumnFiltersState>([])
+const columnVisibility = shallowRef<VisibilityState>({})
+const rowSelection = shallowRef({})
+const { data } = useOverridesTable()
+const table = useVueTable({
+  data,
+  columns,
+  getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
+  getFilteredRowModel: getFilteredRowModel(),
+  onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
+  onColumnFiltersChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnFilters),
+  onColumnVisibilityChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnVisibility),
+  onRowSelectionChange: (updaterOrValue) => valueUpdater(updaterOrValue, rowSelection),
+  state: {
+    get sorting() {
+      return sorting.value
+    },
+    get columnFilters() {
+      return columnFilters.value
+    },
+    get columnVisibility() {
+      return columnVisibility.value
+    },
+    get rowSelection() {
+      return rowSelection.value
+    }
+  }
+})
+</script>

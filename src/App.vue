@@ -38,11 +38,8 @@ import { shallowRef } from 'vue'
 import { useColorMode } from '@vueuse/core'
 import FabButton from '@/components/FabButton.vue'
 
-const overrideMap = window.importMapOverrides.getOverrideMap();
-console.log(overrideMap);
-
 const mode = useColorMode()
-const isOpen = shallowRef(false)
+const isOpen = shallowRef(true)
 </script>
 <style>
 @import '@/assets/main.css';

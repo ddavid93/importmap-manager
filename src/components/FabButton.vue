@@ -1,5 +1,5 @@
 <template>
-  <div :style="style" class="fixed" ref="principalButton">
+  <div :style="style" ref="principalButton">
     <Button
       v-show="!isOpen"
       @click="$emit('close')"

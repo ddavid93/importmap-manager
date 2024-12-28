@@ -54,6 +54,26 @@ if (!canAccessLocalStorage()) {
 }
 
 if (!isDisabled) {
+  /**
+   * Temporal saving localStorage just to see if it works
+   * TODO: remove this
+   */
+  ;[
+    {
+      key: 'import-map-override:single-spa',
+      value: 'https://localhost:8080/single-spa.dev.js'
+    },
+    {
+      key: 'import-map-override:vue',
+      value: 'https://unpkg.com/vue@3.2.37/dist/vue.esm-browser.js'
+    },
+    {
+      key: 'import-map-override:react',
+      value: 'https://unpkg.com/react@18.2.0/umd/react.production.min.js'
+    }
+  ].forEach(({ key, value }) => {
+    localStorage.setItem(key, value)
+  })
   init()
 }
 

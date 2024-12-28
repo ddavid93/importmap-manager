@@ -14,10 +14,12 @@ defineProps<{
   btnFooterLabel: string
   title: string
 }>()
+
+const open = defineModel<boolean>({ default: false })
 </script>
 
 <template>
-  <Dialog>
+  <Dialog v-model:open="open">
     <DialogTrigger as-child>
       <Button variant="outline">
         {{ btnTriggerLabel }}
