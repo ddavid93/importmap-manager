@@ -5,11 +5,7 @@ import tailwind from 'tailwindcss'
 import autoprefixer from 'autoprefixer'
 
 export default defineConfig({
-  plugins: [
-    vue({
-      customElement: true
-    })
-  ],
+  plugins: [vue()],
   css: {
     postcss: {
       plugins: [tailwind(), autoprefixer()]
