@@ -1,46 +1,66 @@
-# import-overrides
+# Import Overrides
 
-This template should help get you started developing with Vue 3 in Vite.
+A modern UI for managing [import-map-overrides](https://github.com/single-spa/import-map-overrides) (original one) with an enhanced user experience. Built with Vue 3, TypeScript, and Shadcn UI components.
 
-## Recommended IDE Setup
+## Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- 🎨 Modern UI built with Shadcn/Vue components
+- 📱 Fully responsive design
+- 🔍 Module search and filtering
+- 🎯 Type-safe with TypeScript
+- 🔄 Real-time import map updates
+- 📊 Clear visualization of module overrides
+- 🌓 Built-in light/dark mode support
+- ⚡ Powered by Vite for fast development
 
-## Type Support for `.vue` Imports in TS
+## Development
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+To run this project locally:
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-    1) Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-    2) Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
+# Install dependencies
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# Start development server
 npm run dev
-```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
+# Build for production
 npm run build
+
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Technical Stack
 
-```sh
-npm run lint
-```
+- Vue 3.5
+- TypeScript
+- Vite 6
+- Tailwind CSS
+- Shadcn UI Components
+- Radix Vue
+- Lucide Icons
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [import-map-overrides](https://github.com/single-spa/import-map-overrides) - The original project that inspired this UI
+- [Shadcn/Vue](https://www.shadcn-vue.com/) - For the beautiful UI components
+- [Radix Vue](https://www.radix-vue.com/) - For accessible component primitives
+
+## Related
+
+- [Single-spa](https://single-spa.js.org/)
+- [Import Maps](https://github.com/WICG/import-maps)
+- [SystemJS](https://github.com/systemjs/systemjs)
