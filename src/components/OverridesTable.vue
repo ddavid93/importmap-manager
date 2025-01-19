@@ -1,15 +1,18 @@
 <template>
   <div class="w-full">
     <div class="flex gap-2 items-center py-4">
+      <!-- Search/Filter Input -->
       <div class="relative">
         <Autocomplete
-          @selected-item="table.getColumn('module_name')?.setFilterValue($event)"
-          :items="table.getRowModel().rows.map(({ original }) => original.module_name)"
+          @selected-item="filterByModule"
+          :items="uniqueModuleNames"
         />
       </div>
       <AddModule v-model:open="open" v-model="currentSelectedModule" />
       <AddImportMap />
       <ConfirmDelete @confirm="resetOverrides" />
+
+      <!-- Column Visibility Dropdown -->
       <DropdownMenu>
         <DropdownMenuTrigger as-child>
           <Button variant="outline" class="ml-auto">
@@ -19,74 +22,56 @@
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuCheckboxItem
-            v-for="column in table.getAllColumns().filter((col) => col.getCanHide())"
-            :key="column.id"
+            v-for="column in columns"
+            :key="column.key"
             class="capitalize"
-            :checked="column.getIsVisible()"
-            @update:checked="
-              (value) => {
-                column.toggleVisibility(!!value)
-              }
-            "
+            :checked="columnVisibility[column.key]"
+            @update:checked="toggleColumnVisibility(column.key)"
           >
-            {{ column.id }}
+            {{ column.label }}
           </DropdownMenuCheckboxItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
+
     <div class="rounded-md border">
       <Table>
         <TableHeader>
-          <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
+          <TableRow>
             <TableHead
-              v-for="header in headerGroup.headers"
-              :key="header.id"
-              :data-pinned="header.column.getIsPinned()"
-              :class="
-                cn(
-                  { 'sticky bg-background/95': header.column.getIsPinned() },
-                  header.column.getIsPinned() === 'left' ? 'left-0' : 'right-0'
-                )
-              "
+              v-for="column in visibleColumns"
+              :key="column.key"
+              class="bg-background/95"
             >
-              <FlexRender
-                v-if="!header.isPlaceholder"
-                :render="header.column.columnDef.header"
-                :props="header.getContext()"
-              />
+              <Button
+                variant="ghost"
+                @click="toggleSort(column.key)"
+                class="flex items-center"
+              >
+                {{ column.label }}
+                <ArrowUpDown class="ml-2 h-4 w-4" />
+              </Button>
             </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          <template v-if="table.getRowModel().rows?.length">
+          <template v-if="sortedAndFilteredData.length">
             <TableRow
-              v-for="row in table.getRowModel().rows"
+              v-for="row in sortedAndFilteredData"
               :key="row.id"
-              :data-state="row.getIsSelected() && 'selected'"
             >
               <TableCell
-                v-for="cell in row.getVisibleCells()"
-                :key="cell.id"
-                :data-pinned="cell.column.getIsPinned()"
-                :class="
-                  cn(
-                    { 'sticky bg-background/95': cell.column.getIsPinned() },
-                    cell.column.getIsPinned() === 'left' ? 'left-0' : 'right-0'
-                  )
-                "
+                v-for="column in visibleColumns"
+                :key="column.key"
+                @click="selectModule(row)"
+                class="cursor-pointer lowercase"
               >
-                <FlexRender
-                  class="cursor-pointer"
-                  @click="currentSelectedModule = cell.row.original"
-                  :render="cell.column.columnDef.cell"
-                  :props="cell.getContext()"
-                />
+                {{ row[column.key] }}
               </TableCell>
             </TableRow>
           </template>
-
           <TableRow v-else>
-            <TableCell col-span="{columns.length}" class="h-24 text-center">
+            <TableCell :colspan="visibleColumns.length" class="h-24 text-center">
               No results.
             </TableCell>
           </TableRow>
@@ -95,19 +80,10 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
-import type { ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/vue-table'
-import {
-  createColumnHelper,
-  FlexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useVueTable
-} from '@tanstack/vue-table'
-import { ArrowUpDown, ChevronDown } from 'lucide-vue-next'
 
-import { h, shallowRef, watch } from 'vue'
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue'
+import { ArrowUpDown, ChevronDown } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -123,99 +99,98 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { cn, valueUpdater } from '@/lib/utils'
 import ConfirmDelete from '@/components/ui/confirm-delete/ConfirmDelete.vue'
 import AddModule from '@/components/AddModule.vue'
 import AddImportMap from '@/components/AddImportMap.vue'
 import { type IModuleInfo, useOverridesTable } from '@/composables/useOverridesTable'
 import Autocomplete from '@/components/ui/autocomplete/Autocomplete.vue'
 
-const columnHelper = createColumnHelper<IModuleInfo>()
+const { data } = useOverridesTable()
 
-const currentSelectedModule = shallowRef<IModuleInfo>({
+// Column definitions
+const columns = [
+  { key: 'module_name', label: 'Module Name' },
+  { key: 'domain', label: 'Domain' },
+  { key: 'status', label: 'Module Status' }
+]
+
+// State
+const currentSelectedModule = ref<IModuleInfo>({
   id: '',
   module_name: '',
   domain: '',
   status: ''
 })
+const open = ref(false)
+const sortConfig = ref({ key: '', direction: 'asc' })
+const columnVisibility = ref(
+  Object.fromEntries(columns.map(col => [col.key, true]))
+)
+const filterText = ref('')
 
-const open = shallowRef(false)
-watch(currentSelectedModule, (val) => (open.value = !!val.id))
+// Computed properties
+const visibleColumns = computed(() =>
+  columns.filter(col => columnVisibility.value[col.key])
+)
 
-const columns = [
-  columnHelper.accessor('module_name', {
-    header: ({ column }) => {
-      return h(
-        Button,
-        {
-          variant: 'ghost',
-          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
-        },
-        () => ['Module Name', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
-      )
-    },
-    cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('module_name'))
-  }),
-  columnHelper.accessor('domain', {
-    header: ({ column }) => {
-      return h(
-        Button,
-        {
-          variant: 'ghost',
-          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
-        },
-        () => ['Domain', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
-      )
-    },
-    cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('domain'))
-  }),
-  columnHelper.accessor('status', {
-    header: ({ column }) => {
-      return h(
-        Button,
-        {
-          variant: 'ghost',
-          onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
-        },
-        () => ['Module Status', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
-      )
-    },
-    cell: ({ row }) => h('div', { class: 'lowercase' }, row.getValue('status'))
-  })
-]
+const uniqueModuleNames = computed(() =>
+  [...new Set(data.value.map(item => item.module_name))]
+)
 
-const sorting = shallowRef<SortingState>([])
-const columnFilters = shallowRef<ColumnFiltersState>([])
-const columnVisibility = shallowRef<VisibilityState>({})
-const rowSelection = shallowRef({})
-const { data } = useOverridesTable()
-const table = useVueTable({
-  data,
-  columns,
-  getCoreRowModel: getCoreRowModel(),
-  getSortedRowModel: getSortedRowModel(),
-  getFilteredRowModel: getFilteredRowModel(),
-  onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
-  onColumnFiltersChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnFilters),
-  onColumnVisibilityChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnVisibility),
-  onRowSelectionChange: (updaterOrValue) => valueUpdater(updaterOrValue, rowSelection),
-  state: {
-    get sorting() {
-      return sorting.value
-    },
-    get columnFilters() {
-      return columnFilters.value
-    },
-    get columnVisibility() {
-      return columnVisibility.value
-    },
-    get rowSelection() {
-      return rowSelection.value
-    }
+const sortedAndFilteredData = computed(() => {
+  let result = [...data.value]
+
+  // Apply filter
+  if (filterText.value) {
+    result = result.filter(item =>
+      item.module_name.toLowerCase().includes(filterText.value.toLowerCase())
+    )
   }
+
+  // Apply sort
+  if (sortConfig.value.key) {
+    result.sort((a, b) => {
+      const aVal = a[sortConfig.value.key]
+      const bVal = b[sortConfig.value.key]
+
+      if (sortConfig.value.direction === 'asc') {
+        return aVal.localeCompare(bVal)
+      }
+      return bVal.localeCompare(aVal)
+    })
+  }
+
+  return result
 })
+
+// Methods
+function toggleSort(key: string) {
+  if (sortConfig.value.key === key) {
+    sortConfig.value.direction = sortConfig.value.direction === 'asc' ? 'desc' : 'asc'
+  } else {
+    sortConfig.value = { key, direction: 'asc' }
+  }
+}
+
+function toggleColumnVisibility(key: string) {
+  columnVisibility.value[key] = !columnVisibility.value[key]
+}
+
+function filterByModule(value: string) {
+  filterText.value = value
+}
+
+function selectModule(module: IModuleInfo) {
+  currentSelectedModule.value = { ...module }
+  open.value = true
+}
 
 function resetOverrides() {
   window.importMapOverrides.resetOverrides()
 }
+
+// Watch for currentSelectedModule changes
+watch(currentSelectedModule, (val) => {
+  open.value = !!val.id
+})
 </script>

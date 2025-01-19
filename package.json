@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@radix-icons/vue": "1.0.0",
-    "@tanstack/vue-table": "8.20.5",
     "@vueuse/core": "12.4.0",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
