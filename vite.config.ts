@@ -16,8 +16,8 @@ export default defineConfig({
     lib: {
       formats: ['umd'],
       entry: './src/main.ts',
-      name: 'import-overrides',
-      fileName: 'import-overrides'
+      name: 'import-kit',
+      fileName: 'import-kit'
     }
   },
   define: {
