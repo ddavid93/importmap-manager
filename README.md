@@ -1,4 +1,4 @@
-# Import Overrides
+# ImportMap Manager
 
 A modern UI for managing [import-map-overrides](https://github.com/single-spa/import-map-overrides) (original one) with an enhanced user experience. Built with Vue 3, TypeScript, and Shadcn UI components.
 
@@ -31,7 +31,7 @@ npm run build
 
 ## Technical Stack
 
-- Vue 3.5
+- Vue 3
 - TypeScript
 - Vite 6
 - Tailwind CSS

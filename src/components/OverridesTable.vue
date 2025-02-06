@@ -1,13 +1,7 @@
 <template>
   <div class="w-full">
-    <div class="flex gap-2 items-center py-4">
+    <div class="flex flex-col sm:flex-row gap-2 items-center py-4">
       <!-- Search/Filter Input -->
-      <div class="relative">
-        <Autocomplete
-          @selected-item="filterByModule"
-          :items="uniqueModuleNames"
-        />
-      </div>
       <AddModule v-model:open="open" v-model="currentSelectedModule" />
       <AddImportMap />
       <ConfirmDelete @confirm="resetOverrides" />
@@ -34,20 +28,16 @@
       </DropdownMenu>
     </div>
 
+    <div class="relative pb-4">
+      <Autocomplete @selected-item="filterByModule" :items="uniqueModuleNames" />
+    </div>
+
     <div class="rounded-md border">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead
-              v-for="column in visibleColumns"
-              :key="column.key"
-              class="bg-background/95"
-            >
-              <Button
-                variant="ghost"
-                @click="toggleSort(column.key)"
-                class="flex items-center"
-              >
+            <TableHead v-for="column in visibleColumns" :key="column.key" class="bg-background/95">
+              <Button variant="ghost" @click="toggleSort(column.key)" class="flex items-center">
                 {{ column.label }}
                 <ArrowUpDown class="ml-2 h-4 w-4" />
               </Button>
@@ -56,10 +46,7 @@
         </TableHeader>
         <TableBody>
           <template v-if="sortedAndFilteredData.length">
-            <TableRow
-              v-for="row in sortedAndFilteredData"
-              :key="row.id"
-            >
+            <TableRow v-for="row in sortedAndFilteredData" :key="row.id">
               <TableCell
                 v-for="column in visibleColumns"
                 :key="column.key"
@@ -82,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { ArrowUpDown, ChevronDown } from 'lucide-vue-next'
 import { Button } from '@/components/ui/button'
 import {
@@ -123,26 +110,20 @@ const currentSelectedModule = ref<IModuleInfo>({
 })
 const open = ref(false)
 const sortConfig = ref({ key: '', direction: 'asc' })
-const columnVisibility = ref(
-  Object.fromEntries(columns.map(col => [col.key, true]))
-)
+const columnVisibility = ref(Object.fromEntries(columns.map((col) => [col.key, true])))
 const filterText = ref('')
 
 // Computed properties
-const visibleColumns = computed(() =>
-  columns.filter(col => columnVisibility.value[col.key])
-)
+const visibleColumns = computed(() => columns.filter((col) => columnVisibility.value[col.key]))
 
-const uniqueModuleNames = computed(() =>
-  [...new Set(data.value.map(item => item.module_name))]
-)
+const uniqueModuleNames = computed(() => [...new Set(data.value.map((item) => item.module_name))])
 
 const sortedAndFilteredData = computed(() => {
   let result = [...data.value]
 
   // Apply filter
   if (filterText.value) {
-    result = result.filter(item =>
+    result = result.filter((item) =>
       item.module_name.toLowerCase().includes(filterText.value.toLowerCase())
     )
   }

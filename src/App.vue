@@ -3,7 +3,7 @@
   <div v-show="isOpen" class="animate-expand-vertically absolute inset-x-0 bottom-96 h-16">
     <Card>
       <CardHeader>
-        <CardTitle>Import Map Overrides</CardTitle>
+        <CardTitle>Import Map Manager</CardTitle>
         <CardDescription
           >This developer tool allows you to view and override your import maps. Start by clicking
           on a module that you'd like to override.
@@ -30,7 +30,7 @@
 /**
  * Very important since this is the init of Overrides
  */
-import '@/original/api/js-api'
+import '@/original/js-api'
 import { Minus, Moon, Sun } from 'lucide-vue-next'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import OverridesTable from '@/components/OverridesTable.vue'

@@ -4,4 +4,4 @@ import App from './App.vue'
 
 customElements.define('importmap-manager', defineCustomElement(App))
 
-createApp(App).mount('#importOverrides')
+createApp(App).mount('#importmap-manager')
