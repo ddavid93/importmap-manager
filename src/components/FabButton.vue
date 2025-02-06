@@ -19,7 +19,7 @@ defineEmits(['close'])
 
 const principalButton = shallowRef()
 const stylesStorage = useStorage<UseDraggableOptions['initialValue']>(
-  'draggable-import-kit',
+  'draggable-importmap-manager',
   { x: 0, y: 0 }
 )
 // x=left and y=top

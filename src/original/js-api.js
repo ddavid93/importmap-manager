@@ -1,6 +1,6 @@
-import { escapeStringRegexp } from '../util/string-regex'
-import { includes } from '../util/includes.js'
-import { getParameterByName } from '../util/url-parameter'
+import { escapeStringRegexp } from './string-regex'
+import { includes } from './includes.js'
+import { getParameterByName } from './url-parameter'
 
 const localStoragePrefix = 'import-map-override:'
 const disabledOverridesLocalStorageKey = 'import-map-overrides-disabled'

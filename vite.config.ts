@@ -16,8 +16,8 @@ export default defineConfig({
     lib: {
       formats: ['umd'],
       entry: './src/main.ts',
-      name: 'import-kit',
-      fileName: 'import-kit'
+      name: 'importmap-manager',
+      fileName: 'importmap-manager'
     }
   },
   define: {

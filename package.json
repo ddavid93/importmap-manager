@@ -1,5 +1,5 @@
 {
-  "name": "import-kit",
+  "name": "importmap-manager",
   "version": "0.0.0",
   "private": true,
   "type": "module",
