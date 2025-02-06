@@ -9,6 +9,7 @@ export interface IModuleInfo {
 }
 
 function useOverridesTableSingleton() {
+  // @ts-ignore
   const overrideMap = window.importMapOverrides.getOverrideMap()
   const data = ref(processOverrides(overrideMap))
 

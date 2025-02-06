@@ -131,7 +131,9 @@ const sortedAndFilteredData = computed(() => {
   // Apply sort
   if (sortConfig.value.key) {
     result.sort((a, b) => {
+      // @ts-ignore
       const aVal = a[sortConfig.value.key]
+      // @ts-ignore
       const bVal = b[sortConfig.value.key]
 
       if (sortConfig.value.direction === 'asc') {
@@ -167,6 +169,7 @@ function selectModule(module: IModuleInfo) {
 }
 
 function resetOverrides() {
+  // @ts-ignore
   window.importMapOverrides.resetOverrides()
 }
 

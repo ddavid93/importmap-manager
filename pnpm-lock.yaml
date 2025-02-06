@@ -20,6 +20,9 @@ importers:
       clsx:
         specifier: 2.1.1
         version: 2.1.1
+      importmap-manager:
+        specifier: ^0.0.1
+        version: 0.0.1(tailwindcss@3.4.17)(typescript@5.7.3)
       lucide-vue-next:
         specifier: 0.473.0
         version: 0.473.0(vue@3.5.13(typescript@5.7.3))
@@ -1013,6 +1016,9 @@ packages:
   import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
+
+  importmap-manager@0.0.1:
+    resolution: {integrity: sha512-mmsBJz06eOwt//VXs1sjFljgT80zfN6KdAIXdcAG7ZMVHKjxO84wlEg7+Of1/TTACa8CP95f1xzbKvqb/MLMqw==}
 
   imurmurhash@0.1.4:
     resolution: {integrity: sha512-JmXMZ6wuvDmLiHEml9ykzqO6lwFbof0GG4IkcGaENdCRDDmMVnny7s5HsIgHCbaq0w2MyPhDqkhTUgS2LU2PHA==}
@@ -2494,6 +2500,22 @@ snapshots:
     dependencies:
       parent-module: 1.0.1
       resolve-from: 4.0.0
+
+  importmap-manager@0.0.1(tailwindcss@3.4.17)(typescript@5.7.3):
+    dependencies:
+      '@radix-icons/vue': 1.0.0(vue@3.5.13(typescript@5.7.3))
+      '@vueuse/core': 12.4.0(typescript@5.7.3)
+      class-variance-authority: 0.7.1
+      clsx: 2.1.1
+      lucide-vue-next: 0.473.0(vue@3.5.13(typescript@5.7.3))
+      radix-vue: 1.9.12(vue@3.5.13(typescript@5.7.3))
+      tailwind-merge: 2.6.0
+      tailwindcss-animate: 1.0.7(tailwindcss@3.4.17)
+      vue: 3.5.13(typescript@5.7.3)
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - tailwindcss
+      - typescript
 
   imurmurhash@0.1.4: {}
 

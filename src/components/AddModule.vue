@@ -42,6 +42,7 @@ function resetCurrentSelectedModule() {
 
 function saveOverride() {
   data.value = processOverrides(
+    // @ts-ignore
     window.importMapOverrides.addOverride(model.value.module_name, model.value.domain)
   )
   resetCurrentSelectedModule()
