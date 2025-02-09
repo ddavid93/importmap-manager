@@ -53,6 +53,7 @@
                 @click="selectModule(row)"
                 class="cursor-pointer lowercase"
               >
+<!--                @vue-ignore-->
                 {{ row[column.key] }}
               </TableCell>
             </TableRow>
