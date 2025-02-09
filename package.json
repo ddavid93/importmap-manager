@@ -1,20 +1,27 @@
 {
-  "name": "importmap-manager",
-  "version": "0.0.7",
-  "type": "module",
   "main": "dist/index.js",
+  "name": "importmap-manager",
+  "type": "module",
+  "version": "0.0.8",
+  "description": "A modern UI for managing import-map-overrides with an enhanced user experience.",
+  "author": "Daniel David Díaz González <ddavid930826@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ddavid93/importmap-manager"
+  },
   "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check build-only",
-    "build-serve": "run-p build-only & serve ./dist",
     "analyze": "npx vite-bundle-visualizer",
-    "preview": "vite preview",
+    "build": "run-p type-check build-only",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit --composite false",
-    "prepublishOnly": "npm run build-only",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "build-serve": "run-p build-only & serve ./dist",
+    "dev": "vite",
+    "format": "prettier --write src/",
     "install-packages": "pnpm install",
-    "format": "prettier --write src/"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "prepublishOnly": "npm run build-only",
+    "preview": "vite preview",
+    "type-check": "vue-tsc --noEmit --composite false"
   },
   "dependencies": {
     "@radix-icons/vue": "1.0.0",
@@ -47,8 +54,8 @@
     "vue-tsc": "2.2.0"
   },
   "files": [
+    "README.md",
     "dist",
-    "index.js",
-    "README.md"
+    "index.js"
   ]
 }
