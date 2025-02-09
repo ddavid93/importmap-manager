@@ -13,6 +13,12 @@ A modern UI for managing [import-map-overrides](https://github.com/single-spa/im
 - 🌓 Built-in light/dark mode support
 - ⚡ Powered by Vite for fast development
 
+
+![dark](https://github.com/user-attachments/assets/cab05361-7c1a-4e87-b07c-0522e91955f2)
+
+
+![light](https://github.com/user-attachments/assets/f8769abb-569b-4604-964a-50773aa1868c)
+
 ## Development
 
 To run this project locally:
