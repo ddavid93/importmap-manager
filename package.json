@@ -1,6 +1,6 @@
 {
   "name": "importmap-manager",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
@@ -49,7 +49,6 @@
   "files": [
     "dist",
     "index.js",
-    "package.json",
     "README.md"
   ]
 }
