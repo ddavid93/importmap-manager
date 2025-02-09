@@ -17,7 +17,7 @@ export default defineConfig({
       formats: ['umd'],
       entry: './src/main.ts',
       name: 'importmap-manager',
-      fileName: (format) => `index.${format}.js`
+      fileName: (format) => `importmap-manager.${format}.js`
     }
   },
   define: {
