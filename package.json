@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@radix-icons/vue": "1.0.0",
+    "@vueuse/components": "^12.5.0",
     "@vueuse/core": "12.5.0",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
