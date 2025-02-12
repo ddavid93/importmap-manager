@@ -21,7 +21,7 @@
         </button>
       </CardHeader>
       <CardContent>
-        <OverridesTable />
+        <OverridesTable :isOpen />
       </CardContent>
     </Card>
   </div>
