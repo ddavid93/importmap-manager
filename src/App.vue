@@ -1,5 +1,15 @@
 <template>
-  <FabButton :isOpen="isOpen" @close="isOpen = true" />
+  <TooltipProvider>
+    <Tooltip :delay-duration="1500">
+      <TooltipTrigger as-child>
+        <FabButton :isOpen="isOpen" @close="isOpen = true" />
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>Ctrl+Alt+D</p>
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+
   <div v-show="isOpen" class="animate-expand-vertically absolute inset-x-0 bottom-96 h-16">
     <Card>
       <CardHeader>
@@ -21,7 +31,7 @@
         </button>
       </CardHeader>
       <CardContent>
-        <OverridesTable />
+        <OverridesTable :isOpen />
       </CardContent>
     </Card>
   </div>
@@ -34,12 +44,21 @@ import '@/original/js-api'
 import { Minus, Moon, Sun } from 'lucide-vue-next'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import OverridesTable from '@/components/OverridesTable.vue'
-import { shallowRef } from 'vue'
-import { useColorMode } from '@vueuse/core'
+import { shallowRef, watch } from 'vue'
+import { useColorMode, useMagicKeys } from '@vueuse/core'
 import FabButton from '@/components/FabButton.vue'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 const mode = useColorMode()
-const isOpen = shallowRef(true)
+const isOpen = shallowRef(false)
+const keys = useMagicKeys()
+const CtrlAltD = keys['Ctrl+Alt+D']
+
+watch(CtrlAltD, (v) => {
+  if (v) {
+    isOpen.value = !isOpen.value
+  }
+})
 </script>
 <style>
 @import '@/assets/main.css';

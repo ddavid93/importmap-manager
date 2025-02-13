@@ -36,6 +36,8 @@ function selectItem({ detail }: any) {
   emits('selectedItem', query.value)
   open.value = false
 }
+
+defineExpose({focus: () => open.value = true})
 </script>
 
 <template>
