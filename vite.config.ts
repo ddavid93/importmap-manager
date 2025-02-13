@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vitest/config'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import tailwind from 'tailwindcss'
@@ -26,6 +26,15 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
+    }
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html', 'lcov'],
+      exclude: ['node_modules/**', 'dist/**', '**/*.test.ts', '**/types/**']
     }
   }
 })

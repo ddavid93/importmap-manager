@@ -8,6 +8,7 @@
     "src/**/__tests__/*"
   ],
   "compilerOptions": {
+    "types": ["vitest"],
     "baseUrl": "./",
     "target": "esnext",
     "allowJs": true,
