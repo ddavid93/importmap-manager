@@ -6,8 +6,10 @@
     :initial-value="position"
     prevent-default
     :storage-key="storageKey"
-    storage-type="session"
+    storage-type="local"
     :disabled="isDraggingDisabled"
+    :container-element="containerElement"
+    :key="position.x + position.y"
   >
     <div class="cursor-move p-1 w-full h-full flex flex-align-center justify-center">
       <div
@@ -23,34 +25,44 @@
 </template>
 <script setup lang="ts">
 import { UseDraggable } from '@vueuse/components'
-import { computed, shallowRef } from 'vue'
+import { onMounted, ref, shallowRef } from 'vue'
 import { useStorage, useWindowSize, watchDebounced } from '@vueuse/core'
+import { isEqual } from 'lodash'
 
 const storageKey = 'dev-tools-fab-position'
 
 defineProps<{ isOpen: boolean }>()
 defineEmits(['close'])
 
+const containerElement = ref<HTMLElement | null>(null)
 const isDraggingDisabled = shallowRef(false)
-const position = useStorage(storageKey, { x: 0, y: 0 })
 
+const position = useStorage(storageKey, { x: 0, y: 0 })
 const { width: windowWidth, height: windowHeight } = useWindowSize()
 
-const constrainPosition = computed(() => {
+const recomputePosition = () => {
   const elementWidth = 50
   const elementHeight = 50
 
-  return {
+  const constrainPosition = {
     x: Math.max(0, Math.min(position.value.x, windowWidth.value - elementWidth)),
     y: Math.max(0, Math.min(position.value.y, windowHeight.value - elementHeight))
   }
-})
+  if (!isEqual(position, constrainPosition)) {
+    position.value = constrainPosition
+  }
+}
 
 watchDebounced(
-  constrainPosition,
-  (value) => {
-    position.value = value
+  [windowWidth, windowHeight],
+  () => {
+    recomputePosition()
   },
-  { debounce: 200 }
+  { debounce: 100 }
 )
+
+onMounted(() => {
+  containerElement.value = document.body
+  recomputePosition()
+})
 </script>
