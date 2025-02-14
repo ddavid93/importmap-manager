@@ -2,7 +2,7 @@
   <UseDraggable
     p="x-4 y-2"
     v-show="!isOpen"
-    class="fixed cursor-move w-[50px] h-[50px] hover:animate-background-shine bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%]"
+    class="fixed cursor-move w-[50px] h-[50px] hover:animate-background-shine rounded-md bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%]"
     :initial-value="position"
     prevent-default
     :storage-key="storageKey"

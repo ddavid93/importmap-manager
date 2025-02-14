@@ -1,73 +1,70 @@
 <template>
-  <div class="w-full">
-    <div class="flex flex-col sm:flex-row gap-2 items-center py-4">
-      <!-- Search/Filter Input -->
-      <AddModule v-model:open="open" v-model="currentSelectedModule" />
-      <AddImportMap />
-      <ConfirmDelete @confirm="resetOverrides" />
+  <div class="flex flex-col sm:flex-row gap-2 items-center py-4">
+    <!-- Search/Filter Input -->
+    <AddModule v-model:open="open" v-model="currentSelectedModule" />
+    <AddImportMap />
+    <ConfirmDelete @confirm="resetOverrides" />
 
-      <!-- Column Visibility Dropdown -->
-      <DropdownMenu>
-        <DropdownMenuTrigger as-child>
-          <Button variant="outline" class="ml-auto">
-            Columns
-            <ChevronDown class="ml-2 h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuCheckboxItem
-            v-for="column in columns"
-            :key="column.key"
-            class="capitalize"
-            :checked="columnVisibility[column.key]"
-            @update:checked="toggleColumnVisibility(column.key)"
-          >
-            {{ column.label }}
-          </DropdownMenuCheckboxItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+    <!-- Column Visibility Dropdown -->
+    <DropdownMenu>
+      <DropdownMenuTrigger as-child>
+        <Button variant="outline" class="ml-auto">
+          Columns
+          <ChevronDown class="ml-2 h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuCheckboxItem
+          v-for="column in columns"
+          :key="column.key"
+          class="capitalize"
+          :checked="columnVisibility[column.key]"
+          @update:checked="toggleColumnVisibility(column.key)"
+        >
+          {{ column.label }}
+        </DropdownMenuCheckboxItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  </div>
 
-    <div class="relative pb-4">
-      <Autocomplete ref="search" @selected-item="filterByModule" :items="uniqueModuleNames" />
-    </div>
+  <div class="relative pb-4">
+    <Autocomplete ref="search" @selected-item="filterByModule" :items="uniqueModuleNames" />
+  </div>
 
-    <div class="rounded-md border">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead v-for="column in visibleColumns" :key="column.key" class="bg-background/95">
-              <Button variant="ghost" @click="toggleSort(column.key)" class="flex items-center">
-                {{ column.label }}
-
-                <ArrowUpDown class="ml-2 h-4 w-4" v-if="sortConfig.key !== column.key" />
-                <ArrowUp class="ml-2 h-4 w-4" v-else-if="sortConfig.direction === 'asc'" />
-                <ArrowDown class="ml-2 h-4 w-4" v-else />
-              </Button>
-            </TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          <template v-if="sortedAndFilteredData.length">
-            <TableRow v-for="row in sortedAndFilteredData" :key="row.id">
-              <TableCell
-                v-for="column in visibleColumns"
-                :key="column.key"
-                @click="selectModule(row)"
-                class="cursor-pointer lowercase"
-              >
-                {{ row[column.key] }}
-              </TableCell>
-            </TableRow>
-          </template>
-          <TableRow v-else>
-            <TableCell :colspan="visibleColumns.length" class="h-24 text-center">
-              No results.
+  <div class="rounded-md border overflow-auto">
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead v-for="column in visibleColumns" :key="column.key" class="bg-background/95">
+            <Button variant="ghost" @click="toggleSort(column.key)" class="flex items-center">
+              {{ column.label }}
+              <ArrowUpDown class="ml-2 h-4 w-4" v-if="sortConfig.key !== column.key" />
+              <ArrowUp class="ml-2 h-4 w-4" v-else-if="sortConfig.direction === 'asc'" />
+              <ArrowDown class="ml-2 h-4 w-4" v-else />
+            </Button>
+          </TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        <template v-if="sortedAndFilteredData.length">
+          <TableRow v-for="row in sortedAndFilteredData" :key="row.id">
+            <TableCell
+              v-for="column in visibleColumns"
+              :key="column.key"
+              @click="selectModule(row)"
+              class="cursor-pointer lowercase"
+            >
+              {{ row[column.key] }}
             </TableCell>
           </TableRow>
-        </TableBody>
-      </Table>
-    </div>
+        </template>
+        <TableRow v-else>
+          <TableCell :colspan="visibleColumns.length" class="h-24 text-center">
+            No results.
+          </TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>
   </div>
 </template>
 
@@ -98,7 +95,7 @@ import { onStartTyping } from '@vueuse/core'
 
 const { data } = useOverridesTable()
 const props = defineProps<{
-  isOpen:boolean
+  isOpen: boolean
 }>()
 
 // Column definitions
@@ -109,7 +106,6 @@ const columns = [
 ] as const
 
 type columnKeyType = (typeof columns)[number]['key']
-
 
 // State
 const currentSelectedModule = ref<IModuleInfo>({
