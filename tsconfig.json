@@ -11,6 +11,8 @@
     "baseUrl": "./",
     "target": "esnext",
     "allowJs": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "composite": true,
     "paths": {
       "@/*": [

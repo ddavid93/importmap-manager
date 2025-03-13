@@ -1,31 +1,23 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import path from 'path'
-import tailwind from 'tailwindcss'
-import autoprefixer from 'autoprefixer'
+import { fileURLToPath, URL } from 'node:url'
 
+// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue()],
-  css: {
-    postcss: {
-      plugins: [tailwind(), autoprefixer()]
+  define: { 'process.env': { NODE_ENV: 'production' } },
+  plugins: [vue({ features: { customElement: true } })],
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
   build: {
-    cssCodeSplit: true,
     lib: {
-      formats: ['umd'],
       entry: './src/main.ts',
-      name: 'importmap-manager',
-      fileName: (format) => `importmap-manager.${format}.js`
+      formats: ['es']
     }
   },
-  define: {
-    'process.env': process.env
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src')
-    }
+  server: {
+    host: true
   }
 })
