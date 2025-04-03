@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { Button } from '@/components/ui/button'
+import { Button, type ButtonVariants } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -13,6 +14,8 @@ defineProps<{
   btnTriggerLabel: string
   btnFooterLabel: string
   title: string
+  disabled?: boolean
+  variant?: ButtonVariants['variant']
 }>()
 
 const open = defineModel<boolean>({ default: false })
@@ -22,19 +25,21 @@ defineEmits(['submit'])
 <template>
   <Dialog v-model:open="open">
     <DialogTrigger as-child>
-      <Button variant="outline">
+      <Button :variant="variant || 'outline'">
         {{ btnTriggerLabel }}
       </Button>
     </DialogTrigger>
-    <DialogContent class="sm:max-w-[425px]">
+    <DialogContent>
       <DialogHeader>
         <DialogTitle>{{ title }}</DialogTitle>
       </DialogHeader>
-      <div class="grid gap-4 py-4">
-        <slot name="body"></slot>
-      </div>
+      <DialogDescription class="mt-[10px] mb-5 text-[15px] leading-normal">
+        <div class="grid gap-4 py-4">
+          <slot name="body"/>
+        </div>
+      </DialogDescription>
       <DialogFooter>
-        <Button @click="$emit('submit')" type="submit">
+        <Button :disabled @click="$emit('submit')" type="submit">
           {{ btnFooterLabel }}
         </Button>
       </DialogFooter>

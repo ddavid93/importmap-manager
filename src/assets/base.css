@@ -85,7 +85,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-
 * {
   scrollbar-width: thin;
   scrollbar-color: hsl(var(--muted-foreground)) transparent;

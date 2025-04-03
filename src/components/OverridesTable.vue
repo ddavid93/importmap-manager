@@ -1,37 +1,8 @@
 <template>
-  <div class="flex flex-col sm:flex-row gap-2 items-center py-4">
-    <!-- Search/Filter Input -->
-    <AddModule v-model:open="open" v-model="currentSelectedModule" />
-    <AddImportMap />
-    <ConfirmDelete @confirm="resetOverrides" />
-
-    <!-- Column Visibility Dropdown -->
-    <DropdownMenu>
-      <DropdownMenuTrigger as-child>
-        <Button variant="outline" class="ml-auto">
-          Columns
-          <ChevronDown class="ml-2 h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuCheckboxItem
-          v-for="column in columns"
-          :key="column.key"
-          class="capitalize"
-          :checked="columnVisibility[column.key]"
-          @update:checked="toggleColumnVisibility(column.key)"
-        >
-          {{ column.label }}
-        </DropdownMenuCheckboxItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  </div>
-
-  <div class="relative pb-4">
-    <Autocomplete ref="search" @selected-item="filterByModule" :items="uniqueModuleNames" />
-  </div>
+  <TableButtonsSection v-model="currentSelectedModule" />
 
   <div class="rounded-md border overflow-auto">
+    <TableSearch v-model="search" />
     <Table>
       <TableHeader>
         <TableRow>
@@ -47,14 +18,33 @@
       </TableHeader>
       <TableBody>
         <template v-if="sortedAndFilteredData.length">
-          <TableRow v-for="row in sortedAndFilteredData" :key="row.id">
+          <TableRow
+            v-for="row in sortedAndFilteredData"
+            :key="row.module_name"
+            :class="{ 'bg-green-50': row.isOverride }"
+          >
             <TableCell
               v-for="column in visibleColumns"
               :key="column.key"
               @click="selectModule(row)"
-              class="cursor-pointer lowercase"
+              class="cursor-pointer lowercase gap-4"
             >
-              {{ row[column.key] }}
+              <template v-if="column.key === 'domain' && row.isOverride">
+                <span
+                  class="mr-2 rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset"
+                >
+                  {{ getItemOverride(row.module_name)!.url }}</span
+                >
+                <span
+                  v-if="overridesFromImportMap.imports[row.module_name]"
+                  class="rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-gray-600/20 ring-inset"
+                >
+                  {{ row[column.key] }}</span
+                >
+              </template>
+              <template v-else>
+                {{ row[column.key] }}
+              </template>
             </TableCell>
           </TableRow>
         </template>
@@ -69,14 +59,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, shallowRef } from 'vue'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu'
 import {
   Table,
   TableBody,
@@ -85,61 +69,47 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import ConfirmDelete from '@/components/ui/confirm-delete/ConfirmDelete.vue'
-import AddModule from '@/components/AddModule.vue'
-import AddImportMap from '@/components/AddImportMap.vue'
-import { type IModuleInfo, useOverridesTable } from '@/composables/useOverridesTable'
-import Autocomplete from '@/components/ui/autocomplete/Autocomplete.vue'
-import { ArrowDown, ArrowUp, ArrowUpDown, ChevronDown } from 'lucide-vue-next'
-import { onStartTyping } from '@vueuse/core'
+import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-vue-next'
+import { useModal } from '@/composables/useModal.ts'
+import { type IModuleInfo, useImportMapOverrides } from '@/composables/useImportMapOverrides.ts'
+import TableSearch from '@/components/TableSearch.vue'
+import TableButtonsSection from '@/components/TableButtonsSection.vue'
 
-const { data } = useOverridesTable()
-const props = defineProps<{
-  isOpen: boolean
-}>()
-
-// Column definitions
 const columns = [
   { key: 'module_name', label: 'Module Name' },
-  { key: 'domain', label: 'Domain' },
-  { key: 'status', label: 'Module Status' }
+  { key: 'domain', label: 'Domain' }
 ] as const
 
+const search = shallowRef('')
+const { processOverrides, overridesFromImportMap, getItemOverride } = useImportMapOverrides()
 type columnKeyType = (typeof columns)[number]['key']
 
-// State
 const currentSelectedModule = ref<IModuleInfo>({
-  id: '',
   module_name: '',
   domain: '',
-  status: ''
+  isOverride: false
 })
-const open = ref(false)
-const search = ref<typeof Autocomplete | null>(null)
+
+const { dialogs } = useModal()
 
 const sortConfig = ref<{
   key: columnKeyType | null
   direction: 'asc' | 'desc'
 }>({ key: null, direction: 'asc' })
-const columnVisibility = ref(Object.fromEntries(columns.map((col) => [col.key, true])))
-const filterText = ref('')
 
-// Computed properties
+const columnVisibility = ref(Object.fromEntries(columns.map((col) => [col.key, true])))
+
 const visibleColumns = computed(() => columns.filter((col) => columnVisibility.value[col.key]))
 
-const uniqueModuleNames = computed(() => [...new Set(data.value.map((item) => item.module_name))])
-
 const sortedAndFilteredData = computed(() => {
-  let result = [...data.value]
+  let result = [...processOverrides.value]
 
-  // Apply filter
-  if (filterText.value) {
+  if (search.value) {
     result = result.filter((item) =>
-      item.module_name.toLowerCase().includes(filterText.value.toLowerCase())
+      item.module_name.toLowerCase().includes(search.value.toLowerCase())
     )
   }
 
-  // Apply sort
   if (sortConfig.value.key !== null) {
     result.sort((a, b) => {
       const key = sortConfig.value.key as Exclude<typeof sortConfig.value.key, null>
@@ -164,32 +134,12 @@ function toggleSort(key: columnKeyType) {
   }
 }
 
-function toggleColumnVisibility(key: string) {
-  columnVisibility.value[key] = !columnVisibility.value[key]
-}
-
-function filterByModule(value: string) {
-  filterText.value = value
-}
-
 function selectModule(module: IModuleInfo) {
-  currentSelectedModule.value = { ...module }
-  open.value = true
-}
-
-function resetOverrides() {
-  // @ts-ignore
-  window.importMapOverrides.resetOverrides()
-}
-
-onStartTyping(() => {
-  if (props.isOpen && search.value && !search.value.active) {
-    search.value.focus()
+  const findOverride = getItemOverride(module.module_name)
+  if (findOverride?.enabled) {
+    module.domain = findOverride.url
   }
-})
-
-// Watch for currentSelectedModule changes
-watch(currentSelectedModule, (val) => {
-  open.value = !!val.id
-})
+  currentSelectedModule.value = { ...module }
+  dialogs.newModule = true
+}
 </script>

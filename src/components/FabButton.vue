@@ -1,68 +1,72 @@
 <template>
-  <UseDraggable
-    p="x-4 y-2"
-    v-show="!isOpen"
-    class="fixed cursor-move w-[50px] h-[50px] hover:animate-background-shine rounded-md bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%]"
-    :initial-value="position"
-    prevent-default
-    :storage-key="storageKey"
-    storage-type="local"
-    :disabled="isDraggingDisabled"
-    :container-element="containerElement"
-    :key="position.x + position.y"
-  >
-    <div class="cursor-move p-1 w-full h-full flex flex-align-center justify-center">
-      <div
-        class="w-full h-full flex items-center justify-center cursor-pointer"
-        @click="$emit('close')"
-        @mouseenter="isDraggingDisabled = true"
-        @mouseleave="isDraggingDisabled = false"
-      >
-        <p class="text-gray-300 select-none">{ ... }</p>
+  <div ref="containerDiv" :style style="position: fixed" @click="handleClick">
+    <div
+      :class="[
+        {
+          'bg-slate-800 hover:bg-slate-900': !hasOverrides,
+          'bg-green-700 hover:bg-green-900': hasOverrides,
+          'animate-pulse': isDragging
+        },
+        !disabled ? 'cursor-move' : 'cursor-pointer'
+      ]"
+      class="fixed w-[50px] h-[50px] rounded-md p-1 flex items-center justify-center"
+      @mouseup="endPress"
+      @mousedown="endPress"
+    >
+      <div class="w-full h-full flex items-center justify-center">
+        <CodeXml class="text-gray-300" />
       </div>
     </div>
-  </UseDraggable>
+  </div>
 </template>
-<script setup lang="ts">
-import { UseDraggable } from '@vueuse/components'
-import { onMounted, ref, shallowRef } from 'vue'
-import { useStorage, useWindowSize, watchDebounced } from '@vueuse/core'
-import { isEqual } from 'lodash'
 
-const storageKey = 'dev-tools-fab-position'
+<script setup>
+import { computed, shallowRef, useTemplateRef, watch } from 'vue'
+import { onLongPress, useDraggable, useStorage } from '@vueuse/core'
+import { CodeXml } from 'lucide-vue-next'
+import { useImportMapOverrides } from '@/composables/useImportMapOverrides.js'
+import { useModal } from '@/composables/useModal.js'
 
-defineProps<{ isOpen: boolean }>()
-defineEmits(['close'])
+const position = useStorage('draggable-position', { x: 0, y: 0 })
+const disabled = shallowRef(true)
+const wasDragged = shallowRef(false)
 
-const containerElement = ref<HTMLElement | null>(null)
-const isDraggingDisabled = shallowRef(false)
-
-const position = useStorage(storageKey, { x: 0, y: 0 })
-const { width: windowWidth, height: windowHeight } = useWindowSize()
-
-const recomputePosition = () => {
-  const elementWidth = 50
-  const elementHeight = 50
-
-  const constrainPosition = {
-    x: Math.max(0, Math.min(position.value.x, windowWidth.value - elementWidth)),
-    y: Math.max(0, Math.min(position.value.y, windowHeight.value - elementHeight))
-  }
-  if (!isEqual(position, constrainPosition)) {
-    position.value = constrainPosition
-  }
-}
-
-watchDebounced(
-  [windowWidth, windowHeight],
-  () => {
-    recomputePosition()
-  },
-  { debounce: 100 }
+const { overrides, externalImportMap } = useImportMapOverrides()
+const { dialogs } = useModal()
+const hasOverrides = computed(
+  () => overrides.value.some((override) => override.enabled) || externalImportMap.value?.enabled
 )
 
-onMounted(() => {
-  containerElement.value = document.body
-  recomputePosition()
+const containerRef = useTemplateRef('containerDiv')
+const { x, y, style, isDragging } = useDraggable(containerRef, {
+  initialValue: position.value,
+  preventDefault: true,
+  disabled,
+  onStart: () => (wasDragged.value = true)
+})
+
+onLongPress(
+  containerRef,
+  (event) => {
+    disabled.value = false
+    wasDragged.value = false
+    containerRef.value.dispatchEvent(new PointerEvent('pointerdown', event))
+  },
+  { delay: 100 }
+)
+
+const endPress = () => {
+  disabled.value = true
+}
+
+const handleClick = () => {
+  if (!wasDragged.value) {
+    dialogs.isWidgetOpened = !dialogs.isWidgetOpened
+  }
+  wasDragged.value = false
+}
+
+watch([x, y], () => {
+  position.value = { x: x.value, y: y.value }
 })
 </script>

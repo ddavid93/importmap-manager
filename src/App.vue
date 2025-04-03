@@ -1,7 +1,10 @@
 <template>
   <div id="widget">
-    <FabButton :isOpen="isOpen" @close="isOpen = true" />
-    <div v-show="isOpen" class="animate-expand-vertically fixed inset-x-0 bottom-0">
+    <FabButton v-show="!dialogs.isWidgetOpened" />
+    <div
+      v-show="dialogs.isWidgetOpened"
+      class="animate-expand-vertically fixed inset-x-0 bottom-0 z-50"
+    >
       <div
         class="bg-background border rounded-lg shadow-lg m-2 flex flex-col max-h-[50vh] overflow-hidden"
       >
@@ -18,17 +21,7 @@
           </div>
 
           <button
-            @click="mode = mode === 'dark' ? 'light' : 'dark'"
-            class="absolute right-12 top-6 rounded-sm opacity-70 hover:opacity-100 transition"
-          >
-            <component
-              :is="mode === 'dark' ? Moon : Sun"
-              class="w-5 h-5 animate-fade-in text-foreground"
-            />
-          </button>
-
-          <button
-            @click="isOpen = false"
+            @click="dialogs.isWidgetOpened = false"
             class="absolute right-4 top-6 rounded-sm opacity-70 hover:opacity-100 transition"
           >
             <Minus class="w-5 h-5 text-foreground" />
@@ -37,31 +30,27 @@
 
         <!-- Content -->
         <div class="p-6 pt-2 grow overflow-hidden flex flex-col">
-          <OverridesTable :isOpen class="min-h-0 h-full" />
+          <OverridesTable />
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-/**
- * Very important since this is the init of Overrides
- */
-import '@/original/js-api'
-import { Minus, Moon, Sun } from 'lucide-vue-next'
-import { shallowRef, watch } from 'vue'
-import { useColorMode, useMagicKeys } from '@vueuse/core'
+import { Minus } from 'lucide-vue-next'
+import { watch } from 'vue'
+import { useMagicKeys } from '@vueuse/core'
 import FabButton from '@/components/FabButton.vue'
 import OverridesTable from '@/components/OverridesTable.vue'
+import { useModal } from '@/composables/useModal.ts'
 
-const mode = useColorMode()
-const isOpen = shallowRef(false)
+const { dialogs } = useModal()
 const keys = useMagicKeys()
 const CtrlAltD = keys['Ctrl+Alt+D']
 
 watch(CtrlAltD, (v) => {
   if (v) {
-    isOpen.value = !isOpen.value
+    dialogs.isWidgetOpened = !dialogs.isWidgetOpened
   }
 })
 </script>

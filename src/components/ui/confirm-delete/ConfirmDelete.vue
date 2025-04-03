@@ -13,18 +13,22 @@ import {
 import { Button } from '@/components/ui/button'
 
 defineEmits(['confirm'])
+const open = defineModel<boolean>({ default: false })
+defineProps<{ disabled: boolean; color: string; text: string; description: string }>()
 </script>
 
 <template>
-  <AlertDialog>
-    <AlertDialogTrigger>
-      <Button variant="destructive"> Reset all overrides</Button>
+  <AlertDialog v-model:open="open">
+    <AlertDialogTrigger :class="{ 'cursor-not-allowed': disabled }">
+      <Button :disabled class="w-full">
+        {{ text }}
+      </Button>
     </AlertDialogTrigger>
-    <AlertDialogContent>
+    <AlertDialogContent v-if="!disabled">
       <AlertDialogHeader>
         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
         <AlertDialogDescription>
-          This action cannot be undone. This will permanently delete your imports.
+          {{ description }}
         </AlertDialogDescription>
       </AlertDialogHeader>
       <AlertDialogFooter>
