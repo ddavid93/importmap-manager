@@ -11,18 +11,21 @@
         <!-- Header -->
         <div class="relative flex-none p-6 pb-2 shrink-0">
           <div class="space-y-1.5">
-            <h3 class="text-2xl font-semibold leading-none tracking-tight text-foreground">
+            <h3
+              class="text-2xl font-semibold leading-none tracking-tight text-foreground"
+            >
               Import Map Manager
             </h3>
             <p class="text-sm text-muted-foreground">
-              This developer tool allows you to view and override your import maps. Start by
-              clicking on a module that you'd like to override.
+              This developer tool allows you to view and override your import
+              maps. Start by clicking on a module that you'd like to override.
             </p>
           </div>
 
           <button
-            @click="dialogs.isWidgetOpened = false"
+            type="button"
             class="absolute right-4 top-6 rounded-sm opacity-70 hover:opacity-100 transition"
+            @click="dialogs.isWidgetOpened = false"
           >
             <Minus class="w-5 h-5 text-foreground" />
           </button>
@@ -36,24 +39,26 @@
     </div>
   </div>
 </template>
-<script setup lang="ts">
-import { Minus } from 'lucide-vue-next'
-import { watch } from 'vue'
-import { useMagicKeys } from '@vueuse/core'
-import FabButton from '@/components/FabButton.vue'
-import OverridesTable from '@/components/OverridesTable.vue'
-import { useModal } from '@/composables/useModal.ts'
 
-const { dialogs } = useModal()
-const keys = useMagicKeys()
-const CtrlAltD = keys['Ctrl+Alt+D']
+<script setup lang="ts">
+import { Minus } from "lucide-vue-next";
+import { watch } from "vue";
+import { useMagicKeys } from "@vueuse/core";
+import FabButton from "@/components/FabButton.vue";
+import OverridesTable from "@/components/OverridesTable.vue";
+import { useModal } from "@/composables/useModal.ts";
+
+const { dialogs } = useModal();
+const keys = useMagicKeys();
+const CtrlAltD = keys["Ctrl+Alt+D"];
 
 watch(CtrlAltD, (v) => {
   if (v) {
-    dialogs.isWidgetOpened = !dialogs.isWidgetOpened
+    dialogs.isWidgetOpened = !dialogs.isWidgetOpened;
   }
-})
+});
 </script>
+
 <style>
-@import '@/assets/main.css';
+@import "@/assets/main.css";
 </style>

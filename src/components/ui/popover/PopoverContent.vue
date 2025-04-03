@@ -1,35 +1,3 @@
-<script setup lang="ts">
-import { cn } from '@/lib/utils'
-import {
-  PopoverContent,
-  type PopoverContentEmits,
-  type PopoverContentProps,
-  useForwardPropsEmits
-} from 'reka-ui'
-import { computed, type HTMLAttributes } from 'vue'
-
-defineOptions({
-  inheritAttrs: false
-})
-
-const props = withDefaults(
-  defineProps<PopoverContentProps & { class?: HTMLAttributes['class'] }>(),
-  {
-    align: 'center',
-    sideOffset: 4
-  }
-)
-const emits = defineEmits<PopoverContentEmits>()
-
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-
-  return delegated
-})
-
-const forwarded = useForwardPropsEmits(delegatedProps, emits)
-</script>
-
 <template>
   <PopoverContent
     v-bind="{ ...forwarded, ...$attrs }"
@@ -43,3 +11,35 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
     <slot />
   </PopoverContent>
 </template>
+
+<script setup lang="ts">
+import { cn } from "@/lib/utils";
+import {
+  PopoverContent,
+  type PopoverContentEmits,
+  type PopoverContentProps,
+  useForwardPropsEmits,
+} from "reka-ui";
+import { computed, type HTMLAttributes } from "vue";
+
+defineOptions({
+  inheritAttrs: false,
+});
+
+const props = withDefaults(
+  defineProps<PopoverContentProps & { class?: HTMLAttributes["class"] }>(),
+  {
+    align: "center",
+    sideOffset: 4,
+  }
+);
+const emit = defineEmits<PopoverContentEmits>();
+
+const delegatedProps = computed(() => {
+  const { class: _, ...delegated } = props;
+
+  return delegated;
+});
+
+const forwarded = useForwardPropsEmits(delegatedProps, emit);
+</script>

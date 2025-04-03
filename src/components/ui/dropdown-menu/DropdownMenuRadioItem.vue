@@ -1,28 +1,3 @@
-<script setup lang="ts">
-import { cn } from '@/lib/utils'
-import { Circle } from 'lucide-vue-next'
-import {
-  DropdownMenuItemIndicator,
-  DropdownMenuRadioItem,
-  type DropdownMenuRadioItemEmits,
-  type DropdownMenuRadioItemProps,
-  useForwardPropsEmits
-} from 'reka-ui'
-import { computed, type HTMLAttributes } from 'vue'
-
-const props = defineProps<DropdownMenuRadioItemProps & { class?: HTMLAttributes['class'] }>()
-
-const emits = defineEmits<DropdownMenuRadioItemEmits>()
-
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-
-  return delegated
-})
-
-const forwarded = useForwardPropsEmits(delegatedProps, emits)
-</script>
-
 <template>
   <DropdownMenuRadioItem
     v-bind="forwarded"
@@ -41,3 +16,30 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
     <slot />
   </DropdownMenuRadioItem>
 </template>
+
+<script setup lang="ts">
+import { cn } from "@/lib/utils";
+import { Circle } from "lucide-vue-next";
+import {
+  DropdownMenuItemIndicator,
+  DropdownMenuRadioItem,
+  type DropdownMenuRadioItemEmits,
+  type DropdownMenuRadioItemProps,
+  useForwardPropsEmits,
+} from "reka-ui";
+import { computed, type HTMLAttributes } from "vue";
+
+const props = defineProps<
+  DropdownMenuRadioItemProps & { class?: HTMLAttributes["class"] }
+>();
+
+const emit = defineEmits<DropdownMenuRadioItemEmits>();
+
+const delegatedProps = computed(() => {
+  const { class: _, ...delegated } = props;
+
+  return delegated;
+});
+
+const forwarded = useForwardPropsEmits(delegatedProps, emit);
+</script>

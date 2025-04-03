@@ -8,7 +8,14 @@ export default [
   js.configs.recommended,
   {
     rules: {
-      "no-unused-vars": "off",
+      "no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+        },
+      ],
       "no-undef": "off",
     },
   },
@@ -17,7 +24,14 @@ export default [
   ...ts.configs.recommended,
   {
     rules: {
-      "@typescript-eslint/no-unused-vars": "error",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          ignoreRestSiblings: true,
+        },
+      ],
       "@typescript-eslint/no-explicit-any": "off",
     },
   },

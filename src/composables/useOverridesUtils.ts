@@ -172,7 +172,7 @@ export function useOverridesUtils() {
     try {
       const outUrl = new URL(url, baseUrl);
       return outUrl.href;
-    } catch (err) {
+    } catch (_) {
       return url;
     }
   }

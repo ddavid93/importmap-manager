@@ -1,35 +1,3 @@
-<script setup lang="ts">
-import { cn } from '@/lib/utils'
-import {
-  TooltipContent,
-  type TooltipContentEmits,
-  type TooltipContentProps,
-  useForwardPropsEmits
-} from 'reka-ui'
-import { computed, type HTMLAttributes } from 'vue'
-
-defineOptions({
-  inheritAttrs: false
-})
-
-const props = withDefaults(
-  defineProps<TooltipContentProps & { class?: HTMLAttributes['class'] }>(),
-  {
-    sideOffset: 4
-  }
-)
-
-const emits = defineEmits<TooltipContentEmits>()
-
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-
-  return delegated
-})
-
-const forwarded = useForwardPropsEmits(delegatedProps, emits)
-</script>
-
 <template>
   <TooltipContent
     v-bind="{ ...forwarded, ...$attrs }"
@@ -43,3 +11,35 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
     <slot />
   </TooltipContent>
 </template>
+
+<script setup lang="ts">
+import { cn } from "@/lib/utils";
+import {
+  TooltipContent,
+  type TooltipContentEmits,
+  type TooltipContentProps,
+  useForwardPropsEmits,
+} from "reka-ui";
+import { computed, type HTMLAttributes } from "vue";
+
+defineOptions({
+  inheritAttrs: false,
+});
+
+const props = withDefaults(
+  defineProps<TooltipContentProps & { class?: HTMLAttributes["class"] }>(),
+  {
+    sideOffset: 4,
+  }
+);
+
+const emit = defineEmits<TooltipContentEmits>();
+
+const delegatedProps = computed(() => {
+  const { class: _, ...delegated } = props;
+
+  return delegated;
+});
+
+const forwarded = useForwardPropsEmits(delegatedProps, emit);
+</script>

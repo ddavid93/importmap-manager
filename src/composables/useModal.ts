@@ -1,5 +1,5 @@
-import { createSharedComposable } from '@vueuse/core'
-import { reactive } from 'vue'
+import { createSharedComposable } from "@vueuse/core";
+import { reactive } from "vue";
 
 function useModalSingleton() {
   const dialogs = reactive({
@@ -8,10 +8,10 @@ function useModalSingleton() {
     confirmDisable: false,
     confirmRemove: false,
     isWidgetOpened: false,
-    command: false
-  })
+    command: false,
+  });
 
-  return { dialogs }
+  return { dialogs };
 }
 
-export const useModal = createSharedComposable(useModalSingleton)
+export const useModal = createSharedComposable(useModalSingleton);

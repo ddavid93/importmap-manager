@@ -1,26 +1,3 @@
-<script setup lang="ts">
-import { type HTMLAttributes, computed } from 'vue'
-import {
-  DropdownMenuCheckboxItem,
-  type DropdownMenuCheckboxItemEmits,
-  type DropdownMenuCheckboxItemProps,
-  DropdownMenuItemIndicator,
-  useForwardPropsEmits
-} from 'reka-ui'
-import { Check } from 'lucide-vue-next'
-import { cn } from '@/lib/utils'
-const props = defineProps<DropdownMenuCheckboxItemProps & { class?: HTMLAttributes['class'] }>()
-const emits = defineEmits<DropdownMenuCheckboxItemEmits>()
-
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-
-  return delegated
-})
-
-const forwarded = useForwardPropsEmits(delegatedProps, emits)
-</script>
-
 <template>
   <DropdownMenuCheckboxItem
     v-bind="forwarded"
@@ -39,3 +16,28 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
     <slot />
   </DropdownMenuCheckboxItem>
 </template>
+
+<script setup lang="ts">
+import { type HTMLAttributes, computed } from "vue";
+import {
+  DropdownMenuCheckboxItem,
+  type DropdownMenuCheckboxItemEmits,
+  type DropdownMenuCheckboxItemProps,
+  DropdownMenuItemIndicator,
+  useForwardPropsEmits,
+} from "reka-ui";
+import { Check } from "lucide-vue-next";
+import { cn } from "@/lib/utils";
+const props = defineProps<
+  DropdownMenuCheckboxItemProps & { class?: HTMLAttributes["class"] }
+>();
+const emit = defineEmits<DropdownMenuCheckboxItemEmits>();
+
+const delegatedProps = computed(() => {
+  const { class: _, ...delegated } = props;
+
+  return delegated;
+});
+
+const forwarded = useForwardPropsEmits(delegatedProps, emit);
+</script>

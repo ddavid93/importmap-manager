@@ -1,6 +1,9 @@
 <template>
   <div class="flex flex-col md:flex-row gap-2 py-4">
-    <AddModule v-model:open="dialogs.newModule" v-bind="currentSelectedModule" />
+    <AddModule
+      v-model:open="dialogs.newModule"
+      v-bind="currentSelectedModule"
+    />
     <AddImportMap v-model:open="dialogs.newImportMap" class="bg-red" />
     <ConfirmDelete
       v-model="dialogs.confirmDisable"
@@ -20,36 +23,43 @@
     />
   </div>
 </template>
-<script setup lang="ts">
-import { buttonVariants } from '@/components/ui/button'
-import ConfirmDelete from '@/components/ui/confirm-delete/ConfirmDelete.vue'
-import AddModule from '@/components/AddModule.vue'
-import AddImportMap from '@/components/AddImportMap.vue'
-import { useModal } from '@/composables/useModal.ts'
-import { type IModuleInfo, useImportMapOverrides } from '@/composables/useImportMapOverrides.ts'
-import { watch } from 'vue'
 
-const { dialogs } = useModal()
-const { overrides, externalImportMap } = useImportMapOverrides()
+<script setup lang="ts">
+import { buttonVariants } from "@/components/ui/button";
+import ConfirmDelete from "@/components/ui/confirm-delete/ConfirmDelete.vue";
+import AddModule from "@/components/AddModule.vue";
+import AddImportMap from "@/components/AddImportMap.vue";
+import { useModal } from "@/composables/useModal.ts";
+import {
+  type IModuleInfo,
+  useImportMapOverrides,
+} from "@/composables/useImportMapOverrides.ts";
+import { watch } from "vue";
 
 const currentSelectedModule = defineModel<IModuleInfo>({
   default: {
-    module_name: '',
-    domain: '',
-    isOverride: false
-  }
-})
+    module_name: "",
+    domain: "",
+    isOverride: false,
+  },
+});
+const { dialogs } = useModal();
+const { overrides, externalImportMap } = useImportMapOverrides();
 
 watch(currentSelectedModule, (val) => {
-  dialogs.newModule = !!val.module_name
-})
+  dialogs.newModule = !!val.module_name;
+});
 
 watch(
   () => dialogs.newModule,
   (val) => {
     if (!val) {
-      currentSelectedModule.value = { module_name: '', domain: '', isOverride: false }
+      currentSelectedModule.value = {
+        module_name: "",
+        domain: "",
+        isOverride: false,
+      };
     }
   }
-)
+);
 </script>

@@ -6,12 +6,26 @@
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead v-for="column in visibleColumns" :key="column.key" class="bg-background/95">
-            <Button variant="ghost" @click="toggleSort(column.key)" class="flex items-center">
+          <TableHead
+            v-for="column in visibleColumns"
+            :key="column.key"
+            class="bg-background/95"
+          >
+            <Button
+              variant="ghost"
+              class="flex items-center"
+              @click="toggleSort(column.key)"
+            >
               {{ column.label }}
-              <ArrowUpDown class="ml-2 h-4 w-4" v-if="sortConfig.key !== column.key" />
-              <ArrowUp class="ml-2 h-4 w-4" v-else-if="sortConfig.direction === 'asc'" />
-              <ArrowDown class="ml-2 h-4 w-4" v-else />
+              <ArrowUpDown
+                v-if="sortConfig.key !== column.key"
+                class="ml-2 h-4 w-4"
+              />
+              <ArrowUp
+                v-else-if="sortConfig.direction === 'asc'"
+                class="ml-2 h-4 w-4"
+              />
+              <ArrowDown v-else class="ml-2 h-4 w-4" />
             </Button>
           </TableHead>
         </TableRow>
@@ -26,8 +40,8 @@
             <TableCell
               v-for="column in visibleColumns"
               :key="column.key"
-              @click="selectModule(row)"
               class="cursor-pointer lowercase gap-4"
+              @click="selectModule(row)"
             >
               <template v-if="column.key === 'domain' && row.isOverride">
                 <span
@@ -59,87 +73,99 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, shallowRef } from 'vue'
-import { Button } from '@/components/ui/button'
+import { computed, ref, shallowRef } from "vue";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
-} from '@/components/ui/table'
-import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-vue-next'
-import { useModal } from '@/composables/useModal.ts'
-import { type IModuleInfo, useImportMapOverrides } from '@/composables/useImportMapOverrides.ts'
-import TableSearch from '@/components/TableSearch.vue'
-import TableButtonsSection from '@/components/TableButtonsSection.vue'
+  TableRow,
+} from "@/components/ui/table";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-vue-next";
+import { useModal } from "@/composables/useModal.ts";
+import {
+  type IModuleInfo,
+  useImportMapOverrides,
+} from "@/composables/useImportMapOverrides.ts";
+import TableSearch from "@/components/TableSearch.vue";
+import TableButtonsSection from "@/components/TableButtonsSection.vue";
 
 const columns = [
-  { key: 'module_name', label: 'Module Name' },
-  { key: 'domain', label: 'Domain' }
-] as const
+  { key: "module_name", label: "Module Name" },
+  { key: "domain", label: "Domain" },
+] as const;
 
-const search = shallowRef('')
-const { processOverrides, overridesFromImportMap, getItemOverride } = useImportMapOverrides()
-type columnKeyType = (typeof columns)[number]['key']
+const search = shallowRef("");
+const { processOverrides, overridesFromImportMap, getItemOverride } =
+  useImportMapOverrides();
+type columnKeyType = (typeof columns)[number]["key"];
 
 const currentSelectedModule = ref<IModuleInfo>({
-  module_name: '',
-  domain: '',
-  isOverride: false
-})
+  module_name: "",
+  domain: "",
+  isOverride: false,
+});
 
-const { dialogs } = useModal()
+const { dialogs } = useModal();
 
 const sortConfig = ref<{
-  key: columnKeyType | null
-  direction: 'asc' | 'desc'
-}>({ key: null, direction: 'asc' })
+  key: columnKeyType | null;
+  direction: "asc" | "desc";
+}>({ key: null, direction: "asc" });
 
-const columnVisibility = ref(Object.fromEntries(columns.map((col) => [col.key, true])))
+const columnVisibility = ref(
+  Object.fromEntries(columns.map((col) => [col.key, true]))
+);
 
-const visibleColumns = computed(() => columns.filter((col) => columnVisibility.value[col.key]))
+const visibleColumns = computed(() =>
+  columns.filter((col) => columnVisibility.value[col.key])
+);
 
 const sortedAndFilteredData = computed(() => {
-  let result = [...processOverrides.value]
+  let result = [...processOverrides.value];
 
   if (search.value) {
     result = result.filter((item) =>
       item.module_name.toLowerCase().includes(search.value.toLowerCase())
-    )
+    );
   }
 
   if (sortConfig.value.key !== null) {
     result.sort((a, b) => {
-      const key = sortConfig.value.key as Exclude<typeof sortConfig.value.key, null>
-      const aVal = a[key]
-      const bVal = b[key]
-      if (sortConfig.value.direction === 'asc') {
-        return aVal.localeCompare(bVal)
+      const key = sortConfig.value.key as Exclude<
+        typeof sortConfig.value.key,
+        null
+      >;
+      const aVal = a[key];
+      const bVal = b[key];
+      if (sortConfig.value.direction === "asc") {
+        return aVal.localeCompare(bVal);
       }
-      return bVal.localeCompare(aVal)
-    })
+      return bVal.localeCompare(aVal);
+    });
   }
 
-  return result
-})
+  return result;
+});
 
 // Methods
 function toggleSort(key: columnKeyType) {
   if (sortConfig.value.key === key) {
-    sortConfig.value.direction = sortConfig.value.direction === 'asc' ? 'desc' : 'asc'
+    sortConfig.value.direction =
+      sortConfig.value.direction === "asc" ? "desc" : "asc";
   } else {
-    sortConfig.value = { key, direction: 'asc' }
+    sortConfig.value = { key, direction: "asc" };
   }
 }
 
 function selectModule(module: IModuleInfo) {
-  const findOverride = getItemOverride(module.module_name)
+  const findOverride = getItemOverride(module.module_name);
   if (findOverride?.enabled) {
-    module.domain = findOverride.url
+    module.domain = findOverride.url;
   }
-  currentSelectedModule.value = { ...module }
-  dialogs.newModule = true
+  currentSelectedModule.value = { ...module };
+  dialogs.newModule = true;
 }
 </script>

@@ -1,27 +1,3 @@
-<script setup lang="ts">
-import { type HTMLAttributes, useTemplateRef } from 'vue'
-import { cn } from '@/lib/utils'
-import { useVModel } from '@vueuse/core'
-
-const props = defineProps<{
-  defaultValue?: string | number
-  modelValue?: string | number
-  class?: HTMLAttributes['class']
-}>()
-
-const emits = defineEmits<{
-  (e: 'update:modelValue', payload: string | number): void
-}>()
-
-const modelValue = useVModel(props, 'modelValue', emits, {
-  passive: true,
-  defaultValue: props.defaultValue
-})
-
-const inputField = useTemplateRef('input')
-defineExpose({ inputField })
-</script>
-
 <template>
   <input
     ref="input"
@@ -34,3 +10,27 @@ defineExpose({ inputField })
     "
   />
 </template>
+
+<script setup lang="ts">
+import { type HTMLAttributes, useTemplateRef } from "vue";
+import { cn } from "@/lib/utils";
+import { useVModel } from "@vueuse/core";
+
+const props = defineProps<{
+  defaultValue?: string | number;
+  modelValue?: string | number;
+  class?: HTMLAttributes["class"];
+}>();
+
+const emit = defineEmits<{
+  (e: "update:modelValue", payload: string | number): void;
+}>();
+
+const modelValue = useVModel(props, "modelValue", emit, {
+  passive: true,
+  defaultValue: props.defaultValue,
+});
+
+const inputField = useTemplateRef("input");
+defineExpose({ inputField });
+</script>

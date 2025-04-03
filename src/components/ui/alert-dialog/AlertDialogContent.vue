@@ -1,26 +1,3 @@
-<script setup lang="ts">
-import { cn } from '@/lib/utils'
-import {
-  AlertDialogContent,
-  type AlertDialogContentEmits,
-  type AlertDialogContentProps,
-  AlertDialogOverlay,
-  useForwardPropsEmits
-} from 'reka-ui'
-import { computed, type HTMLAttributes } from 'vue'
-
-const props = defineProps<AlertDialogContentProps & { class?: HTMLAttributes['class'] }>()
-const emits = defineEmits<AlertDialogContentEmits>()
-
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-
-  return delegated
-})
-
-const forwarded = useForwardPropsEmits(delegatedProps, emits)
-</script>
-
 <template>
   <AlertDialogOverlay
     class="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
@@ -37,3 +14,28 @@ const forwarded = useForwardPropsEmits(delegatedProps, emits)
     <slot />
   </AlertDialogContent>
 </template>
+
+<script setup lang="ts">
+import { cn } from "@/lib/utils";
+import {
+  AlertDialogContent,
+  type AlertDialogContentEmits,
+  type AlertDialogContentProps,
+  AlertDialogOverlay,
+  useForwardPropsEmits,
+} from "reka-ui";
+import { computed, type HTMLAttributes } from "vue";
+
+const props = defineProps<
+  AlertDialogContentProps & { class?: HTMLAttributes["class"] }
+>();
+const emit = defineEmits<AlertDialogContentEmits>();
+
+const delegatedProps = computed(() => {
+  const { class: _, ...delegated } = props;
+
+  return delegated;
+});
+
+const forwarded = useForwardPropsEmits(delegatedProps, emit);
+</script>

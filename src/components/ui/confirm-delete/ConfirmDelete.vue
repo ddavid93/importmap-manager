@@ -1,22 +1,3 @@
-<script setup lang="ts">
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
-} from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-
-defineEmits(['confirm'])
-const open = defineModel<boolean>({ default: false })
-defineProps<{ disabled: boolean; color: string; text: string; description: string }>()
-</script>
-
 <template>
   <AlertDialog v-model:open="open">
     <AlertDialogTrigger :class="{ 'cursor-not-allowed': disabled }">
@@ -38,3 +19,29 @@ defineProps<{ disabled: boolean; color: string; text: string; description: strin
     </AlertDialogContent>
   </AlertDialog>
 </template>
+
+<script setup lang="ts">
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+
+const open = defineModel<boolean>({ default: false });
+defineProps<{
+  disabled: boolean;
+  color: string;
+  text: string;
+  description: string;
+}>();
+defineEmits<{
+  confirm: [];
+}>();
+</script>
