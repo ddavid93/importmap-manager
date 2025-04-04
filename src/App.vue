@@ -3,7 +3,8 @@
     <FabButton v-show="!dialogs.isWidgetOpened" />
     <div
       v-show="dialogs.isWidgetOpened"
-      class="animate-expand-vertically fixed inset-x-0 bottom-0" style="z-index: 9000"
+      class="animate-expand-vertically fixed inset-x-0 bottom-0"
+      style="z-index: 9000"
     >
       <div
         class="bg-background border rounded-lg shadow-lg m-2 flex flex-col max-h-[50vh] overflow-hidden"

@@ -1,23 +1,28 @@
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from "vite";
+import vue from "@vitejs/plugin-vue";
+import { fileURLToPath, URL } from "node:url";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  define: { 'process.env': { NODE_ENV: 'production' } },
+  define: { "process.env": { NODE_ENV: "production" } },
   plugins: [vue({ features: { customElement: true } })],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
   },
   build: {
+    minify: "terser",
     lib: {
-      entry: './src/main.ts',
-      formats: ['es']
-    }
+      name: "importmap-manager",
+      entry: "./src/main.ts",
+      formats: ["umd"],
+    },
+    rollupOptions: {
+      output: {
+        entryFileNames: "importmap-manager.js",
+      },
+    },
   },
-  server: {
-    host: true
-  }
-})
+
+});

@@ -59,7 +59,7 @@ importers:
         version: 10.2.0(eslint@9.23.0(jiti@1.21.7))(prettier@3.5.3)
       '@vue/eslint-config-typescript':
         specifier: 14.5.0
-        version: 14.5.0(eslint-plugin-vue@10.0.0(eslint@9.23.0(jiti@1.21.7))(vue-eslint-parser@10.1.1(eslint@9.23.0(jiti@1.21.7))))(eslint@9.23.0(jiti@1.21.7))(typescript@5.8.2)
+        version: 14.5.0(eslint-plugin-vue@10.0.0(eslint@9.23.0(jiti@1.21.7))(vue-eslint-parser@10.1.2(eslint@9.23.0(jiti@1.21.7))))(eslint@9.23.0(jiti@1.21.7))(typescript@5.8.2)
       '@vue/tsconfig':
         specifier: 0.7.0
         version: 0.7.0(typescript@5.8.2)(vue@3.5.13(typescript@5.8.2))
@@ -77,7 +77,7 @@ importers:
         version: 5.2.6(eslint-config-prettier@10.1.1(eslint@9.23.0(jiti@1.21.7)))(eslint@9.23.0(jiti@1.21.7))(prettier@3.5.3)
       eslint-plugin-vue:
         specifier: 10.0.0
-        version: 10.0.0(eslint@9.23.0(jiti@1.21.7))(vue-eslint-parser@10.1.1(eslint@9.23.0(jiti@1.21.7)))
+        version: 10.0.0(eslint@9.23.0(jiti@1.21.7))(vue-eslint-parser@10.1.2(eslint@9.23.0(jiti@1.21.7)))
       npm-run-all2:
         specifier: 7.0.2
         version: 7.0.2
@@ -774,8 +774,8 @@ packages:
     resolution: {integrity: sha512-QOSvevhslijgYwRx6Rv7zKdMF8lbRmx+uQGx2+vDc+KI/eBnsy9kit5aj23AgGu3pa4t9AgwbnXWqS+iOY+2aA==, tarball: https://registry.npmjs.org/camelcase-css/-/camelcase-css-2.0.1.tgz}
     engines: {node: '>= 6'}
 
-  caniuse-lite@1.0.30001709:
-    resolution: {integrity: sha512-NgL3vUTnDrPCZ3zTahp4fsugQ4dc7EKTSzwQDPEel6DMoMnfH2jhry9n2Zm8onbSR+f/QtKHFOA+iAQu4kbtWA==, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001709.tgz}
+  caniuse-lite@1.0.30001710:
+    resolution: {integrity: sha512-B5C0I0UmaGqHgo5FuqJ7hBd4L57A4dDD+Xi+XX1nXOoxGeDdY4Ko38qJYOyqznBVJEqON5p8P1x5zRR3+rsnxA==, tarball: https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001710.tgz}
 
   chalk@4.1.2:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==, tarball: https://registry.npmjs.org/chalk/-/chalk-4.1.2.tgz}
@@ -845,8 +845,8 @@ packages:
   eastasianwidth@0.2.0:
     resolution: {integrity: sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA==, tarball: https://registry.npmjs.org/eastasianwidth/-/eastasianwidth-0.2.0.tgz}
 
-  electron-to-chromium@1.5.130:
-    resolution: {integrity: sha512-Ou2u7L9j2XLZbhqzyX0jWDj6gA8D3jIfVzt4rikLf3cGBa0VdReuFimBKS9tQJA4+XpeCxj1NoWlfBXzbMa9IA==, tarball: https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.130.tgz}
+  electron-to-chromium@1.5.131:
+    resolution: {integrity: sha512-fJFRYXVEJgDCiqFOgRGJm8XR97hZ13tw7FXI9k2yC5hgY+nyzC2tMO8baq1cQR7Ur58iCkASx2zrkZPZUnfzPg==, tarball: https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.5.131.tgz}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==, tarball: https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz}
@@ -1416,8 +1416,8 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==, tarball: https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz}
     engines: {node: '>= 0.4'}
 
-  synckit@0.11.1:
-    resolution: {integrity: sha512-fWZqNBZNNFp/7mTUy1fSsydhKsAKJ+u90Nk7kOK5Gcq9vObaqLBLjWFDBkyVU9Vvc6Y71VbOevMuGhqv02bT+Q==, tarball: https://registry.npmjs.org/synckit/-/synckit-0.11.1.tgz}
+  synckit@0.11.2:
+    resolution: {integrity: sha512-1IUffI8zZ8qUMB3NUJIjk0RpLroG/8NkQDAWH1NbB2iJ0/5pn3M8rxfNzMz4GH9OnYaGYn31LEDSXJp/qIlxgA==, tarball: https://registry.npmjs.org/synckit/-/synckit-0.11.2.tgz}
     engines: {node: ^14.18.0 || >=16.0.0}
 
   tailwind-merge@3.1.0:
@@ -1541,8 +1541,8 @@ packages:
       '@vue/composition-api':
         optional: true
 
-  vue-eslint-parser@10.1.1:
-    resolution: {integrity: sha512-bh2Z/Au5slro9QJ3neFYLanZtb1jH+W2bKqGHXAoYD4vZgNG3KeotL7JpPv5xzY4UXUXJl7TrIsnzECH63kd3Q==, tarball: https://registry.npmjs.org/vue-eslint-parser/-/vue-eslint-parser-10.1.1.tgz}
+  vue-eslint-parser@10.1.2:
+    resolution: {integrity: sha512-1guOfYgNlD7JH2popr/bt5vc7Mzt6quRCnEbqLgpMHvoHEGV1oImzdqrLd+oMD76cHt8ilBP4cda9WA72TLFDQ==, tarball: https://registry.npmjs.org/vue-eslint-parser/-/vue-eslint-parser-10.1.2.tgz}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: ^8.57.0 || ^9.0.0
@@ -2043,14 +2043,14 @@ snapshots:
     transitivePeerDependencies:
       - '@types/eslint'
 
-  '@vue/eslint-config-typescript@14.5.0(eslint-plugin-vue@10.0.0(eslint@9.23.0(jiti@1.21.7))(vue-eslint-parser@10.1.1(eslint@9.23.0(jiti@1.21.7))))(eslint@9.23.0(jiti@1.21.7))(typescript@5.8.2)':
+  '@vue/eslint-config-typescript@14.5.0(eslint-plugin-vue@10.0.0(eslint@9.23.0(jiti@1.21.7))(vue-eslint-parser@10.1.2(eslint@9.23.0(jiti@1.21.7))))(eslint@9.23.0(jiti@1.21.7))(typescript@5.8.2)':
     dependencies:
       '@typescript-eslint/utils': 8.29.0(eslint@9.23.0(jiti@1.21.7))(typescript@5.8.2)
       eslint: 9.23.0(jiti@1.21.7)
-      eslint-plugin-vue: 10.0.0(eslint@9.23.0(jiti@1.21.7))(vue-eslint-parser@10.1.1(eslint@9.23.0(jiti@1.21.7)))
+      eslint-plugin-vue: 10.0.0(eslint@9.23.0(jiti@1.21.7))(vue-eslint-parser@10.1.2(eslint@9.23.0(jiti@1.21.7)))
       fast-glob: 3.3.3
       typescript-eslint: 8.29.0(eslint@9.23.0(jiti@1.21.7))(typescript@5.8.2)
-      vue-eslint-parser: 10.1.1(eslint@9.23.0(jiti@1.21.7))
+      vue-eslint-parser: 10.1.2(eslint@9.23.0(jiti@1.21.7))
     optionalDependencies:
       typescript: 5.8.2
     transitivePeerDependencies:
@@ -2177,7 +2177,7 @@ snapshots:
   autoprefixer@10.4.21(postcss@8.5.3):
     dependencies:
       browserslist: 4.24.4
-      caniuse-lite: 1.0.30001709
+      caniuse-lite: 1.0.30001710
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.1.1
@@ -2205,8 +2205,8 @@ snapshots:
 
   browserslist@4.24.4:
     dependencies:
-      caniuse-lite: 1.0.30001709
-      electron-to-chromium: 1.5.130
+      caniuse-lite: 1.0.30001710
+      electron-to-chromium: 1.5.131
       node-releases: 2.0.19
       update-browserslist-db: 1.1.3(browserslist@4.24.4)
 
@@ -2214,7 +2214,7 @@ snapshots:
 
   camelcase-css@2.0.1: {}
 
-  caniuse-lite@1.0.30001709: {}
+  caniuse-lite@1.0.30001710: {}
 
   chalk@4.1.2:
     dependencies:
@@ -2275,7 +2275,7 @@ snapshots:
 
   eastasianwidth@0.2.0: {}
 
-  electron-to-chromium@1.5.130: {}
+  electron-to-chromium@1.5.131: {}
 
   emoji-regex@8.0.0: {}
 
@@ -2324,11 +2324,11 @@ snapshots:
       eslint: 9.23.0(jiti@1.21.7)
       prettier: 3.5.3
       prettier-linter-helpers: 1.0.0
-      synckit: 0.11.1
+      synckit: 0.11.2
     optionalDependencies:
       eslint-config-prettier: 10.1.1(eslint@9.23.0(jiti@1.21.7))
 
-  eslint-plugin-vue@10.0.0(eslint@9.23.0(jiti@1.21.7))(vue-eslint-parser@10.1.1(eslint@9.23.0(jiti@1.21.7))):
+  eslint-plugin-vue@10.0.0(eslint@9.23.0(jiti@1.21.7))(vue-eslint-parser@10.1.2(eslint@9.23.0(jiti@1.21.7))):
     dependencies:
       '@eslint-community/eslint-utils': 4.5.1(eslint@9.23.0(jiti@1.21.7))
       eslint: 9.23.0(jiti@1.21.7)
@@ -2336,7 +2336,7 @@ snapshots:
       nth-check: 2.1.1
       postcss-selector-parser: 6.1.2
       semver: 7.7.1
-      vue-eslint-parser: 10.1.1(eslint@9.23.0(jiti@1.21.7))
+      vue-eslint-parser: 10.1.2(eslint@9.23.0(jiti@1.21.7))
       xml-name-validator: 4.0.0
 
   eslint-scope@8.3.0:
@@ -2852,7 +2852,7 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  synckit@0.11.1:
+  synckit@0.11.2:
     dependencies:
       '@pkgr/core': 0.2.0
       tslib: 2.8.1
@@ -2957,7 +2957,7 @@ snapshots:
     dependencies:
       vue: 3.5.13(typescript@5.8.2)
 
-  vue-eslint-parser@10.1.1(eslint@9.23.0(jiti@1.21.7)):
+  vue-eslint-parser@10.1.2(eslint@9.23.0(jiti@1.21.7)):
     dependencies:
       debug: 4.4.0
       eslint: 9.23.0(jiti@1.21.7)
