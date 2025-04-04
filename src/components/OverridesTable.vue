@@ -40,7 +40,7 @@
             <TableCell
               v-for="column in visibleColumns"
               :key="column.key"
-              class="cursor-pointer lowercase gap-4"
+              class="cursor-pointer gap-4"
               @click="selectModule(row)"
             >
               <template v-if="column.key === 'domain' && row.isOverride">

@@ -3,7 +3,7 @@
     <FabButton v-show="!dialogs.isWidgetOpened" />
     <div
       v-show="dialogs.isWidgetOpened"
-      class="animate-expand-vertically fixed inset-x-0 bottom-0 z-50"
+      class="animate-expand-vertically fixed inset-x-0 bottom-0" style="z-index: 9000"
     >
       <div
         class="bg-background border rounded-lg shadow-lg m-2 flex flex-col max-h-[50vh] overflow-hidden"
@@ -18,7 +18,7 @@
             </h3>
             <p class="text-sm text-muted-foreground">
               This developer tool allows you to view and override your import
-              maps. Start by clicking on a module that you'd like to override.
+              maps.
             </p>
           </div>
 

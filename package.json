@@ -13,7 +13,8 @@
   "scripts": {
     "analyze": "npx vite-bundle-visualizer",
     "build": "run-p type-check build-only",
-    "build-only": "vite build --watch",
+    "build-only": "vite build",
+    "build-only-watch": "vite build --watch",
     "build-serve": "run-p build-only & serve ./dist",
     "dev": "vite",
     "eslint": "eslint ./src",

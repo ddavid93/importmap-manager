@@ -1,7 +1,7 @@
 <template>
   <AlertDialog v-model:open="open">
     <AlertDialogTrigger :class="{ 'cursor-not-allowed': disabled }">
-      <Button :disabled class="w-full">
+      <Button :class="color" :disabled class="w-full">
         {{ text }}
       </Button>
     </AlertDialogTrigger>

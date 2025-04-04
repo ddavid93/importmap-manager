@@ -1,5 +1,5 @@
 <template>
-  <div ref="containerDiv" :style style="position: fixed" @click="handleClick">
+  <div ref="containerDiv" style="z-index: 9000" :style @click="handleClick">
     <div
       :class="[
         {

@@ -19,7 +19,7 @@
       text="Remove all overrides"
       :color="buttonVariants({ variant: 'destructive' })"
       description="This will permanently remove your imports."
-      @confirm="overrides = []"
+      @confirm="removeAll"
     />
   </div>
 </template>
@@ -44,7 +44,14 @@ const currentSelectedModule = defineModel<IModuleInfo>({
   },
 });
 const { dialogs } = useModal();
-const { overrides, externalImportMap } = useImportMapOverrides();
+const { overrides, externalImportMap, overridesFromImportMap } =
+  useImportMapOverrides();
+
+function removeAll() {
+  externalImportMap.value = { enabled: false, url: "" };
+  overrides.value = [];
+  overridesFromImportMap.value = { imports: {}, scopes: {} };
+}
 
 watch(currentSelectedModule, (val) => {
   dialogs.newModule = !!val.module_name;

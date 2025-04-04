@@ -1,6 +1,9 @@
 <template>
   <ImportDialog
-    :disabled="externalImportMap?.enabled === enabled"
+    :disabled="
+      externalImportMap?.enabled === enabled &&
+      imporMap === externalImportMap?.url
+    "
     :variant="externalImportMap?.enabled ? 'default' : undefined"
     :title="`${externalImportMap?.enabled ? 'Edit' : 'Add'} Import Map`"
     :btnTriggerLabel="`${externalImportMap?.enabled ? 'Edit' : 'Add'} Import Map`"
@@ -35,8 +38,7 @@ const imporMap = shallowRef(externalImportMap.value?.url || "");
 const enabled = shallowRef(!!externalImportMap.value?.enabled);
 
 function saveImportMap() {
-  const regexUrl =
-    /^(https?:\/\/)?([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,6})(\/\S*)?$/;
+  const regexUrl = /^(https?:\/\/)?([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,6})(\/\S*)?$/;
 
   if (!regexUrl.test(imporMap.value)) return;
   externalImportMap.value = { url: imporMap.value, enabled: enabled.value };
