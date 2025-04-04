@@ -1,8 +1,7 @@
 <template>
   <div
-    ref="containerDiv"
-    :style
-    style="z-index: 9000; position: fixed"
+    style="z-index: 9000"
+    class="fixed bottom-4 right-4"
     @click="handleClick"
   >
     <div
@@ -10,11 +9,11 @@
         {
           'bg-slate-800 hover:bg-slate-900': !hasOverrides,
           'bg-green-700 hover:bg-green-900': hasOverrides,
-          'animate-pulse': isDragging,
+          // 'animate-pulse': isDragging,
         },
         !disabled ? 'cursor-move' : 'cursor-pointer',
       ]"
-      class="fixed w-[50px] h-[50px] rounded-md p-1 flex items-center justify-center"
+      class="w-[50px] h-[50px] rounded-md p-1 flex items-center justify-center"
       @mouseup="endPress"
       @mousedown="endPress"
     >
@@ -26,13 +25,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, shallowRef, useTemplateRef, watch } from "vue";
-import { onLongPress, useDraggable, useStorage } from "@vueuse/core";
+import { computed, shallowRef } from "vue";
 import { CodeXml } from "lucide-vue-next";
 import { useImportMapOverrides } from "@/composables/useImportMapOverrides.js";
 import { useModal } from "@/composables/useModal.js";
 
-const position = useStorage("draggable-position", { x: 0, y: 0 });
+// const position = useStorage("draggable-position", { x: 0, y: 0 });
 const disabled = shallowRef(true);
 const wasDragged = shallowRef(false);
 
@@ -44,23 +42,23 @@ const hasOverrides = computed(
     externalImportMap.value?.enabled
 );
 
-const containerRef = useTemplateRef("containerDiv");
-const { x, y, style, isDragging } = useDraggable(containerRef, {
-  initialValue: position.value,
-  preventDefault: true,
-  disabled,
-  onStart: () => (wasDragged.value = true),
-});
+// const containerRef = useTemplateRef("containerDiv");
+// const { x, y, style, isDragging } = useDraggable(containerRef, {
+//   initialValue: position.value,
+//   preventDefault: true,
+//   disabled,
+//   onStart: () => (wasDragged.value = true),
+// });
 
-onLongPress(
-  containerRef,
-  (event) => {
-    disabled.value = false;
-    wasDragged.value = false;
-    containerRef.value?.dispatchEvent(new PointerEvent("pointerdown", event));
-  },
-  { delay: 100 }
-);
+// onLongPress(
+//   containerRef,
+//   (event) => {
+//     disabled.value = false;
+//     wasDragged.value = false;
+//     containerRef.value?.dispatchEvent(new PointerEvent("pointerdown", event));
+//   },
+//   { delay: 100 }
+// );
 
 const endPress = () => {
   disabled.value = true;
@@ -73,7 +71,7 @@ const handleClick = () => {
   wasDragged.value = false;
 };
 
-watch([x, y], () => {
-  position.value = { x: x.value, y: y.value };
-});
+// watch([x, y], () => {
+//   position.value = { x: x.value, y: y.value };
+// });
 </script>
