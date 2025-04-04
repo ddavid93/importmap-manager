@@ -3,7 +3,7 @@
   "name": "importmap-manager",
   "type": "module",
   "version": "0.6.0",
-  "description": "A modern UI for managing import-map-overrides with an enhanced user experience.",
+  "description": "A modern UI for managing importmap-overrides with an enhanced user experience.",
   "author": "Daniel David Díaz González <ddavid930826@gmail.com>",
   "license": "MIT",
   "repository": {

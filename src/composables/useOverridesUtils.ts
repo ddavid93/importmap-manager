@@ -30,7 +30,7 @@ export function useOverridesUtils() {
       overrideMapElement.textContent = JSON.stringify(map, null, 2);
     }
     const importMapManagerElement =
-      document.getElementById("import-map-manager");
+      document.getElementById("importmap-manager");
     if (isExternal && importMapManagerElement) {
       importMapManagerElement.insertAdjacentElement(
         "beforebegin",
