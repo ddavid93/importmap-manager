@@ -2,7 +2,7 @@
   "main": "dist/index.js",
   "name": "importmap-manager",
   "type": "module",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "A modern UI for managing import-map-overrides with an enhanced user experience.",
   "author": "Daniel David Díaz González <ddavid930826@gmail.com>",
   "license": "MIT",
