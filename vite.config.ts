@@ -12,11 +12,10 @@ export default defineConfig({
     },
   },
   build: {
-    minify: "terser",
     lib: {
       name: "importmap-manager",
       entry: "./src/main.ts",
-      formats: ["umd"],
+      formats: ["es"],
     },
     rollupOptions: {
       output: {
