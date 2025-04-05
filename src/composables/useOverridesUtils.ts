@@ -10,9 +10,7 @@ export function useOverridesUtils() {
    * @returns The inserted script element.
    */
   function insertOverrideMap(map: ImportMap | string, isExternal = false) {
-    const id = isExternal
-      ? "import-map-manager-external"
-      : "import-map-manager";
+    const id = isExternal ? "importmap-manager-external" : "importmap-manager";
     document.getElementById(id)?.remove();
     if (
       (typeof map === "string" && !map) ||
@@ -37,7 +35,17 @@ export function useOverridesUtils() {
         overrideMapElement
       );
     } else {
-      document.head.appendChild(overrideMapElement);
+      const externalImportMapElement = document.getElementById(
+        "importmap-manager-external"
+      );
+      if (externalImportMapElement) {
+        externalImportMapElement.insertAdjacentElement(
+          "beforebegin",
+          overrideMapElement
+        );
+      } else {
+        document.head.appendChild(overrideMapElement);
+      }
     }
   }
 
