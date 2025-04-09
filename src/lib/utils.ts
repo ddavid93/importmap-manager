@@ -32,9 +32,9 @@ export function isEqual(a: any, b: any): boolean {
 
 export function extractScopeFromUrl(url: string) {
   // Case 1: Full URL (e.g., http://localhost:8821/js/app.js)
-  const localhostMatch = url.match(/^https?:\/\/([^/]+)\//);
+  const localhostMatch = url.match(/^(https?):\/\/([^/]+)\//);
   if (localhostMatch) {
-    return `http://${localhostMatch[1]}/`;
+    return `${localhostMatch[1]}://${localhostMatch[2]}/`;
   }
 
   // Case 2: relative path with dynamic app folder, like /some-folder/app-name/version/js/app.js
