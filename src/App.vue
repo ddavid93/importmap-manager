@@ -1,6 +1,6 @@
 <template>
   <div id="widget">
-    <Wrapper />
+    <Wrapper v-if="canLoadWidget"/>
   </div>
 </template>
 
