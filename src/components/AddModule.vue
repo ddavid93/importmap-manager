@@ -1,7 +1,6 @@
 <template>
   <ImportDialog
     v-model="open"
-    :disabled="urlOverrideFromImportMap === url"
     :title="module_name ? 'Edit module' : 'New module'"
     btnTriggerLabel="Add new module"
     btnFooterLabel="Apply override"

@@ -34,7 +34,7 @@ export function extractScopeFromUrl(url: string) {
   // Case 1: Full URL (e.g., http://localhost:8821/js/app.js)
   const localhostMatch = url.match(/^https?:\/\/([^/]+)\//);
   if (localhostMatch) {
-    return `//${localhostMatch[1]}/`;
+    return `http://${localhostMatch[1]}/`;
   }
 
   // Case 2: relative path with dynamic app folder, like /some-folder/app-name/version/js/app.js
