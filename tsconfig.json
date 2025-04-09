@@ -14,6 +14,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "composite": true,
+    "types": ["vite/client"],
     "paths": {
       "@/*": [
         "./src/*"

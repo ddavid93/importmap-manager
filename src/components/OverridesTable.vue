@@ -106,6 +106,7 @@ const currentSelectedModule = ref<IModuleInfo>({
   module_name: "",
   domain: "",
   isOverride: false,
+  scope: {},
 });
 
 const { dialogs } = useModal();

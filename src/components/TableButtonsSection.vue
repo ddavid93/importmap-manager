@@ -41,6 +41,7 @@ const currentSelectedModule = defineModel<IModuleInfo>({
     module_name: "",
     domain: "",
     isOverride: false,
+    scope: {},
   },
 });
 const { dialogs } = useModal();
@@ -65,6 +66,7 @@ watch(
         module_name: "",
         domain: "",
         isOverride: false,
+        scope: {},
       };
     }
   }

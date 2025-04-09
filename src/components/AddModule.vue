@@ -15,10 +15,7 @@
       <div class="grid w-full items-center gap-1.5">
         <Label for="url"> URL: </Label>
         <div class="flex items-center gap-2">
-          <Checkbox
-            v-model="enabled"
-            :disabled="urlOverrideFromImportMap === url"
-          />
+          <Checkbox v-model="enabled" />
           <Input
             id="url"
             v-model="url"
@@ -99,6 +96,7 @@ function saveOverride() {
   if (findOverride) {
     findOverride.url = url.value;
     findOverride.enabled = enabled.value;
+    findOverride.scope = props.scope;
     overrides.value = [
       ...overrides.value.filter((f) => f.name !== name.value),
       findOverride,
@@ -108,6 +106,7 @@ function saveOverride() {
       enabled: enabled.value,
       url: url.value,
       name: name.value,
+      scope: props.scope,
     });
   }
   open.value = false;
