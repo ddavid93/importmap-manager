@@ -86,12 +86,6 @@ const urlOverrideFromImportMap = computed(
 function saveOverride() {
   const findOverride = getItemOverride(name.value);
 
-  if (urlOverrideFromImportMap.value === url.value) {
-    return console.warn(
-      "You are trying to override an existing module with the same name and url"
-    );
-  }
-
   if (findOverride) {
     findOverride.url = url.value;
     findOverride.enabled = enabled.value;
