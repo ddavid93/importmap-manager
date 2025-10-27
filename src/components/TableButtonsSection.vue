@@ -5,14 +5,14 @@
       v-bind="currentSelectedModule"
     />
     <AddImportMap v-model:open="dialogs.newImportMap" class="bg-red" />
-    <ConfirmDelete
-      v-model="dialogs.confirmDisable"
+    <Button
       :disabled="!overrides.some((s) => s.enabled)"
-      text="Disable all overrides"
-      :color="buttonVariants({ variant: 'warning' })"
-      description="This will permanently disable your imports (but won't be removed from LocalStorage). You can still enable them back at any time."
-      @confirm="overrides = overrides.map((m) => ({ ...m, enabled: false }))"
-    />
+      text=""
+      :class="buttonVariants({ variant: 'warning' })"
+      @click="overrides = overrides.map((m) => ({ ...m, enabled: false }))"
+    >
+      Disable all overrides
+    </Button>
     <ConfirmDelete
       v-model="dialogs.confirmRemove"
       :disabled="!overrides.length && !externalImportMap?.enabled"
@@ -25,7 +25,7 @@
 </template>
 
 <script setup lang="ts">
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import ConfirmDelete from "@/components/ui/confirm-delete/ConfirmDelete.vue";
 import AddModule from "@/components/AddModule.vue";
 import AddImportMap from "@/components/AddImportMap.vue";

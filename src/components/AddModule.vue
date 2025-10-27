@@ -7,14 +7,14 @@
     @submit="saveOverride"
   >
     <template #body>
-      <div class="grid w-full items-center gap-1.5">
+      <div class="grid w-full max-w-full items-center gap-1.5">
         <Label for="name"> Module name: </Label>
-        <Input id="name" v-model="name" :disabled="!!module_name" />
+        <Input id="name" v-model="name" :disabled="!!module_name" class="w-full" />
       </div>
-      <div class="grid w-full items-center gap-1.5">
+      <div class="grid w-full max-w-full items-center gap-1.5">
         <Label for="url"> URL: </Label>
-        <div class="flex items-center gap-2">
-          <Checkbox v-model="enabled" />
+        <div class="flex items-center gap-2 w-full">
+          <Checkbox v-model="enabled" class="shrink-0" />
           <OverrideInput
             v-if="isOverride"
             id="url"
@@ -23,6 +23,7 @@
               'rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset':
                 isOverride && url !== domain,
             }"
+            class="flex-1 min-w-0"
           /><Input
             v-else
             id="url"
@@ -31,6 +32,7 @@
               'rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset':
                 isOverride && url !== domain,
             }"
+            class="flex-1 min-w-0"
           />
         </div>
 
@@ -39,8 +41,8 @@
           class="mt-4 p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
         >
           <div class="flex items-center" role="alert">
-            <Home class="w-5 h-5 me-3" />
-            <div>
+            <Home class="w-5 h-5 me-3 shrink-0" />
+            <div class="break-all">
               {{ urlOverrideFromImportMap }}
             </div>
           </div>
