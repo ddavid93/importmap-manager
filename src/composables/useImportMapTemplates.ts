@@ -4,6 +4,7 @@ import {
   type IOverrideInfo,
   useImportMapOverrides,
 } from "@/composables/useImportMapOverrides.ts";
+import { isEqual } from "@/lib/utils.ts";
 
 export const IMPORT_MAP_MANAGER_TEMPLATES_KEY = "importmap-manager-templates";
 export interface IOverrideTemplate {
@@ -23,12 +24,28 @@ function useImportMapTemplatesSingleton() {
     return [...list].sort((a, b) => a.name.localeCompare(b.name));
   }
 
+  function cloneOverride(item: IOverrideInfo): IOverrideInfo {
+    return {
+      name: item.name,
+      url: item.url,
+      enabled: item.enabled,
+      scope: item.scope ? { ...item.scope } : null,
+    };
+  }
+
+  function deepCloneOverrideList(list: IOverrideInfo[]): IOverrideInfo[] {
+    try {
+      return structuredClone(list);
+    } catch {
+      return list.map(cloneOverride);
+    }
+  }
 
   const areOverridesEqual = (a: IOverrideInfo, b: IOverrideInfo): boolean => {
     const scopeA = a.scope || {};
     const scopeB = b.scope || {};
 
-    const isScopeEqual = JSON.stringify(scopeA) === JSON.stringify(scopeB);
+    const isScopeEqual = isEqual(scopeA, scopeB);
 
     return (
       a.name === b.name &&
@@ -38,8 +55,10 @@ function useImportMapTemplatesSingleton() {
     );
   };
 
-
-  function areOverrideListsEqual(listA: IOverrideInfo[], listB: IOverrideInfo[]): boolean {
+  function areOverrideListsEqual(
+    listA: IOverrideInfo[],
+    listB: IOverrideInfo[]
+  ): boolean {
     if (listA.length !== listB.length) {
       return false;
     }
@@ -63,11 +82,11 @@ function useImportMapTemplatesSingleton() {
   function saveTemplate(name: string) {
     const trimmed = name.trim();
     if (!trimmed) return false;
-    const copy = [...overrides.value] as IOverrideInfo[];
+    const copy = deepCloneOverrideList(overrides.value);
     const existingIndex = templates.value.findIndex((t) => t.name === trimmed);
     if (existingIndex < 0) {
       templates.value.push({ name: trimmed, items: copy });
-    }else{
+    } else {
       return false;
     }
     return true;
@@ -76,7 +95,8 @@ function useImportMapTemplatesSingleton() {
   function applyTemplate(name: string) {
     const template = templates.value.find((t) => t.name === name);
     if (!template) return false;
-    overrides.value = [...template.items];
+    // Assign a deep-cloned copy to avoid mutating the stored template items via reactive edits
+    overrides.value = deepCloneOverrideList(template.items);
     return true;
   }
 
@@ -89,7 +109,7 @@ function useImportMapTemplatesSingleton() {
     saveTemplate,
     applyTemplate,
     deleteTemplate,
-    templates
+    templates,
   };
 }
 
