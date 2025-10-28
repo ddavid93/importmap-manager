@@ -25,22 +25,12 @@ import { Input } from "@/components/ui/input";
 
 import { type HTMLAttributes, useTemplateRef } from "vue";
 import { cn } from "@/lib/utils";
-import { useVModel } from "@vueuse/core";
+
+const modelValue = defineModel<string | number>();
 
 const props = defineProps<{
-  defaultValue?: string | number;
-  modelValue?: string | number;
   class?: HTMLAttributes["class"];
 }>();
-
-const emit = defineEmits<{
-  (e: "update:modelValue", payload: string | number): void;
-}>();
-
-const modelValue = useVModel(props, "modelValue", emit, {
-  passive: true,
-  defaultValue: props.defaultValue,
-});
 
 const inputField = useTemplateRef("input");
 defineExpose({ inputField });
