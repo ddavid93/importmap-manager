@@ -7,7 +7,7 @@ function useModalSingleton() {
     newImportMap: false,
     confirmDisable: false,
     confirmRemove: false,
-    isWidgetOpened: true,
+    isWidgetOpened: false,
     command: false,
   });
 
