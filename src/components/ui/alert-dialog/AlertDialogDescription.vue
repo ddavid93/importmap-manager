@@ -1,13 +1,13 @@
 <template>
   <AlertDialogDescription
-    v-bind="delegatedProps"
     :class="cn('text-sm text-muted-foreground', props.class)"
+    v-bind="delegatedProps"
   >
     <slot />
   </AlertDialogDescription>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { cn } from "@/lib/utils";
 import {
   AlertDialogDescription,

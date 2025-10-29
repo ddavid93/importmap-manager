@@ -1,15 +1,15 @@
 <template>
   <DropdownMenuLabel
-    v-bind="forwardedProps"
     :class="
       cn('px-2 py-1.5 text-sm font-semibold', inset && 'pl-8', props.class)
     "
+    v-bind="forwardedProps"
   >
     <slot />
   </DropdownMenuLabel>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { cn } from "@/lib/utils";
 import {
   DropdownMenuLabel,

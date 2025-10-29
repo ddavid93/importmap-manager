@@ -1,15 +1,15 @@
 <template>
   <AlertDialogCancel
-    v-bind="delegatedProps"
     :class="
       cn(buttonVariants({ variant: 'outline' }), 'mt-2 sm:mt-0', props.class)
     "
+    v-bind="delegatedProps"
   >
     <slot />
   </AlertDialogCancel>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { AlertDialogCancel, type AlertDialogCancelProps } from "reka-ui";

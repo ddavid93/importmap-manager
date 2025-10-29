@@ -4,7 +4,7 @@
   </DropdownMenuRadioGroup>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {
   DropdownMenuRadioGroup,
   type DropdownMenuRadioGroupEmits,

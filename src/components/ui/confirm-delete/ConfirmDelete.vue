@@ -20,7 +20,7 @@
   </AlertDialog>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {
   AlertDialog,
   AlertDialogAction,

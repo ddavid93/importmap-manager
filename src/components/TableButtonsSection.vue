@@ -2,26 +2,29 @@
   <div class="flex flex-row flex-wrap gap-2 py-4">
     <AddModule
       v-model:open="dialogs.newModule"
+      class="flex-shrink-0"
       v-bind="currentSelectedModule"
-      class="flex-shrink-0"
     />
-    <AddImportMap v-model:open="dialogs.newImportMap" class="bg-red flex-shrink-0" />
+    <AddImportMap
+      v-model:open="dialogs.newImportMap"
+      class="bg-red flex-shrink-0"
+    />
     <Button
-      :disabled="!overrides.some((s) => s.enabled)"
-      text=""
       :class="buttonVariants({ variant: 'warning' })"
+      :disabled="!overrides.some((s) => s.enabled)"
       class="flex-shrink-0"
+      text=""
       @click="overrides = overrides.map((m) => ({ ...m, enabled: false }))"
     >
       Disable all overrides
     </Button>
     <ConfirmDelete
       v-model="dialogs.confirmRemove"
-      :disabled="!overrides.length && !externalImportMap?.enabled"
-      text="Remove all overrides"
       :color="buttonVariants({ variant: 'destructive' })"
-      description="This will permanently remove your imports."
+      :disabled="!overrides.length && !externalImportMap?.enabled"
       class="flex-shrink-0"
+      description="This will permanently remove your imports."
+      text="Remove all overrides"
       @confirm="removeAll"
     />
     <!-- Templates Bar next to remove all -->
@@ -29,7 +32,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Button, buttonVariants } from "@/components/ui/button";
 import ConfirmDelete from "@/components/ui/confirm-delete/ConfirmDelete.vue";
 import AddModule from "@/components/AddModule.vue";

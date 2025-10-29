@@ -35,7 +35,7 @@
   </DialogOverlay>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { cn } from "@/lib/utils";
 import { X } from "lucide-vue-next";
 import {

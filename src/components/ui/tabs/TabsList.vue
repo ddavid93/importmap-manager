@@ -1,18 +1,18 @@
 <template>
   <TabsList
-    v-bind="delegatedProps"
     :class="
       cn(
         'inline-flex items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground',
         props.class
       )
     "
+    v-bind="delegatedProps"
   >
     <slot />
   </TabsList>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { cn } from "@/lib/utils";
 import { TabsList, type TabsListProps } from "reka-ui";
 import { computed, type HTMLAttributes } from "vue";

@@ -23,8 +23,8 @@
         </div>
 
         <button
-          type="button"
           class="absolute right-4 top-6 rounded-sm opacity-70 hover:opacity-100 transition"
+          type="button"
           @click="dialogs.isWidgetOpened = false"
         >
           <Minus class="w-5 h-5 text-foreground" />
@@ -39,7 +39,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Minus } from "lucide-vue-next";
 import { watch } from "vue";
 import { useMagicKeys } from "@vueuse/core";

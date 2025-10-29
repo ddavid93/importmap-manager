@@ -1,18 +1,18 @@
 <template>
   <ListboxRoot
-    v-bind="forwarded"
     :class="
       cn(
         'flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground',
         props.class
       )
     "
+    v-bind="forwarded"
   >
     <slot />
   </ListboxRoot>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { ListboxRootEmits, ListboxRootProps } from "reka-ui";
 import { ListboxRoot, useFilter, useForwardPropsEmits } from "reka-ui";
 import { cn } from "@/lib/utils";

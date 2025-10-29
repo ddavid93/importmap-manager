@@ -4,7 +4,7 @@
   </AlertDialogTrigger>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { AlertDialogTrigger, type AlertDialogTriggerProps } from "reka-ui";
 
 const props = defineProps<AlertDialogTriggerProps>();

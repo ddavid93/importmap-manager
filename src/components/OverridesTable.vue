@@ -12,8 +12,8 @@
             class="bg-background/95"
           >
             <Button
-              variant="ghost"
               class="flex items-center"
+              variant="ghost"
               @click="toggleSort(column.key)"
             >
               {{ column.label }}
@@ -47,29 +47,29 @@
                 <div class="flex items-center flex-row gap-2">
                   <div
                     v-if="getItemOverride(row.module_name)"
-                    class="flex items-center gap-2"
                     :class="{
                       'badge-active': getItemOverride(row.module_name)?.enabled,
                       'badge-inactive': !getItemOverride(row.module_name)
                         ?.enabled,
                     }"
+                    class="flex items-center gap-2"
                     @click.stop="toggle(row)"
                   >
-                    <Replace class="h-4 w-4" /> <span>{{ getItemOverride(row.module_name)?.url }}</span>
+                    <Replace class="h-4 w-4" />
+                    <span>{{ getItemOverride(row.module_name)?.url }}</span>
                   </div>
                   <div
                     v-if="overridesFromImportMap.imports[row.module_name]"
-                    class="flex items-center gap-2"
                     :class="{
                       'badge-pending': !getItemOverride(row.module_name)
                         ?.enabled,
                       'badge-inactive': getItemOverride(row.module_name)
                         ?.enabled,
                     }"
+                    class="flex items-center gap-2"
                     @click.stop="toggle(row)"
-
                   >
-                    <Home class="h-4 w-4"/> <span>{{ row[column.key] }}</span>
+                    <Home class="h-4 w-4" /> <span>{{ row[column.key] }}</span>
                   </div>
                 </div>
               </template>
@@ -89,7 +89,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, ref, shallowRef } from "vue";
 import { Button } from "@/components/ui/button";
 import {
@@ -197,8 +197,7 @@ function toggle(module: IModuleInfo) {
   if (override) {
     override.enabled = !override.enabled;
   } else {
-    selectModule(module)
+    selectModule(module);
   }
 }
-
 </script>

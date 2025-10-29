@@ -1,13 +1,13 @@
 <template>
   <AlertDialogTitle
-    v-bind="delegatedProps"
     :class="cn('text-lg font-semibold', props.class)"
+    v-bind="delegatedProps"
   >
     <slot />
   </AlertDialogTitle>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { cn } from "@/lib/utils";
 import { AlertDialogTitle, type AlertDialogTitleProps } from "reka-ui";
 import { computed, type HTMLAttributes } from "vue";
