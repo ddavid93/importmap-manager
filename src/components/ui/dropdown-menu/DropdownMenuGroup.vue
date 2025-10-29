@@ -4,7 +4,7 @@
   </DropdownMenuGroup>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { DropdownMenuGroup, type DropdownMenuGroupProps } from "reka-ui";
 
 const props = defineProps<DropdownMenuGroupProps>();

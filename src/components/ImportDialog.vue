@@ -23,7 +23,7 @@
   </Dialog>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Button, type ButtonVariants } from "@/components/ui/button";
 import {
   Dialog,

@@ -1,13 +1,13 @@
 <template>
   <AlertDialogAction
-    v-bind="delegatedProps"
     :class="cn(buttonVariants(), props.class)"
+    v-bind="delegatedProps"
   >
     <slot />
   </AlertDialogAction>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { AlertDialogAction, type AlertDialogActionProps } from "reka-ui";

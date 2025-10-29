@@ -2,7 +2,6 @@
   <span></span>
   <ListboxItem
     v-if="isRender"
-    v-bind="forwarded"
     :id="id"
     ref="itemRef"
     :class="
@@ -11,6 +10,7 @@
         props.class
       )
     "
+    v-bind="forwarded"
     @select="
       () => {
         filterState.search = '';
@@ -21,7 +21,7 @@
   </ListboxItem>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { ListboxItemEmits, ListboxItemProps } from "reka-ui";
 import { ListboxItem, useForwardPropsEmits, useId } from "reka-ui";
 import { cn } from "@/lib/utils";

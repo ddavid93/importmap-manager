@@ -1,15 +1,15 @@
 <template>
   <DialogTitle
-    v-bind="forwardedProps"
     :class="
       cn('text-lg font-semibold leading-none tracking-tight', props.class)
     "
+    v-bind="forwardedProps"
   >
     <slot />
   </DialogTitle>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { cn } from "@/lib/utils";
 import { DialogTitle, type DialogTitleProps, useForwardProps } from "reka-ui";
 import { computed, type HTMLAttributes } from "vue";

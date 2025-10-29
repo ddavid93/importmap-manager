@@ -2,17 +2,17 @@
   <span></span>
   <Primitive
     v-if="isRender"
-    v-bind="delegatedProps"
     :class="cn('py-6 text-center text-sm', props.class)"
+    v-bind="delegatedProps"
   >
     <slot />
   </Primitive>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { PrimitiveProps } from "reka-ui";
-import { cn } from "@/lib/utils";
 import { Primitive } from "reka-ui";
+import { cn } from "@/lib/utils";
 import { computed, type HTMLAttributes } from "vue";
 import { useCommand } from ".";
 

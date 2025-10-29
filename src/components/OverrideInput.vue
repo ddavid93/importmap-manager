@@ -3,13 +3,8 @@
     <Input
       ref="input"
       v-model="modelValue"
+      :class="cn('pl-10', props.class)"
       type="text"
-      :class="
-        cn(
-          'pl-10',
-          props.class
-        )
-      "
     />
     <span
       class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
@@ -19,7 +14,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Replace } from "lucide-vue-next";
 import { Input } from "@/components/ui/input";
 

@@ -4,7 +4,7 @@
   </TabsRoot>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { TabsRootEmits, TabsRootProps } from "reka-ui";
 import { TabsRoot, useForwardPropsEmits } from "reka-ui";
 

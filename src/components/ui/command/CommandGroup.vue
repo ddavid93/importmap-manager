@@ -1,6 +1,5 @@
 <template>
   <ListboxGroup
-    v-bind="delegatedProps"
     :id="id"
     :class="
       cn(
@@ -9,6 +8,7 @@
       )
     "
     :hidden="isRender ? undefined : true"
+    v-bind="delegatedProps"
   >
     <ListboxGroupLabel
       v-if="heading"
@@ -20,10 +20,10 @@
   </ListboxGroup>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { ListboxGroupProps } from "reka-ui";
-import { cn } from "@/lib/utils";
 import { ListboxGroup, ListboxGroupLabel, useId } from "reka-ui";
+import { cn } from "@/lib/utils";
 import { computed, type HTMLAttributes, onMounted, onUnmounted } from "vue";
 import { provideCommandGroupContext, useCommand } from ".";
 

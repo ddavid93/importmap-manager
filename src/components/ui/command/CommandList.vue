@@ -1,7 +1,7 @@
 <template>
   <ListboxContent
-    v-bind="forwarded"
     :class="cn('max-h-[300px] overflow-y-auto overflow-x-hidden', props.class)"
+    v-bind="forwarded"
   >
     <div role="presentation">
       <slot />
@@ -9,10 +9,10 @@
   </ListboxContent>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { ListboxContentProps } from "reka-ui";
-import { cn } from "@/lib/utils";
 import { ListboxContent, useForwardProps } from "reka-ui";
+import { cn } from "@/lib/utils";
 import { computed, type HTMLAttributes } from "vue";
 
 const props = defineProps<

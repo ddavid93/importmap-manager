@@ -1,16 +1,16 @@
 <template>
   <Separator
-    v-bind="delegatedProps"
     :class="cn('-mx-1 h-px bg-border', props.class)"
+    v-bind="delegatedProps"
   >
     <slot />
   </Separator>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { SeparatorProps } from "reka-ui";
-import { cn } from "@/lib/utils";
 import { Separator } from "reka-ui";
+import { cn } from "@/lib/utils";
 import { computed, type HTMLAttributes } from "vue";
 
 const props = defineProps<

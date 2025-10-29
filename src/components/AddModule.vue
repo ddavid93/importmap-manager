@@ -2,14 +2,19 @@
   <ImportDialog
     v-model="open"
     :title="module_name ? 'Edit module' : 'New module'"
-    btnTriggerLabel="Add new module"
     btnFooterLabel="Apply override"
+    btnTriggerLabel="Add new module"
     @submit="saveOverride"
   >
     <template #body>
       <div class="grid w-full max-w-full items-center gap-1.5">
         <Label for="name"> Module name: </Label>
-        <Input id="name" v-model="name" :disabled="!!module_name" class="w-full" />
+        <Input
+          id="name"
+          v-model="name"
+          :disabled="!!module_name"
+          class="w-full"
+        />
       </div>
       <div class="grid w-full max-w-full items-center gap-1.5">
         <Label for="url"> URL: </Label>
@@ -52,7 +57,7 @@
   </ImportDialog>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Home } from "lucide-vue-next";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

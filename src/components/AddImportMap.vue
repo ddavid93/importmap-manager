@@ -1,12 +1,12 @@
 <template>
   <ImportDialog
+    :btnTriggerLabel="`${externalImportMap?.enabled ? 'Edit' : 'Add'} Import Map`"
     :disabled="
       externalImportMap?.enabled === enabled &&
       imporMap === externalImportMap?.url
     "
-    :variant="externalImportMap?.enabled ? 'default' : undefined"
     :title="`${externalImportMap?.enabled ? 'Edit' : 'Add'} Import Map`"
-    :btnTriggerLabel="`${externalImportMap?.enabled ? 'Edit' : 'Add'} Import Map`"
+    :variant="externalImportMap?.enabled ? 'default' : undefined"
     btnFooterLabel="Apply override"
     @submit="saveImportMap"
   >
@@ -22,7 +22,7 @@
   </ImportDialog>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { shallowRef } from "vue";

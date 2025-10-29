@@ -1,7 +1,7 @@
 <template>
   <div
-    style="z-index: 9000"
     class="fixed bottom-4 right-4"
+    style="z-index: 9000"
     @click="handleClick"
   >
     <div
@@ -14,8 +14,8 @@
         !disabled ? 'cursor-move' : 'cursor-pointer',
       ]"
       class="w-[50px] h-[50px] rounded-md p-1 flex items-center justify-center"
-      @mouseup="endPress"
       @mousedown="endPress"
+      @mouseup="endPress"
     >
       <div class="w-full h-full flex items-center justify-center">
         <CodeXml class="text-gray-300" />
@@ -24,7 +24,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { computed, shallowRef } from "vue";
 import { CodeXml } from "lucide-vue-next";
 import { useImportMapOverrides } from "@/composables/useImportMapOverrides.js";

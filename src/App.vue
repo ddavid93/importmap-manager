@@ -1,10 +1,10 @@
 <template>
   <div id="widget">
-    <Wrapper v-if="canLoadWidget"/>
+    <Wrapper v-if="canLoadWidget" />
   </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { shallowRef, useAttrs } from "vue";
 import Wrapper from "@/Wrapper.vue";
 

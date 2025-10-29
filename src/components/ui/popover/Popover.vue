@@ -4,7 +4,7 @@
   </PopoverRoot>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { PopoverRootEmits, PopoverRootProps } from "reka-ui";
 import { PopoverRoot, useForwardPropsEmits } from "reka-ui";
 

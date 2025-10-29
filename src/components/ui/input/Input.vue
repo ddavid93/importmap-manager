@@ -11,7 +11,7 @@
   />
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { type HTMLAttributes, useTemplateRef } from "vue";
 import { cn } from "@/lib/utils";
 import { useVModel } from "@vueuse/core";

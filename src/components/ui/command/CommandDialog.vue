@@ -10,10 +10,10 @@
   </Dialog>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { DialogRootEmits, DialogRootProps } from "reka-ui";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useForwardPropsEmits } from "reka-ui";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import Command from "./Command.vue";
 
 const props = defineProps<DialogRootProps>();

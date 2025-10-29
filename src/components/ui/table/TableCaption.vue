@@ -4,7 +4,7 @@
   </caption>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { HTMLAttributes } from "vue";
 import { cn } from "@/lib/utils";
 
