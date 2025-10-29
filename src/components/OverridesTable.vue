@@ -43,18 +43,35 @@
               class="cursor-pointer gap-4"
               @click="selectModule(row)"
             >
-              <template v-if="column.key === 'domain' && row.isOverride">
-                <span
-                  class="mr-2 rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-green-600/20 ring-inset"
-                >
-                  {{ getItemOverride(row.module_name)!.url }}</span
-                >
-                <span
-                  v-if="overridesFromImportMap.imports[row.module_name]"
-                  class="rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-gray-600/20 ring-inset"
-                >
-                  {{ row[column.key] }}</span
-                >
+              <template v-if="column.key === 'domain'">
+                <div class="flex items-center flex-row gap-2">
+                  <div
+                    v-if="getItemOverride(row.module_name)"
+                    class="flex items-center gap-2"
+                    :class="{
+                      'badge-active': getItemOverride(row.module_name)?.enabled,
+                      'badge-inactive': !getItemOverride(row.module_name)
+                        ?.enabled,
+                    }"
+                    @click.stop="toggle(row)"
+                  >
+                    <Replace class="h-4 w-4" /> <span>{{ getItemOverride(row.module_name)?.url }}</span>
+                  </div>
+                  <div
+                    v-if="overridesFromImportMap.imports[row.module_name]"
+                    class="flex items-center gap-2"
+                    :class="{
+                      'badge-pending': !getItemOverride(row.module_name)
+                        ?.enabled,
+                      'badge-inactive': getItemOverride(row.module_name)
+                        ?.enabled,
+                    }"
+                    @click.stop="toggle(row)"
+
+                  >
+                    <Home class="h-4 w-4"/> <span>{{ row[column.key] }}</span>
+                  </div>
+                </div>
               </template>
               <template v-else>
                 {{ row[column.key] }}
@@ -83,7 +100,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-vue-next";
+import {
+  ArrowDown,
+  ArrowUp,
+  ArrowUpDown,
+  Home,
+  Replace,
+} from "lucide-vue-next";
 import { useModal } from "@/composables/useModal.ts";
 import {
   type IModuleInfo,
@@ -169,4 +192,13 @@ function selectModule(module: IModuleInfo) {
   currentSelectedModule.value = { ...module };
   dialogs.newModule = true;
 }
+function toggle(module: IModuleInfo) {
+  const override = getItemOverride(module.module_name);
+  if (override) {
+    override.enabled = !override.enabled;
+  } else {
+    selectModule(module)
+  }
+}
+
 </script>
