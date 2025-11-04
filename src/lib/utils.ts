@@ -1,5 +1,9 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import type {
+  IModuleInfo,
+  IOverrideInfo,
+} from "@/composables/useImportMapOverrides.ts";
 
 export interface ImportMap {
   imports: { [moduleName: string]: string };
@@ -44,4 +48,38 @@ export function extractScopeFromUrl(url: string) {
   }
 
   return null;
+}
+
+
+function cloneOverride(item: IOverrideInfo): IOverrideInfo {
+  return {
+    name: item.name,
+    url: item.url,
+    enabled: item.enabled,
+    scope: item.scope ? { ...item.scope } : null,
+  };
+}
+
+function cloneModuleInfo(item: IModuleInfo): IModuleInfo {
+  return {
+    module_name: item.module_name,
+    domain: item.domain,
+    isOverride: item.isOverride,
+    scope: item.scope ? { ...item.scope } : null,
+  };
+}
+
+export function deepCloneOverrideList(list: IOverrideInfo[]): IOverrideInfo[] {
+  try {
+    return structuredClone(list);
+  } catch {
+    return list.map(cloneOverride);
+  }
+}
+export function deepCloneModuleInfoList(list: IModuleInfo[]): IModuleInfo[] {
+  try {
+    return structuredClone(list);
+  } catch {
+    return list.map(cloneModuleInfo);
+  }
 }

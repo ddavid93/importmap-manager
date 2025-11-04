@@ -6,6 +6,7 @@
     <Table>
       <TableHeader>
         <TableRow>
+          <TableHead class="w-8 bg-background/95"></TableHead>
           <TableHead
             v-for="column in visibleColumns"
             :key="column.key"
@@ -37,6 +38,19 @@
             :key="row.module_name"
             :class="{ 'bg-green-50': row.isOverride }"
           >
+            <TableCell class="w-8">
+              <div
+                class="hover:cursor-pointer flex items-center justify-center"
+                @click.stop="togglePin(row)"
+              >
+                <Pin
+                  v-if="isPinned(row.module_name)"
+                  class="h-4 w-4 text-amber-500"
+                />
+                <PinOff v-else class="h-4 w-4 text-muted-foreground" />
+              </div>
+            </TableCell>
+
             <TableCell
               v-for="column in visibleColumns"
               :key="column.key"
@@ -80,7 +94,10 @@
           </TableRow>
         </template>
         <TableRow v-else>
-          <TableCell :colspan="visibleColumns.length" class="h-24 text-center">
+          <TableCell
+            :colspan="visibleColumns.length + 1"
+            class="h-24 text-center"
+          >
             No results.
           </TableCell>
         </TableRow>
@@ -106,6 +123,8 @@ import {
   ArrowUpDown,
   Home,
   Replace,
+  Pin,
+  PinOff,
 } from "lucide-vue-next";
 import { useModal } from "@/composables/useModal.ts";
 import {
@@ -114,6 +133,8 @@ import {
 } from "@/composables/useImportMapOverrides.ts";
 import TableSearch from "@/components/TableSearch.vue";
 import TableButtonsSection from "@/components/TableButtonsSection.vue";
+import { useImportMapPins } from "@/composables/useImportMapPins.ts";
+import { deepCloneModuleInfoList } from "@/lib/utils.ts";
 
 const columns = [
   { key: "module_name", label: "Module Name" },
@@ -147,31 +168,48 @@ const visibleColumns = computed(() =>
   columns.filter((col) => columnVisibility.value[col.key])
 );
 
-const sortedAndFilteredData = computed(() => {
-  let result = [...processOverrides.value];
+const { isPinned, togglePin } = useImportMapPins();
 
-  if (search.value) {
-    result = result.filter((item) =>
-      item.module_name.toLowerCase().includes(search.value.toLowerCase())
-    );
+const sortedAndFilteredData = computed(() => {
+  const base = deepCloneModuleInfoList(processOverrides.value);
+
+  const filtered = search.value
+    ? base.filter((item) =>
+        item.module_name.toLowerCase().includes(search.value.toLowerCase())
+      )
+    : base;
+
+  const pinned: IModuleInfo[] = [];
+  const unpinned: IModuleInfo[] = [];
+  for (const item of filtered) {
+    if (isPinned(item.module_name)) pinned.push(item);
+    else unpinned.push(item);
   }
 
   if (sortConfig.value.key !== null) {
-    result.sort((a, b) => {
-      const key = sortConfig.value.key as Exclude<
-        typeof sortConfig.value.key,
-        null
-      >;
+    const key = sortConfig.value.key as Exclude<
+      typeof sortConfig.value.key,
+      null
+    >;
+    const direction = sortConfig.value.direction;
+
+    pinned.sort((a, b) => {
       const aVal = a[key];
       const bVal = b[key];
-      if (sortConfig.value.direction === "asc") {
-        return aVal.localeCompare(bVal);
-      }
-      return bVal.localeCompare(aVal);
+      return direction === "asc"
+        ? aVal.localeCompare(bVal)
+        : bVal.localeCompare(aVal);
+    });
+    unpinned.sort((a, b) => {
+      const aVal = a[key];
+      const bVal = b[key];
+      return direction === "asc"
+        ? aVal.localeCompare(bVal)
+        : bVal.localeCompare(aVal);
     });
   }
 
-  return result;
+  return [...pinned, ...unpinned];
 });
 
 // Methods

@@ -4,7 +4,7 @@ import {
   type IOverrideInfo,
   useImportMapOverrides,
 } from "@/composables/useImportMapOverrides.ts";
-import { isEqual } from "@/lib/utils.ts";
+import { deepCloneOverrideList, isEqual } from "@/lib/utils.ts";
 
 export const IMPORT_MAP_MANAGER_TEMPLATES_KEY = "importmap-manager-templates";
 export interface IOverrideTemplate {
@@ -24,22 +24,6 @@ function useImportMapTemplatesSingleton() {
     return [...list].sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  function cloneOverride(item: IOverrideInfo): IOverrideInfo {
-    return {
-      name: item.name,
-      url: item.url,
-      enabled: item.enabled,
-      scope: item.scope ? { ...item.scope } : null,
-    };
-  }
-
-  function deepCloneOverrideList(list: IOverrideInfo[]): IOverrideInfo[] {
-    try {
-      return structuredClone(list);
-    } catch {
-      return list.map(cloneOverride);
-    }
-  }
 
   const areOverridesEqual = (a: IOverrideInfo, b: IOverrideInfo): boolean => {
     const scopeA = a.scope || {};
