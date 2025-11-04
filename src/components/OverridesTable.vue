@@ -187,13 +187,11 @@ const sortedAndFilteredData = computed(() => {
   }
 
   if (sortConfig.value.key !== null) {
-    const key = sortConfig.value.key as Exclude<
-      typeof sortConfig.value.key,
-      null
-    >;
-    const direction = sortConfig.value.direction;
-
-    pinned.sort((a, b) => {
+    result.sort((a, b) => {
+      const key = sortConfig.value.key as Exclude<
+        typeof sortConfig.value.key,
+        null
+      >;
       const aVal = a[key];
       const bVal = b[key];
       return direction === "asc"
