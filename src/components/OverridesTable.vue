@@ -122,9 +122,9 @@ import {
   ArrowUp,
   ArrowUpDown,
   Home,
-  Replace,
   Pin,
   PinOff,
+  Replace,
 } from "lucide-vue-next";
 import { useModal } from "@/composables/useModal.ts";
 import {
@@ -187,7 +187,13 @@ const sortedAndFilteredData = computed(() => {
   }
 
   if (sortConfig.value.key !== null) {
-    result.sort((a, b) => {
+    const key = sortConfig.value.key as Exclude<
+      typeof sortConfig.value.key,
+      null
+    >;
+    const direction = sortConfig.value.direction;
+
+    pinned.sort((a, b) => {
       const key = sortConfig.value.key as Exclude<
         typeof sortConfig.value.key,
         null

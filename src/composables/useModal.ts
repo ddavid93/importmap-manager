@@ -9,6 +9,7 @@ function useModalSingleton() {
     confirmRemove: false,
     isWidgetOpened: false,
     command: false,
+    addTemplate: false,
   });
 
   return { dialogs };
