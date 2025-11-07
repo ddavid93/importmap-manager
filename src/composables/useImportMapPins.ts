@@ -4,7 +4,10 @@ import type { IModuleInfo } from "@/composables/useImportMapOverrides.ts";
 export const IMPORT_MAP_MANAGER_PINNED_KEY = "importmap-manager:pinned-modules";
 
 function useImportMapPinsSingleton() {
-  const pinnedIds = useLocalStorage<string[]>(IMPORT_MAP_MANAGER_PINNED_KEY, []);
+  const pinnedIds = useLocalStorage<string[]>(
+    IMPORT_MAP_MANAGER_PINNED_KEY,
+    []
+  );
 
   function toIdentifier(target: string | IModuleInfo): string {
     return typeof target === "string" ? target : target.module_name;
@@ -22,7 +25,7 @@ function useImportMapPinsSingleton() {
     if (pinned && !isCurrentlyPinned) {
       pinnedIds.value = [...pinnedIds.value, identifier];
     } else if (!pinned && isCurrentlyPinned) {
-      pinnedIds.value = pinnedIds.value.filter(id => id !== identifier);
+      pinnedIds.value = pinnedIds.value.filter((id) => id !== identifier);
     }
   }
 
@@ -37,4 +40,6 @@ function useImportMapPinsSingleton() {
   };
 }
 
-export const useImportMapPins = createSharedComposable(useImportMapPinsSingleton);
+export const useImportMapPins = createSharedComposable(
+  useImportMapPinsSingleton
+);

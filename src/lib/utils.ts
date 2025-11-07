@@ -50,7 +50,6 @@ export function extractScopeFromUrl(url: string) {
   return null;
 }
 
-
 function cloneOverride(item: IOverrideInfo): IOverrideInfo {
   return {
     name: item.name,

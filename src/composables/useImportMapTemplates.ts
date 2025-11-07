@@ -24,7 +24,6 @@ function useImportMapTemplatesSingleton() {
     return [...list].sort((a, b) => a.name.localeCompare(b.name));
   }
 
-
   const areOverridesEqual = (a: IOverrideInfo, b: IOverrideInfo): boolean => {
     const scopeA = a.scope || {};
     const scopeB = b.scope || {};
