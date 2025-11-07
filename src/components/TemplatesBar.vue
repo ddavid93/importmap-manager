@@ -4,7 +4,7 @@
   >
     <!-- Save template dialog -->
     <div class="flex items-center gap-2">
-      <Dialog v-model:open="isSaving">
+      <Dialog v-model:open="dialogs.addTemplate">
         <DialogTrigger asChild>
           <Button :disabled="activeTemplateName?.length"> Add template </Button>
         </DialogTrigger>
@@ -87,6 +87,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useModal } from "@/composables/useModal.ts";
 
 const {
   templates,
@@ -95,20 +96,23 @@ const {
   deleteTemplate,
   activeTemplateName,
 } = useImportMapTemplates();
+const { dialogs } = useModal();
 
-const isSaving = ref(false);
 const templateName = ref("");
 const nameInput = useTemplateRef("nameInput");
 
-watch(isSaving, (open) => {
-  if (open) {
-    templateName.value = "";
-    nextTick(() => nameInput.value?.inputField?.focus());
+watch(
+  () => dialogs.addTemplate,
+  (open) => {
+    if (open) {
+      templateName.value = "";
+      nextTick(() => nameInput.value?.inputField?.focus());
+    }
   }
-});
+);
 
 function cancelSaving() {
-  isSaving.value = false;
+  dialogs.addTemplate = false;
   templateName.value = "";
 }
 

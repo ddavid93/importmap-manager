@@ -42,6 +42,7 @@ onStartTyping(() => {
     !dialogs.newModule &&
     !dialogs.command &&
     !dialogs.confirmDisable &&
+    !dialogs.addTemplate &&
     !dialogs.confirmDisable
   ) {
     searchElement.value?.inputField?.focus();
