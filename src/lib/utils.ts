@@ -1,14 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type {
-  IModuleInfo,
-  IOverrideInfo,
-} from "@/composables/useImportMapOverrides.ts";
-
-export interface ImportMap {
-  imports: { [moduleName: string]: string };
-  scopes: { [scope: string]: { [moduleName: string]: string } };
-}
+import type { IModuleInfo, IOverrideInfo } from "@/types/importmap.types.ts";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

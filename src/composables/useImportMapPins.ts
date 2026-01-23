@@ -1,5 +1,5 @@
 import { createSharedComposable, useLocalStorage } from "@vueuse/core";
-import type { IModuleInfo } from "@/composables/useImportMapOverrides.ts";
+import type { IModuleInfo } from "@/types/importmap.types.ts";
 
 export const IMPORT_MAP_MANAGER_PINNED_KEY = "importmap-manager:pinned-modules";
 

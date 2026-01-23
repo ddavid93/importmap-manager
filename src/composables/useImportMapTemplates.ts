@@ -1,16 +1,10 @@
 import { createSharedComposable, useLocalStorage } from "@vueuse/core";
 import { computed } from "vue";
-import {
-  type IOverrideInfo,
-  useImportMapOverrides,
-} from "@/composables/useImportMapOverrides.ts";
+import { useImportMapOverrides } from "@/composables/useImportMapOverrides.ts";
 import { deepCloneOverrideList, isEqual } from "@/lib/utils.ts";
+import type { IOverrideInfo, IOverrideTemplate } from "@/types/importmap.types.ts";
 
 export const IMPORT_MAP_MANAGER_TEMPLATES_KEY = "importmap-manager-templates";
-export interface IOverrideTemplate {
-  name: string;
-  items: IOverrideInfo[];
-}
 
 function useImportMapTemplatesSingleton() {
   const { overrides } = useImportMapOverrides();

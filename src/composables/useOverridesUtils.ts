@@ -1,4 +1,4 @@
-import type { ImportMap } from "@/lib/utils.ts";
+import type { ImportMap } from "@/types/importmap.types.ts";
 
 export function useOverridesUtils(scriptType = "injector-importmap") {
   let defaultMapPromise: any;
