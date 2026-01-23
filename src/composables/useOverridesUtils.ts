@@ -1,15 +1,42 @@
 import type { IImportMap } from "@/types/importMap.ts";
+import { inject } from "vue";
+
+/**
+ * Waits for an element matching the selector to appear in the DOM.
+ * @param selector - CSS selector to wait for.
+ * @returns A Promise resolving to the found element.
+ */
+function waitForElement(selector: string): Promise<Element> {
+  return new Promise((resolve) => {
+    const el = document.querySelector(selector);
+    if (el) return resolve(el);
+
+    const observer = new MutationObserver((_, obs) => {
+      const el = document.querySelector(selector);
+      if (el) {
+        obs.disconnect();
+        resolve(el);
+      }
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+  });
+}
 
 export function useOverridesUtils() {
   let defaultMapPromise: Promise<IImportMap> | null = null;
-
+  const scriptType = inject<string>("scriptType")!;
   /**
    * Inserts an override map (as a script element) into the document.
    * @param map - The import map (or a URL string) to insert.
    * @param isExternal
    * @returns The inserted script element.
    */
-  function insertOverrideMap(map: IImportMap | string, isExternal = false) {
+  async function insertOverrideMap(
+    map: IImportMap | string,
+    isExternal = false
+  ) {
+    // Wait for the base import map script to exist in the DOM
+    await waitForElement(`script[type="${scriptType}"]`);
     const id = isExternal ? "importmap-manager-external" : "importmap-manager";
     document.getElementById(id)?.remove();
     if (
@@ -20,7 +47,7 @@ export function useOverridesUtils() {
       return;
     }
     const overrideMapElement = document.createElement("script");
-    overrideMapElement.type = "injector-importmap";
+    overrideMapElement.type = scriptType;
     overrideMapElement.id = id;
     if (typeof map === "string") {
       overrideMapElement.src = map;
@@ -44,15 +71,20 @@ export function useOverridesUtils() {
           overrideMapElement
         );
       } else {
-        document.head.appendChild(overrideMapElement);
+        document
+          .querySelector(`script[type="${scriptType}"]`)
+          ?.insertAdjacentElement("afterend", overrideMapElement);
       }
     }
   }
 
-  function getDefaultMap(): Promise<IImportMap> {
+  async function getDefaultMap(): Promise<IImportMap> {
+    // Wait for the base import map script to exist in the DOM
+    await waitForElement(`script[type="${scriptType}"]`);
+
     if (!defaultMapPromise) {
       const scriptNodes = document.querySelectorAll(
-        'script[type="injector-importmap"]'
+        `script[type="${scriptType}"]`
       );
       defaultMapPromise = Array.from(scriptNodes).reduce(
         (promise, scriptEl) => {

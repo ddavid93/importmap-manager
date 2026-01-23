@@ -1,5 +1,5 @@
 import { createSharedComposable, useLocalStorage } from "@vueuse/core";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onBeforeMount, ref, watch } from "vue";
 import { useOverridesUtils } from "@/composables/useOverridesUtils.ts";
 import { extractScopeFromUrl } from "@/lib/utils.ts";
 import type { IImportMap, IOverrideInfo } from "@/types/importMap.ts";
@@ -77,7 +77,7 @@ function useImportMapOverridesSingleton() {
   const { insertOverrideMap, getDefaultMap, fetchExternalMap } =
     useOverridesUtils();
 
-  onMounted(async () => {
+  onBeforeMount(async () => {
     overridesFromImportMap.value = await getDefaultMap();
 
     if (externalImportMap.value?.enabled) {
@@ -111,7 +111,7 @@ function useImportMapOverridesSingleton() {
         }
       );
 
-      insertOverrideMap({ imports, scopes });
+      void insertOverrideMap({ imports, scopes });
     },
     { immediate: true }
   );
@@ -120,10 +120,10 @@ function useImportMapOverridesSingleton() {
     () => externalImportMap.value,
     async (val) => {
       if (val?.url && val?.enabled) {
-        insertOverrideMap(val.url, true);
+        await insertOverrideMap(val.url, true);
         overridesFromImportMap.value = await fetchExternalMap(val.url);
       } else {
-        insertOverrideMap("", true);
+        await insertOverrideMap("", true);
       }
     },
     { immediate: true }

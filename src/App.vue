@@ -5,15 +5,19 @@
 </template>
 
 <script lang="ts" setup>
-import { shallowRef, useAttrs } from "vue";
+import { provide, shallowRef } from "vue";
 import Wrapper from "@/Wrapper.vue";
 
-const attrs = useAttrs();
-const activationStorage = attrs.activation as string;
+const { activation = "importmap-manager", scriptType = "injector-importmap" } =
+  defineProps<{
+    activation?: string;
+    scriptType?: "injector-importmap" | "systemjs-importmap";
+  }>();
+
 const canLoadWidget = shallowRef(
-  import.meta.env.DEV ||
-    (activationStorage && window.localStorage.getItem(activationStorage))
+  import.meta.env.DEV || window.localStorage.getItem(activation)
 );
+provide("scriptType", scriptType);
 </script>
 
 <style>
