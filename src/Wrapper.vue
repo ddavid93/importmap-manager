@@ -50,7 +50,7 @@ import { useModal } from "@/composables/useModal.ts";
 const { dialogs } = useModal();
 const keys = useMagicKeys();
 const CtrlAltD = keys["Ctrl+Alt+D"];
-watch(CtrlAltD, (v) => {
+watch(CtrlAltD!, (v) => {
   if (v) {
     dialogs.isWidgetOpened = !dialogs.isWidgetOpened;
   }

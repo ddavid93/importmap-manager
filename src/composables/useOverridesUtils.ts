@@ -133,7 +133,7 @@ export function useOverridesUtils(scriptType = "injector-importmap") {
     const expandedScopes = Object.keys(importMap.scopes || {}).reduce(
       (result, scopeKey) => {
         result[scopeKey] = expandRelativeUrlImports(
-          importMap.scopes[scopeKey],
+          importMap.scopes[scopeKey]!,
           baseUrl
         );
         return result;

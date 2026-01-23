@@ -1,7 +1,7 @@
 <template>
   <Primitive
-    :as="as"
-    :asChild="asChild"
+    :as
+    :asChild
     :class="cn(buttonVariants({ variant, size }), props.class)"
   >
     <slot />
