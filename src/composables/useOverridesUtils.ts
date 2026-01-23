@@ -1,6 +1,6 @@
 import type { ImportMap } from "@/lib/utils.ts";
 
-export function useOverridesUtils() {
+export function useOverridesUtils(scriptType = "injector-importmap") {
   let defaultMapPromise: any;
 
   /**
@@ -20,7 +20,7 @@ export function useOverridesUtils() {
       return;
     }
     const overrideMapElement = document.createElement("script");
-    overrideMapElement.type = "systemjs-importmap";
+    overrideMapElement.type = scriptType;
     overrideMapElement.id = id;
     if (typeof map === "string") {
       overrideMapElement.src = map;
@@ -52,7 +52,7 @@ export function useOverridesUtils() {
   function getDefaultMap(): Promise<ImportMap> {
     if (!defaultMapPromise) {
       const scriptNodes = document.querySelectorAll(
-        'script[type="systemjs-importmap"]'
+        `script[type="${scriptType}"]`
       );
       defaultMapPromise = Array.from(scriptNodes).reduce(
         (promise, scriptEl) => {

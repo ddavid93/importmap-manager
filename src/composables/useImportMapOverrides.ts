@@ -1,5 +1,5 @@
 import { createSharedComposable, useLocalStorage } from "@vueuse/core";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, inject, onMounted, ref, watch } from "vue";
 import { useOverridesUtils } from "@/composables/useOverridesUtils.ts";
 import { extractScopeFromUrl, type ImportMap } from "@/lib/utils.ts";
 
@@ -19,6 +19,7 @@ export interface IOverrideInfo {
 
 export const IMPORT_MAP_MANAGER_EXTERNAL_KEY = "importmap-manager-external";
 export const IMPORT_MAP_MANAGER_OVERRIDES_KEY = "importmap-manager-overrides";
+export const IMPORT_MAP_SCRIPT_TYPE_KEY = "importmap-manager-script-type";
 
 function useImportMapOverridesSingleton() {
   const overridesFromImportMap = ref<ImportMap>({ imports: {}, scopes: {} });
@@ -87,8 +88,12 @@ function useImportMapOverridesSingleton() {
     return overrides.value.find((f) => f.name === moduleName);
   }
 
+  const importMapScriptType = inject<string>(
+    IMPORT_MAP_SCRIPT_TYPE_KEY,
+    "injector-importmap"
+  );
   const { insertOverrideMap, getDefaultMap, fetchExternalMap } =
-    useOverridesUtils();
+    useOverridesUtils(importMapScriptType);
 
   onMounted(async () => {
     overridesFromImportMap.value = await getDefaultMap();
