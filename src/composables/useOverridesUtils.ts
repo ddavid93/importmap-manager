@@ -1,6 +1,6 @@
-import type { ImportMap } from "@/types/importmap.types.ts";
+import type { ImportMap } from "@/lib/utils.ts";
 
-export function useOverridesUtils(scriptType = "injector-importmap") {
+export function useOverridesUtils() {
   let defaultMapPromise: any;
 
   /**
@@ -20,7 +20,7 @@ export function useOverridesUtils(scriptType = "injector-importmap") {
       return;
     }
     const overrideMapElement = document.createElement("script");
-    overrideMapElement.type = scriptType;
+    overrideMapElement.type = "injector-importmap";
     overrideMapElement.id = id;
     if (typeof map === "string") {
       overrideMapElement.src = map;
@@ -52,7 +52,7 @@ export function useOverridesUtils(scriptType = "injector-importmap") {
   function getDefaultMap(): Promise<ImportMap> {
     if (!defaultMapPromise) {
       const scriptNodes = document.querySelectorAll(
-        `script[type="${scriptType}"]`
+        'script[type="injector-importmap"]'
       );
       defaultMapPromise = Array.from(scriptNodes).reduce(
         (promise, scriptEl) => {
@@ -133,7 +133,7 @@ export function useOverridesUtils(scriptType = "injector-importmap") {
     const expandedScopes = Object.keys(importMap.scopes || {}).reduce(
       (result, scopeKey) => {
         result[scopeKey] = expandRelativeUrlImports(
-          importMap.scopes[scopeKey]!,
+          importMap.scopes[scopeKey],
           baseUrl
         );
         return result;

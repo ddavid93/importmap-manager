@@ -39,8 +39,10 @@ import AddModule from "@/components/AddModule.vue";
 import AddImportMap from "@/components/AddImportMap.vue";
 import TemplatesBar from "@/components/TemplatesBar.vue";
 import { useModal } from "@/composables/useModal.ts";
-import { useImportMapOverrides } from "@/composables/useImportMapOverrides.ts";
-import type { IModuleInfo } from "@/types/importmap.types.ts";
+import {
+  type IModuleInfo,
+  useImportMapOverrides,
+} from "@/composables/useImportMapOverrides.ts";
 import { watch } from "vue";
 
 const currentSelectedModule = defineModel<IModuleInfo>({

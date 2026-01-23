@@ -19,21 +19,6 @@ A modern UI for managing [import-map-overrides](https://github.com/single-spa/im
 
 ![light](https://github.com/user-attachments/assets/f8769abb-569b-4604-964a-50773aa1868c)
 
-## Usage
-
-Embed the widget and configure the import map script type when needed:
-
-```html
-<importmap-manager
-  activation="importmap-manager-activation"
-  import-map-type="injector-importmap"
-></importmap-manager>
-```
-
-- `import-map-type` (optional): the `<script>` type used for import maps.
-  Defaults to `injector-importmap`. Use `systemjs-importmap` for legacy
-  SystemJS import maps.
-
 ## Development
 
 To run this project locally:

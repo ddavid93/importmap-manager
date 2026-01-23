@@ -107,6 +107,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed, ref, shallowRef } from "vue";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -125,22 +126,120 @@ import {
   PinOff,
   Replace,
 } from "lucide-vue-next";
+import { useModal } from "@/composables/useModal.ts";
+import {
+  type IModuleInfo,
+  useImportMapOverrides,
+} from "@/composables/useImportMapOverrides.ts";
 import TableSearch from "@/components/TableSearch.vue";
 import TableButtonsSection from "@/components/TableButtonsSection.vue";
-import { useOverridesTable } from "@/composables/useOverridesTable.ts";
+import { useImportMapPins } from "@/composables/useImportMapPins.ts";
+import { deepCloneModuleInfoList } from "@/lib/utils.ts";
 
-const {
-  search,
-  currentSelectedModule,
-  sortConfig,
-  visibleColumns,
-  sortedAndFilteredData,
-  overridesFromImportMap,
-  getItemOverride,
-  isPinned,
-  togglePin,
-  toggleSort,
-  selectModule,
-  toggle,
-} = useOverridesTable();
+const columns = [
+  { key: "module_name", label: "Module Name" },
+  { key: "domain", label: "Domain" },
+] as const;
+
+const search = shallowRef("");
+const { processOverrides, overridesFromImportMap, getItemOverride } =
+  useImportMapOverrides();
+type columnKeyType = (typeof columns)[number]["key"];
+
+const currentSelectedModule = ref<IModuleInfo>({
+  module_name: "",
+  domain: "",
+  isOverride: false,
+  scope: {},
+});
+
+const { dialogs } = useModal();
+
+const sortConfig = ref<{
+  key: columnKeyType | null;
+  direction: "asc" | "desc";
+}>({ key: null, direction: "asc" });
+
+const columnVisibility = ref(
+  Object.fromEntries(columns.map((col) => [col.key, true]))
+);
+
+const visibleColumns = computed(() =>
+  columns.filter((col) => columnVisibility.value[col.key])
+);
+
+const { isPinned, togglePin } = useImportMapPins();
+
+const sortedAndFilteredData = computed(() => {
+  const base = deepCloneModuleInfoList(processOverrides.value);
+
+  const filtered = search.value
+    ? base.filter((item) =>
+        item.module_name.toLowerCase().includes(search.value.toLowerCase())
+      )
+    : base;
+
+  const pinned: IModuleInfo[] = [];
+  const unpinned: IModuleInfo[] = [];
+  for (const item of filtered) {
+    if (isPinned(item.module_name)) pinned.push(item);
+    else unpinned.push(item);
+  }
+
+  if (sortConfig.value.key !== null) {
+    const key = sortConfig.value.key as Exclude<
+      typeof sortConfig.value.key,
+      null
+    >;
+    const direction = sortConfig.value.direction;
+
+    pinned.sort((a, b) => {
+      const key = sortConfig.value.key as Exclude<
+        typeof sortConfig.value.key,
+        null
+      >;
+      const aVal = a[key];
+      const bVal = b[key];
+      return direction === "asc"
+        ? aVal.localeCompare(bVal)
+        : bVal.localeCompare(aVal);
+    });
+    unpinned.sort((a, b) => {
+      const aVal = a[key];
+      const bVal = b[key];
+      return direction === "asc"
+        ? aVal.localeCompare(bVal)
+        : bVal.localeCompare(aVal);
+    });
+  }
+
+  return [...pinned, ...unpinned];
+});
+
+// Methods
+function toggleSort(key: columnKeyType) {
+  if (sortConfig.value.key === key) {
+    sortConfig.value.direction =
+      sortConfig.value.direction === "asc" ? "desc" : "asc";
+  } else {
+    sortConfig.value = { key, direction: "asc" };
+  }
+}
+
+function selectModule(module: IModuleInfo) {
+  const findOverride = getItemOverride(module.module_name);
+  if (findOverride?.enabled) {
+    module.domain = findOverride.url;
+  }
+  currentSelectedModule.value = { ...module };
+  dialogs.newModule = true;
+}
+function toggle(module: IModuleInfo) {
+  const override = getItemOverride(module.module_name);
+  if (override) {
+    override.enabled = !override.enabled;
+  } else {
+    selectModule(module);
+  }
+}
 </script>

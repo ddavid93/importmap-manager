@@ -12,6 +12,7 @@ export default defineConfig({
     },
   },
   build: {
+    minify: "terser",
     lib: {
       entry: "./src/main.ts",
       formats: ["es"],
