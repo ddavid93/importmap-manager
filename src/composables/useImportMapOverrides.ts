@@ -1,27 +1,14 @@
 import { createSharedComposable, useLocalStorage } from "@vueuse/core";
 import { computed, onMounted, ref, watch } from "vue";
 import { useOverridesUtils } from "@/composables/useOverridesUtils.ts";
-import { extractScopeFromUrl, type ImportMap } from "@/lib/utils.ts";
-
-export interface IModuleInfo {
-  module_name: string;
-  domain: string;
-  isOverride: boolean;
-  scope: Record<string, string> | null;
-}
-
-export interface IOverrideInfo {
-  name: string;
-  url: string;
-  enabled: boolean;
-  scope: Record<string, string> | null;
-}
+import { extractScopeFromUrl } from "@/lib/utils.ts";
+import type { IImportMap, IOverrideInfo } from "@/types/importMap.ts";
 
 export const IMPORT_MAP_MANAGER_EXTERNAL_KEY = "importmap-manager-external";
 export const IMPORT_MAP_MANAGER_OVERRIDES_KEY = "importmap-manager-overrides";
 
 function useImportMapOverridesSingleton() {
-  const overridesFromImportMap = ref<ImportMap>({ imports: {}, scopes: {} });
+  const overridesFromImportMap = ref<IImportMap>({ imports: {}, scopes: {} });
 
   const overrides = useLocalStorage<IOverrideInfo[]>(
     IMPORT_MAP_MANAGER_OVERRIDES_KEY,
@@ -42,14 +29,14 @@ function useImportMapOverridesSingleton() {
         [moduleName: string]: string;
       };
     }
-  ) => {
+  ): Record<string, string> | null => {
     const importUrl = imports[moduleName];
     if (!importUrl) return null;
 
     // Check if any scope key is a substring of the import URL
     for (const scopeUrl in scopes) {
       if (importUrl.includes(scopeUrl)) {
-        return scopes[scopeUrl];
+        return scopes[scopeUrl] ?? null;
       }
     }
     return null;
@@ -60,7 +47,7 @@ function useImportMapOverridesSingleton() {
     const result = Object.keys(imports).map((moduleName) => {
       return {
         module_name: moduleName,
-        domain: imports[moduleName],
+        domain: imports[moduleName] ?? "",
         isOverride: overrides.value.some(
           ({ name, enabled }) => name === moduleName && enabled
         ),
@@ -71,7 +58,7 @@ function useImportMapOverridesSingleton() {
       .filter((f) => !result.some((r) => r.module_name === f.name))
       .map((m) => ({
         module_name: m.name,
-        domain: m.url,
+        domain: m.url ?? "",
         isOverride: m.enabled,
         scope: getScopeForModule(m.name, imports, scopes),
       }));

@@ -1,20 +1,12 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import type {
-  IModuleInfo,
-  IOverrideInfo,
-} from "@/composables/useImportMapOverrides.ts";
-
-export interface ImportMap {
-  imports: { [moduleName: string]: string };
-  scopes: { [scope: string]: { [moduleName: string]: string } };
-}
+import type { IModuleInfo, IOverrideInfo } from "@/types/importMap.ts";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function isEqual(a: any, b: any): boolean {
+export function isEqual(a: unknown, b: unknown): boolean {
   if (a === b) return true; // Handle primitives and reference equality
   if (
     typeof a !== "object" ||
@@ -26,12 +18,16 @@ export function isEqual(a: any, b: any): boolean {
 
   if (Array.isArray(a) !== Array.isArray(b)) return false; // Ensure both are arrays or objects
 
-  const keysA = Object.keys(a);
-  const keysB = Object.keys(b);
+  const recordA = a as Record<string, unknown>;
+  const recordB = b as Record<string, unknown>;
+  const keysA = Object.keys(recordA);
+  const keysB = Object.keys(recordB);
 
   if (keysA.length !== keysB.length) return false; // Check key length
 
-  return keysA.every((key) => keysB.includes(key) && isEqual(a[key], b[key])); // Recursively compare properties
+  return keysA.every(
+    (key) => keysB.includes(key) && isEqual(recordA[key], recordB[key])
+  ); // Recursively compare properties
 }
 
 export function extractScopeFromUrl(url: string) {

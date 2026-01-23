@@ -63,10 +63,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { computed, shallowRef, watch } from "vue";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  type IModuleInfo,
-  useImportMapOverrides,
-} from "@/composables/useImportMapOverrides.ts";
+import { useImportMapOverrides } from "@/composables/useImportMapOverrides.ts";
+import type { IModuleInfo } from "@/types/importMap.ts";
 import ImportDialog from "@/components/ImportDialog.vue";
 import OverrideInput from "@/components/OverrideInput.vue";
 

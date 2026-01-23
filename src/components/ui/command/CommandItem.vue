@@ -25,13 +25,12 @@
 import type { ListboxItemEmits, ListboxItemProps } from "reka-ui";
 import { ListboxItem, useForwardPropsEmits, useId } from "reka-ui";
 import { cn } from "@/lib/utils";
-import { useCurrentElement } from "@vueuse/core";
 import {
   computed,
   type HTMLAttributes,
   onMounted,
   onUnmounted,
-  ref,
+  useTemplateRef,
 } from "vue";
 import { useCommand, useCommandGroup } from ".";
 
@@ -68,15 +67,14 @@ const isRender = computed(() => {
   }
 });
 
-const itemRef = ref<any>();
-const currentElement = useCurrentElement(itemRef);
+const itemRef = useTemplateRef<HTMLElement>("itemRef");
 onMounted(() => {
-  if (!(currentElement.value instanceof HTMLElement)) return;
+  if (!(itemRef.value instanceof HTMLElement)) return;
 
   // textValue to perform filter
   allItems.value.set(
     id,
-    currentElement.value!.textContent ?? props.value!.toString()
+    itemRef.value!.textContent ?? props.value!.toString()
   );
 
   const groupId = groupContext?.id;

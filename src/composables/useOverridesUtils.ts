@@ -1,7 +1,7 @@
-import type { ImportMap } from "@/lib/utils.ts";
+import type { IImportMap } from "@/types/importMap.ts";
 
 export function useOverridesUtils() {
-  let defaultMapPromise: any;
+  let defaultMapPromise: Promise<IImportMap> | null = null;
 
   /**
    * Inserts an override map (as a script element) into the document.
@@ -9,13 +9,13 @@ export function useOverridesUtils() {
    * @param isExternal
    * @returns The inserted script element.
    */
-  function insertOverrideMap(map: ImportMap | string, isExternal = false) {
+  function insertOverrideMap(map: IImportMap | string, isExternal = false) {
     const id = isExternal ? "importmap-manager-external" : "importmap-manager";
     document.getElementById(id)?.remove();
     if (
       (typeof map === "string" && !map) ||
       (typeof map === "object" &&
-        !Object.keys((map as ImportMap)?.imports || {}).length)
+        !Object.keys((map as IImportMap)?.imports || {}).length)
     ) {
       return;
     }
@@ -49,14 +49,14 @@ export function useOverridesUtils() {
     }
   }
 
-  function getDefaultMap(): Promise<ImportMap> {
+  function getDefaultMap(): Promise<IImportMap> {
     if (!defaultMapPromise) {
       const scriptNodes = document.querySelectorAll(
         'script[type="injector-importmap"]'
       );
       defaultMapPromise = Array.from(scriptNodes).reduce(
         (promise, scriptEl) => {
-          let nextPromise: Promise<ImportMap>;
+          let nextPromise: Promise<IImportMap>;
           const scriptElement = scriptEl as HTMLScriptElement;
           if (scriptElement.src) {
             nextPromise = fetchExternalMap(scriptElement.src);
@@ -65,7 +65,7 @@ export function useOverridesUtils() {
               nextPromise = Promise.resolve(
                 JSON.parse(scriptElement.textContent || "{}")
               );
-            } catch (_) {
+            } catch {
               nextPromise = Promise.resolve(createEmptyImportMap());
             }
           }
@@ -76,7 +76,7 @@ export function useOverridesUtils() {
         Promise.resolve(createEmptyImportMap())
       );
     }
-    return defaultMapPromise;
+    return defaultMapPromise ?? Promise.resolve(createEmptyImportMap());
   }
 
   /**
@@ -85,7 +85,7 @@ export function useOverridesUtils() {
    * @param url - The URL to fetch.
    * @returns A Promise resolving to an ImportMap.
    */
-  async function fetchExternalMap(url: string): Promise<ImportMap> {
+  async function fetchExternalMap(url: string): Promise<IImportMap> {
     try {
       const response = await fetch(url);
       if (!response.ok) {
@@ -96,7 +96,7 @@ export function useOverridesUtils() {
         );
         return createEmptyImportMap();
       }
-      let json: any;
+      let json: unknown;
       try {
         json = await response.json();
       } catch (err) {
@@ -107,7 +107,7 @@ export function useOverridesUtils() {
         );
         return createEmptyImportMap();
       }
-      return expandRelativeUrlsInImportMap(json as ImportMap, url);
+      return expandRelativeUrlsInImportMap(json as IImportMap, url);
     } catch (err) {
       console.warn(
         new Error(`Unable to download external import map at '${url}'. ${err}`)
@@ -123,9 +123,9 @@ export function useOverridesUtils() {
    * @returns A new ImportMap with all URLs expanded.
    */
   function expandRelativeUrlsInImportMap(
-    importMap: ImportMap,
+    importMap: IImportMap,
     baseUrl: string
-  ): ImportMap {
+  ): IImportMap {
     const expandedImports = expandRelativeUrlImports(
       importMap.imports || {},
       baseUrl
@@ -133,7 +133,7 @@ export function useOverridesUtils() {
     const expandedScopes = Object.keys(importMap.scopes || {}).reduce(
       (result, scopeKey) => {
         result[scopeKey] = expandRelativeUrlImports(
-          importMap.scopes[scopeKey],
+          importMap.scopes[scopeKey] ?? {},
           baseUrl
         );
         return result;
@@ -147,7 +147,7 @@ export function useOverridesUtils() {
    * Creates an empty ImportMap.
    * @returns An ImportMap with empty imports and scopes.
    */
-  function createEmptyImportMap(): ImportMap {
+  function createEmptyImportMap(): IImportMap {
     return { imports: {}, scopes: {} };
   }
 
@@ -180,7 +180,7 @@ export function useOverridesUtils() {
     try {
       const outUrl = new URL(url, baseUrl);
       return outUrl.href;
-    } catch (_) {
+    } catch {
       return url;
     }
   }
@@ -193,9 +193,9 @@ export function useOverridesUtils() {
    * @returns The merged ImportMap.
    */
   function mergeImportMaps(
-    originalMap: ImportMap,
-    newMap: ImportMap
-  ): ImportMap {
+    originalMap: IImportMap,
+    newMap: IImportMap
+  ): IImportMap {
     return {
       imports: { ...originalMap.imports, ...newMap.imports },
       scopes: { ...originalMap.scopes, ...newMap.scopes },

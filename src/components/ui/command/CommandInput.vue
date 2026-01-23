@@ -37,7 +37,7 @@ const props = defineProps<
 >();
 
 const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props;
+  const { class: _, modelValue: __, autoFocus: ___, ...delegated } = props;
 
   return delegated;
 });
