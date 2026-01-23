@@ -12,6 +12,7 @@ A modern UI for managing [import-map-overrides](https://github.com/single-spa/im
 - 📊 Clear visualization of module overrides
 - 🌓 Built-in light/dark mode support
 - ⚡ Powered by Vite for fast development
+- 🔗 Reliable DOM synchronization using MutationObserver (no arbitrary timeouts)
 
 
 ![dark](https://github.com/user-attachments/assets/cab05361-7c1a-4e87-b07c-0522e91955f2)
